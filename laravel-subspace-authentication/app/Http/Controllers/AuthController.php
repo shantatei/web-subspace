@@ -178,6 +178,13 @@ class AuthController extends Controller
 
         if (Hash::check($request->password, $user->password)) {
 
+            if ($user->profile_image_filename) {
+                $old_path = $user->profile_image_filename;
+                if (Storage::disk('s3')->exists($old_path)) {
+                    Storage::disk('s3')->delete($old_path);
+                }
+            }
+            
             $user->delete();
             return response()->json([
                 'message' => 'User Account Deleted successfully',
