@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('community_users', function (Blueprint $table) {
+        Schema::create('com_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); //foreign key idk how it works in microservices ??
             $table->unsignedBigInteger('community_id');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('community_users');
+        Schema::dropIfExists('com_users');
     }
 };

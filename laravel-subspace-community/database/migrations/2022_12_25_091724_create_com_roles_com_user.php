@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        //Pivot Table
-        Schema::create('community_user_role', function (Blueprint $table) {
-            $table->primary(['community_role_id', 'community_user_id']);
-            $table->foreignId('community_role_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('community_user_id')->constrained()->cascadeOnDelete();
+        Schema::create('com_roles_com_users', function (Blueprint $table) {
+            $table->primary(['com_roles_id', 'com_users_id']);
+            $table->foreignId('com_roles_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('com_users_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('community_user_role');
+        Schema::dropIfExists('com_roles_com_users');
     }
 };
