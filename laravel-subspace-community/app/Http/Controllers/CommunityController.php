@@ -16,7 +16,7 @@ class CommunityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showCommunity']]);
+        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity']]);
     }
 
 
@@ -65,7 +65,7 @@ class CommunityController extends Controller
             $community->name = $request->name;
             $community->about = $request->about;
         } elseif ($request->hasFile('community_banner_filename')) {
-            $path = $request->community_banner_filename->store('community_images', 's3');
+            $path = $request->community_banner_filename->store('community_banner', 's3');
 
             Storage::disk('s3')->setVisibility($path, 'public');
 
@@ -77,7 +77,7 @@ class CommunityController extends Controller
             $community->name = $request->name;
             $community->about = $request->about;
         } elseif ($request->hasFile('community_banner_filename') && $request->hasFile('community_image_filename')) {
-            $bannerpath = $request->community_banner_filename->store('community_images', 's3');
+            $bannerpath = $request->community_banner_filename->store('community_banner', 's3');
 
             Storage::disk('s3')->setVisibility($bannerpath, 'public');
 
@@ -115,6 +115,8 @@ class CommunityController extends Controller
 
         $community_owner->roles()->attach($role->id);
 
+        $community_owner->roles;
+
         return response()->json(
             [
                 'status' => true,
@@ -122,5 +124,124 @@ class CommunityController extends Controller
                 'community_owner' => $community_owner
             ]
         );
+    }
+
+
+    public function joinCommunity(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'community_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation errors',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $checkJoinedCom = ComUsers::where('community_id', $request->community_id)
+            ->where('user_id', $request->user_id)->first();
+
+        if ($checkJoinedCom) {
+            return response()->json([
+                'message' => 'You have already joined this community',
+            ], 200);
+        }
+
+
+        $community_user = new ComUsers();
+        $community_user->user_id = $request->user_id;
+        $community_user->community_id = $request->community_id;
+
+        $community_user->save();
+
+        $role = ComRoles::where('role_name', 'User')->first();
+
+
+        $community_user->roles()->attach($role->id);
+
+        $community_user->roles;
+
+        return response()->json(
+            [
+                'status' => true,
+                'community_user' => $community_user
+            ]
+        );
+    }
+
+    public function editCommunity(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'community_id' => 'required|integer',
+            'name' => 'required|string',
+            'about' => 'required|string',
+            'community_image_filename' => 'image|mimes:jpg,png,bmp,jpeg',
+            'community_image_url' => 'string',
+            'community_banner_filename' => 'image|mimes:jpg,png,bmp,jpeg',
+            'community_banner_url' => 'string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+
+        $community = Community::where('id', $request->community_id)->first();
+        $community_user = ComUsers::where('community_id', $request->community_id)->where('user_id', $request->user_id)->first();
+        if ($community_user) {
+
+            if ($community_user->roles()->where('role_name', '=', 'Owner')->exists()) {
+
+                $community->update($validator->validated());
+
+                return response()->json([
+                    'message' => 'Community Successfully Updated',
+                    'community_user' => $community_user,
+                    'community' => $community
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'You are not the Owner',
+                ]);
+            }
+
+
+        } else {
+
+            return response()->json([
+                'message' => 'No Community Found',
+            ], 403);
+        }
+    }
+
+    public function UsersInCommunity($id)
+    {
+
+        $community = Community::where('id', $id)->first();
+        $community_users = ComUsers::with(['roles'])->where('community_id', $id)->get();
+
+
+        if ($community_users) {
+
+            return response()->json([
+                'message' => 'List of Users In This Community',
+                'community_users' => $community_users,
+                'community' => $community
+            ], 200);
+        } else {
+
+            return response()->json([
+                'message' => 'No Such Community !',
+            ], 403);
+        }
     }
 }

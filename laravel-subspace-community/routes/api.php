@@ -20,8 +20,11 @@ Route::group(
         'namespace' => 'App\Http\Controllers',
     ],
     function ($router) {
-        Route::post('createCommunity', 'CommunityController@createCommunity');
         Route::get('showCommunity','CommunityController@showCommunity');
+        Route::post('createCommunity', 'CommunityController@createCommunity');
+        Route::post('joinCommunity', 'CommunityController@joinCommunity');
+        Route::put('editCommunity', 'CommunityController@editCommunity');
+        Route::get('/usersInCommunity/{id}', 'CommunityController@UsersInCommunity');
     }
 );
 
