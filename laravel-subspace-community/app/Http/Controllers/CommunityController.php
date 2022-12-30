@@ -51,7 +51,28 @@ class CommunityController extends Controller
         }
 
         //check if request has File
-        if ($request->hasFile('community_image_filename')) {
+
+        if ($request->hasFile('community_banner_filename') && $request->hasFile('community_image_filename')) {
+            $bannerpath = $request->community_banner_filename->store('community_banner', 's3');
+
+            Storage::disk('s3')->setVisibility($bannerpath, 'public');
+
+            $bannerurl = Storage::disk('s3')->url($bannerpath);
+
+            $imagepath = $request->community_image_filename->store('community_images', 's3');
+
+            Storage::disk('s3')->setVisibility($imagepath, 'public');
+
+            $imageurl = Storage::disk('s3')->url($imagepath);
+
+            $community = new Community();
+            $community->community_banner_filename = $bannerpath;
+            $community->community_banner_url = $bannerurl;
+            $community->community_image_filename = $imagepath;
+            $community->community_image_url = $imageurl;
+            $community->name = $request->name;
+            $community->about = $request->about;
+        } elseif ($request->hasFile('community_image_filename')) {
 
             $path = $request->community_image_filename->store('community_images', 's3');
 
@@ -74,26 +95,6 @@ class CommunityController extends Controller
             $community = new Community();
             $community->community_banner_filename = $path;
             $community->community_banner_url = $url;
-            $community->name = $request->name;
-            $community->about = $request->about;
-        } elseif ($request->hasFile('community_banner_filename') && $request->hasFile('community_image_filename')) {
-            $bannerpath = $request->community_banner_filename->store('community_banner', 's3');
-
-            Storage::disk('s3')->setVisibility($bannerpath, 'public');
-
-            $bannerurl = Storage::disk('s3')->url($bannerpath);
-
-            $imagepath = $request->community_image_filename->store('community_images', 's3');
-
-            Storage::disk('s3')->setVisibility($imagepath, 'public');
-
-            $imageurl = Storage::disk('s3')->url($imagepath);
-
-            $community = new Community();
-            $community->community_banner_filename = $bannerpath;
-            $community->community_banner_url = $bannerurl;
-            $community->community_image_filename = $imagepath;
-            $community->community_image_url = $imageurl;
             $community->name = $request->name;
             $community->about = $request->about;
         } else {
@@ -201,7 +202,87 @@ class CommunityController extends Controller
 
             if ($community_user->roles()->where('role_name', '=', 'Owner')->exists()) {
 
-                $community->update($validator->validated());
+                //check if request has File
+
+                if ($request->hasFile('community_banner_filename') && $request->hasFile('community_image_filename')) {
+                    if ($community->community_image_filename) {
+                        $old_image_path = $community->community_image_filename;
+                        if (Storage::disk('s3')->exists($old_image_path)) {
+                            Storage::disk('s3')->delete($old_image_path);
+                        }
+                    }
+
+                    if ($community->community_banner_filename) {
+                        $old_banner_path = $community->community_banner_filename;
+                        if (Storage::disk('s3')->exists($old_banner_path)) {
+                            Storage::disk('s3')->delete($old_banner_path);
+                        }
+                    }
+
+                    $imagepath = $request->community_image_filename->store('community_images', 's3');
+
+                    Storage::disk('s3')->setVisibility($imagepath, 'public');
+
+                    $imageurl = Storage::disk('s3')->url($imagepath);
+
+                    $bannerpath = $request->community_banner_filename->store('community_banner', 's3');
+
+                    Storage::disk('s3')->setVisibility($bannerpath, 'public');
+
+                    $bannerurl = Storage::disk('s3')->url($bannerpath);
+
+                    $community->update([
+                        'name' => $request->name,
+                        'about' => $request->about,
+                        'community_image_url' => $imageurl,
+                        'community_image_filename' => $imagepath,
+                        'community_banner_url' => $bannerurl,
+                        'community_banner_filename' => $bannerpath,
+                    ]);
+                } elseif ($request->hasFile('community_image_filename')) {
+                    if ($community->community_image_filename) {
+                        $old_path = $community->community_image_filename;
+                        if (Storage::disk('s3')->exists($old_path)) {
+                            Storage::disk('s3')->delete($old_path);
+                        }
+                    }
+
+                    $imagepath = $request->community_image_filename->store('community_images', 's3');
+
+                    Storage::disk('s3')->setVisibility($imagepath, 'public');
+
+                    $imageurl = Storage::disk('s3')->url($imagepath);
+
+                    $community->update([
+                        'name' => $request->name,
+                        'about' => $request->about,
+                        'community_image_url' => $imageurl,
+                        'community_image_filename' => $imagepath,
+                    ]);
+                } elseif ($request->hasFile('community_banner_filename')) {
+                    if ($community->community_banner_filename) {
+                        $old_path = $community->community_banner_filename;
+                        if (Storage::disk('s3')->exists($old_path)) {
+                            Storage::disk('s3')->delete($old_path);
+                        }
+                    }
+
+                    $bannerpath = $request->community_banner_filename->store('community_banner', 's3');
+
+                    Storage::disk('s3')->setVisibility($bannerpath, 'public');
+
+                    $bannerurl = Storage::disk('s3')->url($bannerpath);
+
+                    $community->update([
+                        'name' => $request->name,
+                        'about' => $request->about,
+                        'community_banner_url' => $bannerurl,
+                        'community_banner_filename' => $bannerpath,
+                    ]);
+                } else {
+
+                    $community->update($validator->validated());
+                }
 
                 return response()->json([
                     'message' => 'Community Successfully Updated',
@@ -213,8 +294,6 @@ class CommunityController extends Controller
                     'message' => 'You are not the Owner',
                 ]);
             }
-
-
         } else {
 
             return response()->json([
