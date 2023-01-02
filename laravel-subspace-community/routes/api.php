@@ -24,6 +24,7 @@ Route::group(
         Route::post('createCommunity', 'CommunityController@createCommunity');
         Route::post('joinCommunity', 'CommunityController@joinCommunity');
         Route::put('editCommunity', 'CommunityController@editCommunity');
+        Route::delete('deleteCommunity', 'CommunityController@deleteCommunity');
         Route::get('/usersInCommunity/{id}', 'CommunityController@UsersInCommunity');
     }
 );

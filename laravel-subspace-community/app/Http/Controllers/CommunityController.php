@@ -309,7 +309,7 @@ class CommunityController extends Controller
         $community_users = ComUsers::with(['roles'])->where('community_id', $id)->get();
 
 
-        if ($community_users) {
+        if ($community) {
 
             return response()->json([
                 'message' => 'List of Users In This Community',
@@ -320,6 +320,58 @@ class CommunityController extends Controller
 
             return response()->json([
                 'message' => 'No Such Community !',
+            ], 403);
+        }
+    }
+
+    public function deleteCommunity(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'community_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $community = Community::where('id', $request->community_id)->first();
+        $community_user = ComUsers::where('community_id', $request->community_id)->where('user_id', $request->user_id)->first();
+        if ($community_user) {
+
+            if ($community_user->roles()->where('role_name', '=', 'Owner')->exists()) {
+
+                if ($community->community_image_filename) {
+                    $old_image_path = $community->community_image_filename;
+                    if (Storage::disk('s3')->exists($old_image_path)) {
+                        Storage::disk('s3')->delete($old_image_path);
+                    }
+                }
+
+                if ($community->community_banner_filename) {
+                    $old_banner_path = $community->community_banner_filename;
+                    if (Storage::disk('s3')->exists($old_banner_path)) {
+                        Storage::disk('s3')->delete($old_banner_path);
+                    }
+                }
+
+                $community->delete();
+                return response()->json([
+                    'message' => 'Community Deleted successfully',
+                    'community' => $community
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'You are not the Owner',
+                ]);
+            }
+        } else {
+
+            return response()->json([
+                'message' => 'No Community Found',
             ], 403);
         }
     }
