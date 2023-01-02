@@ -375,4 +375,51 @@ class CommunityController extends Controller
             ], 403);
         }
     }
+
+    public function leaveCommunity(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'community_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $community = Community::where('id', $request->community_id)->first();
+        $community_user = ComUsers::where('community_id', $request->community_id)->where('user_id', $request->user_id)->first();
+        if ($community) {
+            if ($community_user) {
+
+                if ($community_user->roles()->where('role_name', '=', 'Owner')->exists()) {
+
+
+                    return response()->json([
+                        'message' => 'You are the owner, you cannot leave your own community !',
+                    ]);
+                } else {
+                    $community_user->delete();
+                    return response()->json([
+                        'message' => 'You have left the community successfully',
+                        'community_user' => $community_user,
+                        'community' => $community
+                    ]);
+                }
+            } else {
+
+                return response()->json([
+                    'message' => 'No user found in requested community',
+                ], 403);
+            }
+        } else {
+
+            return response()->json([
+                'message' => 'No Community Found',
+            ], 403);
+        }
+    }
 }
