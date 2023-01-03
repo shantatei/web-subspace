@@ -22,7 +22,11 @@ Route::group(
         'namespace' => 'App\Http\Controllers',
     ],
     function ($router) {
-        Route::get('showPosts','PostController@showPosts');
-        Route::post('createPost','PostController@createPost');
+        Route::get('showPosts', 'PostController@showPosts');
+        Route::post('createPost', 'PostController@createPost');
+        Route::put('editPost/{id}', 'PostController@editPost');
+        Route::get('postByCommunity/{id}', 'PostController@postByCommunity');
+
     }
+
 );
