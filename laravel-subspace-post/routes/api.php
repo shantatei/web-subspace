@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+//Post Routes
+Route::group(
+    [
+        'namespace' => 'App\Http\Controllers',
+    ],
+    function ($router) {
+        Route::get('showPosts','PostController@showPosts');
+        Route::post('createPost','PostController@createPost');
+    }
+);

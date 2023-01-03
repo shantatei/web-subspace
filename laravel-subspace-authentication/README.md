@@ -15,7 +15,8 @@ Server is running on port 8000
 ```
 $ composer require tymon/jwt-auth:*
 $ composer require league/flysystem-aws-s3-v3
-$ php artisan migrate:fresh --seed --seeder=CommunityRolesTableSeeder
+$ php artisan migrate:fresh
+php artisan migrate:fresh
 $ php artisan serve
 ```
 

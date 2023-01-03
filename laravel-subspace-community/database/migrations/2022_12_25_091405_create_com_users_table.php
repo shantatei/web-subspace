@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('com_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); //foreign key idk how it works in microservices ??
+            $table->unsignedBigInteger('user_id'); 
             $table->unsignedBigInteger('community_id');
             $table->foreign('community_id')->references('id')->on('communities')->onDelete('cascade');
             $table->timestamps();

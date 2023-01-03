@@ -16,9 +16,8 @@ class CommunityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity']]);
+        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity', 'checkUser']]);
     }
-
 
     //Show All Community
 
@@ -26,8 +25,6 @@ class CommunityController extends Controller
     {
         return  Community::all();
     }
-
-
 
     //Create New Community
     public function createCommunity(Request $request)
@@ -126,7 +123,6 @@ class CommunityController extends Controller
             ]
         );
     }
-
 
     public function joinCommunity(Request $request)
     {
@@ -419,6 +415,36 @@ class CommunityController extends Controller
 
             return response()->json([
                 'message' => 'No Community Found',
+            ], 403);
+        }
+    }
+
+    public function checkUser(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'community_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $community_user = ComUsers::where('community_id', $request->community_id)->where('user_id', $request->user_id)->first();
+
+        if ($community_user) {
+
+            $community_user->roles;
+            return $community_user;
+
+        } else {
+
+            return response()->json([
+                'message' => 'No user found in requested community',
             ], 403);
         }
     }
