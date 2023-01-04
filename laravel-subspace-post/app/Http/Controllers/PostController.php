@@ -35,7 +35,6 @@ class PostController extends Controller
         );
     }
 
-
     public function createPost(Request $request)
     {
 
@@ -153,6 +152,39 @@ class PostController extends Controller
                     'message' => 'Post Successfully Updated',
                     'post' => $post
                 ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Access denied',
+                ]);
+            }
+        } else {
+
+            return response()->json([
+                'message' => 'No Post Found',
+            ], 403);
+        }
+    }
+
+    public function deletePost($id, Request $request)
+    {
+        $post  = Post::where('id', $id)->first();
+
+        if ($post) {
+
+            if ($post->user_id == $request->user_id) {
+
+                if ($post->post_image_filename) {
+                    $old_path = $post->post_image_filename;
+                    if (Storage::disk('s3')->exists($old_path)) {
+                        Storage::disk('s3')->delete($old_path);
+                    }
+                }
+
+                $post->delete();
+                return response()->json([
+                    'message' => 'Post Deleted successfully',
+                    'post' => $post
+                ]);
             } else {
                 return response()->json([
                     'message' => 'Access denied',
