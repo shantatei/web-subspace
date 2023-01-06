@@ -17,4 +17,9 @@ class Post extends Model
         'post_image_url',
         'post_image_filename',
     ];
+
+    public function category()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

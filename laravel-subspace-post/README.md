@@ -12,12 +12,10 @@ Server is running on port 8002
 - Delete their post
 - Filter post through tags
 
-
 ## To run the project
 ```
 $ composer require tymon/jwt-auth:*
 $ composer require league/flysystem-aws-s3-v3
-$ php artisan migrate:fresh
-php artisan migrate:fresh
+$ php artisan migrate:fresh --seed
 $ php artisan serve
 ```

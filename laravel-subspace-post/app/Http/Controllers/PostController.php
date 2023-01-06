@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -19,15 +20,24 @@ class PostController extends Controller
 
     public function showPosts()
     {
-        return  Post::all();
+        return  Post::with('category')->get();
     }
 
     public function postByCommunity($id)
     {
 
         //id requested is the community_id
-        $post_community = Post::where('community_id', $id)->get();
+        $post_community = Post::where('community_id', $id)->with('category')->get();
 
+        if ($post_community->isEmpty()) {
+
+
+            return response()->json(
+                [
+                    'message' => 'No Post Found',
+                ]
+            );
+        }
         return response()->json(
             [
                 'posts' => $post_community,
@@ -45,6 +55,7 @@ class PostController extends Controller
             'text' => 'string',
             'post_image_filename' => 'image|mimes:jpg,png,bmp,jpeg',
             'post_image_url' => 'string',
+            'category_id' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +76,8 @@ class PostController extends Controller
             ], 403);
         } else {
             //check if request has File
+
+
 
             if ($request->hasFile('post_image_filename')) {
 
@@ -90,6 +103,14 @@ class PostController extends Controller
             }
 
             $post->save();
+
+            if ($request->has('category_id')) {
+                $category = Category::where('id', $request->category_id)->first();
+
+                $post->category()->attach($category->id);
+                $post->category;
+            }
+
 
             return response()->json(
                 [
