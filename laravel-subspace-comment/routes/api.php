@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+//Comment Routes
+Route::group(
+    [
+        'namespace' => 'App\Http\Controllers',
+    ],
+    function ($router) {
+        Route::get('showComments', 'CommentController@showComments');
+        Route::post('createComment', 'CommentController@createComment');
+    }
+);

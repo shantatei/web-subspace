@@ -27,5 +27,6 @@ Route::group(
         Route::put('editPost/{id}', 'PostController@editPost');
         Route::delete('deletePost/{id}', 'PostController@deletePost');
         Route::get('postByCommunity/{id}', 'PostController@postByCommunity');
+        Route::post('checkPost', 'PostController@checkPost');
     }
 );

@@ -15,7 +15,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity']]);
+        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity', 'checkPost']]);
     }
 
     public function showPosts()
@@ -218,4 +218,31 @@ class PostController extends Controller
             ], 403);
         }
     }
+
+    public function checkPost(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'post_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation errors',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $post = Post::where('id', $request->post_id)->first();
+
+        if ($post) {
+            return $post;
+        } else {
+
+            return response()->json([
+                'message' => 'No Post Found',
+            ], 403);
+        }
+    }
+
 }
