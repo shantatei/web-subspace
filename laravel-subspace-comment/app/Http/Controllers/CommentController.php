@@ -64,7 +64,7 @@ class CommentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer',
-            'comment_id'=>'required|integer',
+            'comment_id' => 'required|integer',
             'text' => 'required|string'
         ]);
 
@@ -89,6 +89,46 @@ class CommentController extends Controller
                     'comment' => $comment,
 
                 ]);
+            } else {
+                return response()->json([
+                    'message' => 'Access denied',
+                ]);
+            }
+        } else {
+
+            return response()->json([
+                'message' => 'No Comment Found',
+            ], 403);
+        }
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'comment_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $comment  = Comment::where('id', $request->comment_id)->first();
+
+
+        if ($comment) {
+
+            if ($comment->user_id == $request->user_id) {
+                $comment->delete();
+
+                return response()->json([
+                    'message' => 'Comment Deleted',
+                    'comment' => $comment,
+                ]);
+
             } else {
                 return response()->json([
                     'message' => 'Access denied',
