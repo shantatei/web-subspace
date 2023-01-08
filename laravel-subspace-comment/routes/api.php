@@ -23,5 +23,6 @@ Route::group(
     function ($router) {
         Route::get('showComments', 'CommentController@showComments');
         Route::post('createComment', 'CommentController@createComment');
+        Route::put('editComment', 'CommentController@editComment');
     }
 );

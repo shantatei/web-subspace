@@ -58,4 +58,47 @@ class CommentController extends Controller
             ]);
         }
     }
+
+
+    public function editComment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'comment_id'=>'required|integer',
+            'text' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $comment  = Comment::where('id', $request->comment_id)->first();
+
+        if ($comment) {
+
+            if ($comment->user_id == $request->user_id) {
+
+
+                $comment->update($validator->validated());
+
+                return response()->json([
+                    'message' => 'Comment successfully updated',
+                    'comment' => $comment,
+
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Access denied',
+                ]);
+            }
+        } else {
+
+            return response()->json([
+                'message' => 'No Comment Found',
+            ], 403);
+        }
+    }
 }
