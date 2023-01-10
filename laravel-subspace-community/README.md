@@ -2,6 +2,7 @@
 
 Community Service in a Microservices Architecture 
 Server is running on port 8001
+Server Address : http://165.22.251.113/community
 
 # Features
 

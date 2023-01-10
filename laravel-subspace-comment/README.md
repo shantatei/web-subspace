@@ -2,6 +2,7 @@
 
 Comment Service in a Microservices Architecture 
 Server is running on port 8003
+Server Address : http://165.22.251.113/comment
 
 # Features
 

@@ -2,6 +2,7 @@
 
 Post Service in a Microservices Architecture 
 Server is running on port 8002
+Server Address : http://165.22.251.113/post
 
 # Features
 
