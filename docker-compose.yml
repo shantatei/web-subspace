@@ -1,0 +1,33 @@
+services:
+  laravel-subspace-authentication:
+    build: 
+      context: laravel-subspace-authentication
+      dockerfile: ../Dockerfile
+    container_name: laravel-subspace-authentication
+    image: laravel-subspace-authentication
+    ports:
+      - 8000:80
+  laravel-subspace-community:
+    build: 
+      context: laravel-subspace-community
+      dockerfile: ../Dockerfile
+    container_name: laravel-subspace-community
+    image: laravel-subspace-community
+    ports:
+      - 8001:80
+  laravel-subspace-post:
+    build: 
+      context: laravel-subspace-post
+      dockerfile: ../Dockerfile
+    container_name: laravel-subspace-post
+    image: laravel-subspace-post
+    ports:
+      - 8002:80
+  laravel-subspace-comment:
+    build: 
+      context: laravel-subspace-comment
+      dockerfile: ../Dockerfile
+    container_name: laravel-subspace-comment
+    image: laravel-subspace-comment
+    ports:
+      - 8003:80
