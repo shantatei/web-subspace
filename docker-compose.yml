@@ -1,3 +1,6 @@
+networks:
+  subspace:
+
 services:
   laravel-subspace-authentication:
     build: 
@@ -7,6 +10,8 @@ services:
     image: laravel-subspace-authentication
     ports:
       - 8000:80
+    networks:
+      - subspace
   laravel-subspace-community:
     build: 
       context: laravel-subspace-community
@@ -15,6 +20,8 @@ services:
     image: laravel-subspace-community
     ports:
       - 8001:80
+    networks:
+      - subspace
   laravel-subspace-post:
     build: 
       context: laravel-subspace-post
@@ -23,6 +30,8 @@ services:
     image: laravel-subspace-post
     ports:
       - 8002:80
+    networks:
+      - subspace
   laravel-subspace-comment:
     build: 
       context: laravel-subspace-comment
@@ -31,3 +40,6 @@ services:
     image: laravel-subspace-comment
     ports:
       - 8003:80
+    networks:
+      - subspace
+  

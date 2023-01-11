@@ -16,7 +16,7 @@ Server Address : http://165.22.251.113/auth
 ```
 $ composer require tymon/jwt-auth:*
 $ composer require league/flysystem-aws-s3-v3
-$ php artisan migrate:fresh
+$ php artisan migrate --seed
 $ php artisan serve
 ```
 

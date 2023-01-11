@@ -37,7 +37,7 @@ class CommentController extends Controller
             ], 400);
         }
 
-        $response = Http::post('http://127.0.0.1:8002/api/checkPost', [
+        $response = Http::post('http://laravel-subspace-post:80/api/checkPost', [
             'post_id' => $request->post_id,
         ]);
 

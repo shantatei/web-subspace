@@ -14,7 +14,8 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'getUserById']]);
+        // $this->middleware('auth:api', ['except' => ['login', 'register', 'getUserById']]);
+        $this->middleware('auth.jwt', ['except' => ['login', 'register', 'getUserById']]);
     }
 
     //LOGIN FUNCTION
@@ -184,7 +185,7 @@ class AuthController extends Controller
                     Storage::disk('s3')->delete($old_path);
                 }
             }
-            
+
             $user->delete();
             return response()->json([
                 'message' => 'User Account Deleted successfully',

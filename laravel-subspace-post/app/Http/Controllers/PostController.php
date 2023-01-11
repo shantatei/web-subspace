@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-
+use Symfony\Component\HttpFoundation\RequestMatcher\PortRequestMatcher;
 
 class PostController extends Controller
 {
@@ -65,7 +65,8 @@ class PostController extends Controller
             ], 400);
         }
 
-        $response = Http::post('http://127.0.0.1:8001/api/checkUser', [
+        $response = Http::post('http://laravel-subspace-community:80/api/checkUser', [
+
             'user_id' => $request->user_id,
             'community_id' => $request->community_id,
         ]);
@@ -76,8 +77,6 @@ class PostController extends Controller
             ], 403);
         } else {
             //check if request has File
-
-
 
             if ($request->hasFile('post_image_filename')) {
 

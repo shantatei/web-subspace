@@ -15,6 +15,6 @@ Server Address : http://165.22.251.113/community
 ```
 $ composer require tymon/jwt-auth:*
 $ composer require league/flysystem-aws-s3-v3
-$ php artisan migrate:fresh --seed --seeder=CommunityRolesTableSeeder
+$ php artisan migrate --seed 
 $ php artisan serve --port=8001
 ```

@@ -148,19 +148,28 @@ class CommunityController extends Controller
             ], 200);
         }
 
+        $community = Community::where('id', $request->community_id)->first();
 
-        $community_user = new ComUsers();
-        $community_user->user_id = $request->user_id;
-        $community_user->community_id = $request->community_id;
+        if ($community) {
 
-        $community_user->save();
+            $community_user = new ComUsers();
+            $community_user->user_id = $request->user_id;
+            $community_user->community_id = $request->community_id;
 
-        $role = ComRoles::where('role_name', 'User')->first();
+            $community_user->save();
+
+            $role = ComRoles::where('role_name', 'User')->first();
 
 
-        $community_user->roles()->attach($role->id);
+            $community_user->roles()->attach($role->id);
 
-        $community_user->roles;
+            $community_user->roles;
+        } else {
+
+            return response()->json([
+                'message' => 'No Such Community !',
+            ], 403);
+        }
 
         return response()->json(
             [
@@ -440,7 +449,6 @@ class CommunityController extends Controller
 
             $community_user->roles;
             return $community_user;
-
         } else {
 
             return response()->json([
