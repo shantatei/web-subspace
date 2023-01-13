@@ -17,4 +17,3 @@ $ composer require league/flysystem-aws-s3-v3
 $ php artisan migrate --seed
 $ php artisan serve
 ```
-Maybe it will work this time
