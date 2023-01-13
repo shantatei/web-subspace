@@ -21,7 +21,8 @@ jobs:
         with:
           host: ${{ secrets.HOST_ADDRESS }}
           username: ${{ secrets.HOST_USERNAME }}
-          key: ${{secrets.PRODUCTION_PUBLIC_SSH_KEY}}
+          # key: ${{secrets.PRODUCTION_PUBLIC_SSH_KEY}}
+          password: ${{secrets.HOST_PASSWORD}}
           passphrase: ${{secrets.HOST_PASSPHRASE }}
           port: 22
           script: |
