@@ -24,7 +24,7 @@ jobs:
           key: ${{ secrets.TEST_PRIVATE_KEY }}
           script: |
             cd ~
-            echo 'Connected To Server'
+            echo 'Connected To Server !'
   # deploy:
   #   runs-on: ubuntu-latest
   #   steps:
