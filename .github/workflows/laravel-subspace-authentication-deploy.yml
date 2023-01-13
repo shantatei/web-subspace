@@ -23,6 +23,7 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{secrets.PRODUCTION_PUBLIC_SSH_KEY}}
           passphrase: ${{secrets.HOST_PASSPHRASE }}
+          port: 22
           script: |
             cd ~/web-subspace
             git pull origin master
