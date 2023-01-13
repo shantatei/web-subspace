@@ -1,0 +1,29 @@
+name: Deploy Laravel Authentication Microservice
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - laravel-subspace-authentication/**
+      - .github/workflows/laravel-subspace-authentication-deploy.yml
+      - docker-compose.yml
+      - Dockerfile
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Run update command
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST_ADDRESS }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{secrets.PRODUCTION PUBLIC SSH KEY}}
+          passphrase: ${{secrets.HOST_PASSPHRASE }}
+          script: |
+            cd ~/web-subspace
+            git pull origin master
+            docker-compose up -d --build laravel-subspace-authentication
