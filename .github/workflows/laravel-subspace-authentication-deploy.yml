@@ -1,6 +1,7 @@
 name: Deploy Laravel Authentication Microservice
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -12,32 +13,33 @@ on:
 
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: Run update command
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.TEST_ADDRESS }}
-          username: ${{ secrets.TEST_USERNAME }}
-          key: ${{ secrets.TEST_PRIVATE_KEY }}
-          script: |
-            cd ~
-            echo 'Connected To Server '
-  # deploy:
+  # test:
   #   runs-on: ubuntu-latest
+  #   environment: test
   #   steps:
   #     - name: Run update command
   #       uses: appleboy/ssh-action@master
   #       with:
-  #         host: ${{ secrets.HOST_ADDRESS }}
-  #         username: ${{ secrets.HOST_USERNAME }}
-  #         key: ${{ secrets.PRODUCTION_PRIVATE_SSH_KEY }}
-  #         passphrase: ${{ secrets.HOST_PASSPHRASE }}
-  #         port: 22
+  #         host: ${{ secrets.TEST_ADDRESS }}
+  #         username: ${{ secrets.TEST_USERNAME }}
+  #         key: ${{ secrets.TEST_PRIVATE_KEY }}
   #         script: |
-  #           cd ~/web-subspace
-  #           git pull origin master
-  #           docker-compose up -d --build laravel-subspace-authentication
-  #           echo 'Deployment to digital ocean finished'
+  #           cd ~
+  #           echo 'Connected To Server '
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Run update command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_ADDRESS }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{ secrets.PRODUCTION_PRIVATE_SSH_KEY }}
+          passphrase: ${{ secrets.HOST_PASSPHRASE }}
+          port: 22
+          script: |
+            cd ~/web-subspace
+            git pull origin master
+            docker-compose up -d --build laravel-subspace-authentication
+            echo 'Laravel Auth Service Updated'
