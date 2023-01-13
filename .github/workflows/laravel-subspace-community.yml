@@ -1,4 +1,4 @@
-name: Deploy Laravel Authentication Microservice
+name: Deploy Laravel Community Microservice
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
     branches:
       - master
     paths:
-      - laravel-subspace-authentication/**
-      - .github/workflows/laravel-subspace-authentication-deploy.yml
+      - laravel-subspace-community/**
+      - .github/workflows/laravel-subspace-community-deploy.yml
       - docker-compose.yml
       - Dockerfile
 
@@ -27,5 +27,5 @@ jobs:
           script: |
             cd ~/web-subspace
             git pull origin master
-            docker-compose up -d --build laravel-subspace-authentication
-            echo 'Laravel Auth Service Updated'
+            docker-compose up -d --build laravel-subspace-community
+            echo 'Laravel Community Service Updated'

@@ -20,6 +20,5 @@ $ php artisan migrate --seed
 $ php artisan serve
 ```
 
-Test Github Actions
 
 
