@@ -28,7 +28,7 @@ jobs:
   #           echo 'Connected To Server '
   deploy:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: production
     steps:
       - name: Run update command
         uses: appleboy/ssh-action@master
