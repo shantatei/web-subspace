@@ -17,11 +17,11 @@ jobs:
     environment: production
     steps:
       - name: Run update command
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_ADDRESS }}
           username: ${{ secrets.HOST_USERNAME }}
-          key: ${{secrets.PRODUCTION_PUBLIC_SSH_KEY}}
+          key: ${{secrets.PRODUCTION_PRIVATE_SSH_KEY}}
           passphrase: ${{secrets.HOST_PASSPHRASE }}
           port: 22
           script: |
