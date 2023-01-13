@@ -20,5 +20,4 @@ $ php artisan migrate --seed
 $ php artisan serve
 ```
 
-Pls work
 
