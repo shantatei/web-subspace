@@ -35,8 +35,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_ADDRESS }}
           username: ${{ secrets.HOST_USERNAME }}
-          key: ${{ secrets.PRODUCTION_PRIVATE_SSH_KEY }}
-          passphrase: ${{ secrets.HOST_PASSPHRASE }}
+          key: ${{ secrets.HOST_PRIVATE_KEY }}
           port: 22
           script: |
             cd ~/web-subspace
