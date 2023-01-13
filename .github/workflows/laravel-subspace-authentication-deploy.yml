@@ -22,7 +22,6 @@ jobs:
           host: ${{ secrets.TEST_ADDRESS }}
           username: ${{ secrets.TEST_USERNAME }}
           key: ${{ secrets.TEST_PRIVATE_KEY }}
-          passphrase: ${{ secrets.TEST_PASSPHRASE }}
           script: |
             cd ~
             echo 'Connected To Server'
