@@ -10,9 +10,10 @@ on:
       - .github/workflows/react-subspace-deploy.yml
 
 jobs:
-  FTP-Deploy-Action:
-    name: FTP-Deploy-Action
+  SFTP-Deploy-Action:
+    name: SFTP-Deploy-Action
     runs-on: ubuntu-latest
+    environment: react-production
     steps:
     - uses: actions/checkout@master
     
@@ -26,17 +27,13 @@ jobs:
         cd react-subspace
         npm install
         npm run build --if-present
-        
-    - name: List output files
-      run: ls
       
-    # - name: FTP-Deploy-Action
-    #   uses: SamKirkland/FTP-Deploy-Action@2.0.0
-    #   env:
-    #     FTP_SERVER: ${{ secrets.FTP_SERVER }}
-    #     FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-    #     FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-    #     LOCAL_DIR: dist
-    #     METHOD: sftp
-    #     PORT: 22
-    #     ARGS: --delete
+    - name: Deploying Files to Server
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+       with:
+            username: ${{ secrets.STFP_USERNAME }}
+            server: ${{ secrets.STFP_ADDRESS }}
+            password: ${{ secrets.STFP_PASSWORD }}
+            local_path: './dist/*'
+            remote_path: '/var/www/172.105.117.44'
+            sftpArgs: '-o ConnectTimeout=5'
