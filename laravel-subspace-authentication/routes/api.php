@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,3 +40,5 @@ Route::group(
         Route::post('change-password', 'AuthController@change_password');
     }
 );
+
+
