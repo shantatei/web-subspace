@@ -9,7 +9,7 @@ services:
     container_name: laravel-subspace-authentication
     image: laravel-subspace-authentication
     ports:
-      - 8000:443
+      - 8000:80
     networks:
       - subspace
   laravel-subspace-community:
@@ -19,7 +19,7 @@ services:
     container_name: laravel-subspace-community
     image: laravel-subspace-community
     ports:
-      - 8001:443
+      - 8001:80
     networks:
       - subspace
   laravel-subspace-post:
@@ -29,7 +29,7 @@ services:
     container_name: laravel-subspace-post
     image: laravel-subspace-post
     ports:
-      - 8002:443
+      - 8002:80
     networks:
       - subspace
   laravel-subspace-comment:
@@ -39,7 +39,7 @@ services:
     container_name: laravel-subspace-comment
     image: laravel-subspace-comment
     ports:
-      - 8003:443
+      - 8003:80
     networks:
       - subspace
   
