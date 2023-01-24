@@ -8,19 +8,25 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  useToast
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { themeColor } from "../../../../utils/theme";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useState, FC } from "react";
+import { useState } from "react";
+import { authapi } from "../../../../api/auth";
 
-interface FormValues {
+interface SignupValues {
   email: string;
   username: string;
   password: string;
   password_confirmation: string;
 }
-const SignUpForm: FC = () => {
+
+interface SignupFormProps {
+  onClose: () => void;
+}
+const SignUpForm = ({ onClose }: SignupFormProps) => {
   const [showPW, setShowPW] = useState<boolean>(false);
   const [showCfmPW, setShowCfmPW] = useState<boolean>(false);
 
@@ -31,15 +37,35 @@ const SignUpForm: FC = () => {
   const handleClickShowConfirmPassword = () => {
     setShowCfmPW(!showCfmPW);
   };
+  const toast = useToast();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+    getValues,
+    setError,
+  } = useForm<SignupValues>();
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const onSubmit = (data: SignupValues) => {
+    // api call
+    authapi.post("/register", data).then(
+      (res) => {
+        console.log(res.data);
+        onClose();
+
+        toast({
+          title: "Account created.",
+          description: "We've created your account for you.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      },
+      (error) => {
+        console.log(error.response.data);
+      }
+    );
   };
 
   return (
@@ -80,6 +106,10 @@ const SignUpForm: FC = () => {
             focusBorderColor={themeColor.primary}
             {...register("password", {
               required: "Password is Required",
+              minLength: {
+                value: 6,
+                message: "Password must have at least 6 characters",
+              },
             })}
             type={showPW ? "text" : "password"}
           />
@@ -102,6 +132,12 @@ const SignUpForm: FC = () => {
             focusBorderColor={themeColor.primary}
             {...register("password_confirmation", {
               required: "Password Confirmation is Required",
+              minLength: {
+                value: 6,
+                message: "Password must have at least 6 characters",
+              },
+              validate: (value) =>
+                value === getValues().password || "The passwords do not match",
             })}
             type={showCfmPW ? "text" : "password"}
           />

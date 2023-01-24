@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuDivider,
   Avatar,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import ToggleColorButton from "./ToggleColorButton";
@@ -21,8 +22,8 @@ import { themeColor } from "../../../utils/theme";
 import AuthModal from "./modal/AuthModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import { authapi } from "../../../api/auth";
-import { logoutSuccess } from "../../../features/authSlice";
+import { authapiToken } from "../../../api/auth";
+import { logoutSuccess } from "../../../redux/authSlice";
 
 const Navbar: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -30,13 +31,23 @@ const Navbar: FC = () => {
 
   const dispatch = useDispatch();
 
+  const toast = useToast();
+
   const AuthUser = useSelector((state: RootState) => state.auth);
 
   const logoutUser = () => {
-    authapi.post("/logout", { token: AuthUser.token }).then((res) => {
-      console.log(res.data);
-    });
+    authapiToken(AuthUser.token)
+      .post("/logout")
+      .then((res) => {
+        console.log(res.data);
+      });
     dispatch(logoutSuccess());
+    toast({
+      description: "Logout Success",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -62,6 +73,7 @@ const Navbar: FC = () => {
         {AuthUser.isAuth ? (
           <>
             <IconButton icon={<AddIcon />} aria-label="Post Button" />
+            <ToggleColorButton />
             <Menu>
               <MenuButton
                 as={Button}

@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -9,23 +9,20 @@ import {
   InputRightElement,
   InputGroup,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { themeColor } from "../../../../utils/theme";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import {
-  loginFail,
-  loginSuccess,
-  loginNotPending,
-  loginPending,
-} from "../../../../features/authSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { loginFail, loginSuccess } from "../../../../redux/authSlice";
+import { useDispatch } from "react-redux";
 import { authapi } from "../../../../api/auth";
 
 interface LoginValues {
   email: string;
   password: string;
 }
+
 interface LoginFormProps {
   onClose: () => void;
 }
@@ -38,6 +35,7 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
     setShowPW(!showPW);
   };
 
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -51,9 +49,22 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
       (res) => {
         dispatch(loginSuccess(res.data));
         onClose();
+        toast({
+          description: "Login Success",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
       },
       (error) => {
         console.log(error.response.data);
+        toast({
+          title: "Invalid Login Details",
+          description: error.response.data.error,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
         dispatch(loginFail());
         if (
           (error.response.data.error =

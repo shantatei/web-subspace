@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -27,8 +27,6 @@ const AuthModal = ({ state, setState }: AuthModalProps) => {
     setState({ ...state, index: index });
   const closeModal = () => setState({ ...state, isOpen: false });
 
-  // Here's the signature
-  const value = useColorModeValue("white", "#1d1e1f");
   return (
     <Modal
       closeOnEsc
@@ -44,11 +42,7 @@ const AuthModal = ({ state, setState }: AuthModalProps) => {
         <ModalCloseButton top={3.5} />
 
         <ModalBody pb={4}>
-          <Tabs
-            isFitted
-            index={state.index}
-            onChange={handleTabsChange}
-          >
+          <Tabs isFitted index={state.index} onChange={handleTabsChange}>
             <TabList>
               <Tab>Log in</Tab>
               <Tab>Sign Up</Tab>
@@ -58,7 +52,7 @@ const AuthModal = ({ state, setState }: AuthModalProps) => {
                 <LoginForm onClose={closeModal} />
               </TabPanel>
               <TabPanel>
-                <SignUpForm />
+                <SignUpForm onClose={closeModal} />
               </TabPanel>
             </TabPanels>
           </Tabs>
