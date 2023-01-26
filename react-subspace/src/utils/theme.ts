@@ -1,5 +1,6 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { mode } from '@chakra-ui/theme-tools';
+import { menuTheme } from "./theme/MenuTheme";
 import { modalTheme } from "./theme/ModalTheme";
 import { tabsTheme } from "./theme/TabsTheme";
 
@@ -19,13 +20,14 @@ const theme = extendTheme({
     components: {
         Modal: modalTheme,
         Tabs: tabsTheme,
+        Menu: menuTheme
     }
 })
 
 
 const themeColor = {
     //light purple
-    primary: "#9147ff", 
+    primary: "#9147ff",
     //dark purple
     secondary: "#8232fa"
 }

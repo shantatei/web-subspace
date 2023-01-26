@@ -9,6 +9,7 @@ export const authapi = axios.create({
 export const authapiToken = (token: string) => axios.create({
     baseURL: BASE_URL.AUTH,
     headers: {
+        "content-type": "multipart/form-data",
         authorization: "Bearer " + token,
     },
 });

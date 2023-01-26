@@ -24,9 +24,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { authapiToken } from "../../../api/auth";
 import { logoutSuccess } from "../../../redux/authSlice";
+import { useNavigate, Link } from "react-router-dom";
+import { AppRoute } from "../../../utils/routes";
 
 const Navbar: FC = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
+
   const [modalState, setModalState] = useState({ index: 0, isOpen: false });
 
   const dispatch = useDispatch();
@@ -34,6 +37,8 @@ const Navbar: FC = () => {
   const toast = useToast();
 
   const AuthUser = useSelector((state: RootState) => state.auth);
+
+  const navigate = useNavigate();
 
   const logoutUser = () => {
     authapiToken(AuthUser.token)
@@ -65,7 +70,12 @@ const Navbar: FC = () => {
         display={{ base: "flex", md: "none" }}
         aria-label="Menu Button"
       ></IconButton>
-      <Text fontSize="xl" display={{ base: "none", md: "flex" }}>
+      <Text
+        fontSize="xl"
+        display={{ base: "none", md: "flex" }}
+        as={Link}
+        to={AppRoute.Home}
+      >
         Subspace
       </Text>
       <SearchBar />
@@ -85,8 +95,21 @@ const Navbar: FC = () => {
                 <Avatar size={"sm"} src={AuthUser.user?.profile_image_url} />
               </MenuButton>
               <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Settings</MenuItem>
+                <MenuItem>
+                  <Avatar
+                    size={"sm"}
+                    src={AuthUser.user?.profile_image_url}
+                    m="2"
+                  />
+                  <Text fontSize="lg">{AuthUser.user?.username}</Text>
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => navigate(AppRoute.Profile)}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={() => navigate(AppRoute.Settings)}>
+                  Settings
+                </MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={logoutUser}>Log Out</MenuItem>
               </MenuList>

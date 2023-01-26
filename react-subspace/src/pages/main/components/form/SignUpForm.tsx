@@ -44,7 +44,6 @@ const SignUpForm = ({ onClose }: SignupFormProps) => {
     handleSubmit,
     formState: { errors },
     getValues,
-    setError,
   } = useForm<SignupValues>();
 
   const onSubmit = (data: SignupValues) => {

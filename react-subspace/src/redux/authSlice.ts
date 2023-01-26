@@ -41,12 +41,15 @@ const authSlice = createSlice({
             state.isAuth = false;
             state.token = '';
             state.user = undefined
-        }
+        },
+        updateUser: (state, action: PayloadAction<AuthState>) => {
+            state.user = action.payload.user;
+        },
     },
 });
 
 const { reducer, actions } = authSlice
 
-export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess } = actions
+export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess, updateUser } = actions
 
 export default reducer
