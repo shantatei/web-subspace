@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import {
   Text,
   Box,
@@ -27,10 +27,10 @@ interface ChangePasswordValues {
   confirm_password: string;
 }
 
-const ChangePassword = () => {
+const ChangePassword: FC = () => {
   const [showPW, setShowPW] = useState<boolean>(false);
   const [showCfmPW, setShowCfmPW] = useState<boolean>(false);
-
+    
   const handleClickShowPassword = () => {
     setShowPW(!showPW);
   };

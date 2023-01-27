@@ -10,6 +10,13 @@ import {
   Avatar,
   ModalFooter,
   Button,
+  useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Box,
+  RenderProps,
 } from "@chakra-ui/react";
 import { themeColor } from "../../../utils/theme";
 import { useSelector, useDispatch } from "react-redux";
@@ -37,6 +44,7 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
   const AuthUser = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [uploading, setUploading] = useState(false);
+  const toast = useToast();
 
   const onSubmit = (ProfileImage: File | null | undefined) => {
     const data = {
@@ -45,7 +53,6 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
       profile_image_filename: ProfileImage,
       _method: "PUT",
     };
-    console.log(data);
     setUploading(true);
     // api call
     authapiToken(AuthUser.token)
@@ -56,6 +63,27 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
           setUploading(false);
           closeModal();
           dispatch(updateUser(res.data));
+          toast({
+            // description: `Successfully updated your profile picture. Looking good there ${AuthUser.user?.username}!`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            render: (props: RenderProps) => {
+              return (
+                <Alert status="success" variant="solid">
+                  <AlertIcon />
+                  <Box>
+                    <AlertTitle>
+                      Successfully updated your profile picture
+                    </AlertTitle>
+                    <AlertDescription>
+                      Looking good there {AuthUser.user?.username}!
+                    </AlertDescription>
+                  </Box>
+                </Alert>
+              );
+            },
+          });
         },
         (error) => {
           console.log(error.response.data);

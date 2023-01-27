@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
@@ -23,6 +23,7 @@ import { authapiToken } from "../../api/auth";
 import ImagePreviewModal from "./components/ImagePreviewModal";
 import { updateUser } from "../../redux/authSlice";
 import ChangePassword from "./components/ChangePassword";
+import DeleteAccount from "./components/DeleteAccount";
 
 interface EditProfileValues {
   email: string;
@@ -90,7 +91,7 @@ const Settings = () => {
   };
 
   return (
-    <Container size={{ sm: "xl", md: "2xl" }}>
+    <Container size={{ sm: "xl", md: "2xl" }} pb={2}>
       <Heading>Settings</Heading>
       <VStack align={"start"}>
         <Text mt="2" fontSize={{ base: "md", lg: "lg" }}>
@@ -181,6 +182,7 @@ const Settings = () => {
           </VStack>
         </Box>
         <ChangePassword />
+        <DeleteAccount />
       </VStack>
       <ImagePreviewModal state={modalState} setState={setModalState} />
     </Container>
