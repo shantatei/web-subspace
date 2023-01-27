@@ -10,14 +10,12 @@ import {
   Avatar,
   ModalFooter,
   Button,
-  Progress,
 } from "@chakra-ui/react";
 import { themeColor } from "../../../utils/theme";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { authapiToken } from "../../../api/auth";
 import { updateUser } from "../../../redux/authSlice";
-import { AxiosProgressEvent } from "axios";
 
 interface ImagePreviewModalProps {
   state: {
@@ -77,8 +75,7 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
         <ModalHeader display="flex" justifyContent="center" alignItems="center">
           Update Profile Picture
         </ModalHeader>
-        <ModalCloseButton top={3.5} />
-
+        <ModalCloseButton top={3.5} disabled={uploading} />
         <ModalBody justifyContent="center" alignItems="center" display="flex">
           <Avatar
             border={useColorModeValue(
@@ -90,7 +87,7 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
           ></Avatar>
         </ModalBody>
         <ModalFooter>
-          <Button mr={3} onClick={closeModal}>
+          <Button mr={3} onClick={closeModal} disabled={uploading}>
             Cancel
           </Button>
           <Button

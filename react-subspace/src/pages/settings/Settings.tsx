@@ -13,18 +13,22 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
+  useToast,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { themeColor } from "../../utils/theme";
 import { useForm } from "react-hook-form";
 import { authapiToken } from "../../api/auth";
 import ImagePreviewModal from "./components/ImagePreviewModal";
+import { updateUser } from "../../redux/authSlice";
+import ChangePassword from "./components/ChangePassword";
 
 interface EditProfileValues {
   email: string;
   username: string;
   profile_image_filename: string;
+  _method: string;
 }
 
 const Settings = () => {
@@ -37,6 +41,8 @@ const Settings = () => {
     ImagePreview: preview,
     isOpen: false,
   });
+  const dispatch = useDispatch();
+  const toast = useToast();
 
   useEffect(() => {
     if (image) {
@@ -59,16 +65,23 @@ const Settings = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<EditProfileValues>();
 
-  const onSubmit = (data: EditProfileValues) => {
+  const onSubmitUpdate = (data: EditProfileValues) => {
+    data._method = "PUT";
     // api call
     authapiToken(AuthUser.token)
-      .put("/editUser", data)
+      .post("/editUser", data)
       .then(
         (res) => {
           console.log(res.data);
+          dispatch(updateUser(res.data));
+          toast({
+            description: "Profile Settings Updated",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
         },
         (error) => {
           console.log(error.response.data);
@@ -136,11 +149,12 @@ const Settings = () => {
               as="form"
               m={2}
               justifyContent="center"
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmitUpdate)}
             >
               <FormControl isInvalid={errors.username != null}>
                 <FormLabel>Username</FormLabel>
                 <Input
+                  defaultValue={AuthUser.user?.username}
                   focusBorderColor={themeColor.primary}
                   {...register("username", {
                     required: "Username is Required",
@@ -151,6 +165,7 @@ const Settings = () => {
               <FormControl isInvalid={errors.email != null}>
                 <FormLabel>Email</FormLabel>
                 <Input
+                  defaultValue={AuthUser.user?.email}
                   focusBorderColor={themeColor.primary}
                   {...register("email", {
                     required: "Email is Required",
@@ -167,6 +182,7 @@ const Settings = () => {
               </Button>
             </VStack>
           </Box>
+          <ChangePassword />
         </VStack>
       </Box>
       <ImagePreviewModal state={modalState} setState={setModalState} />
