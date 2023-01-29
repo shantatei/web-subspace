@@ -16,7 +16,7 @@ import {
   AlertTitle,
   AlertDescription,
   Box,
-  RenderProps,
+  RenderProps
 } from "@chakra-ui/react";
 import { themeColor } from "../../../utils/theme";
 import { useSelector, useDispatch } from "react-redux";
