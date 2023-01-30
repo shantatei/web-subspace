@@ -1,5 +1,11 @@
 import { useEffect } from "react";
-import { Container, VStack, Grid, GridItem } from "@chakra-ui/react";
+import {
+  Container,
+  VStack,
+  Grid,
+  GridItem,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
 import { SetPost } from "../../redux/postSlice";
@@ -59,14 +65,19 @@ const Home = () => {
     fetchComments();
   }, []);
 
+  const display = useBreakpointValue({
+    base: "none",
+    md: "flex",
+  });
+
   return (
     <Grid templateColumns="repeat(12, 1fr)" width="100%">
-      <GridItem colSpan={3}>
-        <Container display={{ sm: "none", md: "flex" }}>
+      <GridItem colSpan={3} display={display}>
+        <Container>
           <CommunityFeed communities={communities} />
         </Container>
       </GridItem>
-      <GridItem colSpan={{ sm: 12, md: 6 }}>
+      <GridItem colSpan={{ base: 12, md: 6 }}>
         <Container>
           <VStack>
             {posts.map((post: Post) => {

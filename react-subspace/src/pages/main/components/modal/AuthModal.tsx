@@ -30,7 +30,7 @@ const AuthModal = ({ state, setState }: AuthModalProps) => {
   return (
     <Modal
       closeOnEsc
-      size={{ sm: "sm", md: "md" }}
+      size={{ base: "sm", md: "md" }}
       isOpen={state.isOpen}
       onClose={() => setState({ ...state, isOpen: false })}
     >
