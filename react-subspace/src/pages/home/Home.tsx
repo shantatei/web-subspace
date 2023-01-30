@@ -77,7 +77,7 @@ const Home = () => {
           <CommunityFeed communities={communities} />
         </Container>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 6 }}>
+      <GridItem colSpan={{ base: 12, md: 6 }} mb={2}>
         <Container>
           <VStack>
             {posts.map((post: Post) => {

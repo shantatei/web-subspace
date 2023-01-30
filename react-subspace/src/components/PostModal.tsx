@@ -15,6 +15,7 @@ import {
   VStack,
   Divider,
   useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Post, User, Category } from "../utils/types";
@@ -80,13 +81,15 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
         <ModalCloseButton top={3.5} />
 
         <ModalBody>
-          <Grid
-            templateColumns="repeat(5, 1fr)"
-            // templateRows="repeat(2, 1fr)"
-            width="100%"
-          >
+          <Grid templateColumns="repeat(5, 1fr)" width="100%">
             <GridItem colSpan={{ base: 5, md: 3 }}>
-              <VStack align="start">
+              <VStack
+                p={2}
+                align="start"
+                borderRadius="md"
+                borderWidth="1px"
+                bgColor={useColorModeValue("white", "blackAlpha.100")}
+              >
                 <Box mb={2}>
                   {user?.map((owner: User) => {
                     return (
@@ -118,7 +121,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                 />
               </VStack>
             </GridItem>
-            <GridItem colSpan={2} display={display}>
+            <GridItem colSpan={2} display={display} justifyContent="center">
               <CommunityCard />
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>

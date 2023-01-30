@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { VStack, Box, Flex, Avatar, Heading, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import {
+  VStack,
+  Box,
+  Flex,
+  Avatar,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Comment, User } from "../utils/types";
 import { authapi, authapiDev } from "../api/auth";
 
@@ -13,7 +20,14 @@ const PostComments = ({ comments }: CommentProps) => {
     return <Text>No Comments Posted Yet</Text>;
   } else {
     return (
-      <VStack alignItems="start" mt={2}>
+      <VStack
+        alignItems="start"
+        mt={2}
+        p={2}
+        // borderRadius="md"
+        borderWidth="1px"
+        bgColor={useColorModeValue("white", "blackAlpha.200")}
+      >
         {comments.map((comment: Comment) => {
           const [user, setUser] = useState<Array<User>>();
           const fetchUser = () => {

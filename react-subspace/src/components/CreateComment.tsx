@@ -31,16 +31,16 @@ const CreateComment = () => {
     if (AuthUser.isAuth) {
       console.log(data);
 
-    //   commentapiToken(AuthUser.token)
-    //     .post("/createComment", data)
-    //     .then(
-    //       (res) => {
-    //         console.log(res.data);
-    //       },
-    //       (error) => {
-    //         console.log(error.response.data);
-    //       }
-    //     );
+      //   commentapiToken(AuthUser.token)
+      //     .post("/createComment", data)
+      //     .then(
+      //       (res) => {
+      //         console.log(res.data);
+      //       },
+      //       (error) => {
+      //         console.log(error.response.data);
+      //       }
+      //     );
     } else {
       toast({
         title: "Unauthorized",
