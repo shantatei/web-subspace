@@ -30,7 +30,7 @@ const AuthModal = ({ state, setState }: AuthModalProps) => {
   return (
     <Modal
       closeOnEsc
-      preserveScrollBarGap
+      size={{ sm: "sm", md: "md" }}
       isOpen={state.isOpen}
       onClose={() => setState({ ...state, isOpen: false })}
     >

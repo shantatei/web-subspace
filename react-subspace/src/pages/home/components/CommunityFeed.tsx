@@ -27,7 +27,6 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
     <Card
       bgColor={useColorModeValue("white", "#1d1e1f")}
       width="100%"
-      height="-webkit-fit-content"
     >
       <CardHeader>
         <Heading size="md">Recommended Communities</Heading>
@@ -41,7 +40,6 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
                 <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                   <Avatar
                     src={community.community_image_url}
-                    name={community.name}
                   />
                   <Box mr={8}>
                     <Heading size="sm">{community.name}</Heading>

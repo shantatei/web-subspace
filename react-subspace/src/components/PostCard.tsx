@@ -9,18 +9,23 @@ import {
   Image,
   CardFooter,
   Button,
+  border,
 } from "@chakra-ui/react";
 import { themeColor } from "../utils/theme";
 import { Category, Post, User } from "../utils/types";
 import { BiChat } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import { authapi } from "../api/auth";
+import PostModal from "./PostModal";
 
 interface PostProps {
   post: Post;
 }
 const PostCard = ({ post }: PostProps) => {
   const [user, setUser] = useState<Array<User>>();
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+  });
 
   const categories = post.category;
 
@@ -46,6 +51,10 @@ const PostCard = ({ post }: PostProps) => {
       borderRadius="md"
       borderWidth="1px"
       width="100%"
+      _hover={{
+        borderColor: useColorModeValue("#1d1e1f", "white"),
+      }}
+      onClick={() => setModalState({ isOpen: true })}
     >
       <CardBody>
         <Box mb={2}>
@@ -81,6 +90,7 @@ const PostCard = ({ post }: PostProps) => {
           Comment
         </Button>
       </CardFooter>
+      <PostModal state={modalState} setState={setModalState} post={post} />
     </Card>
   );
 };
