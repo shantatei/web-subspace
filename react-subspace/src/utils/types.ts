@@ -21,3 +21,13 @@ export interface Category {
     id: number;
     category_name: string
 }
+
+export interface Community {
+    id: number;
+    name: string;
+    about: string;
+    community_image_url: string;
+    community_image_filename: string;
+    community_banner_url: string;
+    community_banner_filename: string;
+}
