@@ -3,11 +3,11 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { Community } from "../utils/types";
 
 
-export interface PostState {
+export interface CommunityState {
     communities: Array<Community>
 }
 
-const initialState: PostState = {
+const initialState: CommunityState = {
     communities: []
 };
 

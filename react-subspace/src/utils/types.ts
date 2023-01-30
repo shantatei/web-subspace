@@ -31,3 +31,10 @@ export interface Community {
     community_banner_url: string;
     community_banner_filename: string;
 }
+
+export interface Comment {
+    id: number;
+    user_id: number;
+    post_id: number;
+    text: string;
+}
