@@ -27,6 +27,8 @@ jobs:
         cd react-subspace
         npm install
         npm run build --if-present
+      env:
+        VITE_ENVIRONMENT_KEY: 'production'
 
     - name: List output files
       run: |

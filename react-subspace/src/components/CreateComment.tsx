@@ -12,14 +12,21 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { commentapiToken } from "../api/comment";
+import { Post } from "../utils/types";
 
 interface CommentValues {
+  post_id: number;
   text: string;
 }
 
-const CreateComment = () => {
+interface CreateCommentProps {
+  post: Post;
+}
+
+const CreateComment = ({ post }: CreateCommentProps) => {
   const AuthUser = useSelector((state: RootState) => state.auth);
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -29,19 +36,20 @@ const CreateComment = () => {
 
   const onSubmit = (data: CommentValues) => {
     if (AuthUser.isAuth) {
-      console.log(data);
-
-      //   commentapiToken(AuthUser.token)
-      //     .post("/createComment", data)
-      //     .then(
-      //       (res) => {
-      //         console.log(res.data);
-      //       },
-      //       (error) => {
-      //         console.log(error.response.data);
-      //       }
-      //     );
+      data.post_id = post.id;
+      commentapiToken(AuthUser.token)
+        .post("/createComment", data)
+        .then(
+          (res) => {
+            console.log(res.data);
+            reset();
+          },
+          (error) => {
+            console.log(error.response.data);
+          }
+        );
     } else {
+      reset();
       toast({
         title: "Unauthorized",
         description: "Please Login to Comment ",

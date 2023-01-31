@@ -83,7 +83,6 @@ const PostCard = ({ post }: PostProps) => {
         <Text>{post.text}</Text>
         <Image src={post.post_image_url} alt={post.post_image_filename} />
       </CardBody>
-
       <CardFooter>
         <Button variant="ghost" leftIcon={<BiChat />}>
           Comment

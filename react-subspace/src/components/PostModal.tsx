@@ -124,7 +124,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
               <CommunityCard />
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
-              <CreateComment />
+              <CreateComment post={post} />
               <Divider orientation="horizontal" />
               <PostComments comments={comments} />
             </GridItem>
