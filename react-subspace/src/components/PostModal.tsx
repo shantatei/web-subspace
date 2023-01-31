@@ -22,10 +22,10 @@ import { Post, User, Category } from "../utils/types";
 import { authapi } from "../api/auth";
 import { themeColor } from "../utils/theme";
 import CommunityCard from "./CommunityCard";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import PostComments from "./PostComments";
 import CreateComment from "./CreateComment";
+import { commentapi } from "../api/comment";
+import { Comment } from "../utils/types";
 
 interface PostModalProps {
   state: {
@@ -42,9 +42,9 @@ interface PostModalProps {
 const PostModal = ({ state, setState, post }: PostModalProps) => {
   const [user, setUser] = useState<Array<User>>();
 
-  const comments = useSelector((state: RootState) => state.comment.comments);
-
   const categories = post.category;
+
+  const [comments, setComments] = useState<Array<Comment>>([]);
 
   const fetchUser = () => {
     authapi.get(`/profile/${post.user_id}`).then(
@@ -57,8 +57,20 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
     );
   };
 
+  const fetchComments = () => {
+    commentapi.get(`/commentByPost/${post.id}`).then(
+      (res) => {
+        setComments(res.data);
+      },
+      (error) => {
+        console.log(error.response.data);
+      }
+    );
+  };
+
   useEffect(() => {
     fetchUser();
+    fetchComments();
   }, []);
 
   const display = useBreakpointValue({
@@ -124,7 +136,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
               <CommunityCard />
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
-              <CreateComment post={post} />
+              <CreateComment post={post} fetchComments={fetchComments} />
               <Divider orientation="horizontal" />
               <PostComments comments={comments} />
             </GridItem>

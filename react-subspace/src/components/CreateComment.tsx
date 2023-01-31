@@ -21,9 +21,10 @@ interface CommentValues {
 
 interface CreateCommentProps {
   post: Post;
+  fetchComments: () => void;
 }
 
-const CreateComment = ({ post }: CreateCommentProps) => {
+const CreateComment = ({ post, fetchComments }: CreateCommentProps) => {
   const AuthUser = useSelector((state: RootState) => state.auth);
   const {
     reset,
@@ -42,6 +43,13 @@ const CreateComment = ({ post }: CreateCommentProps) => {
         .then(
           (res) => {
             console.log(res.data);
+            fetchComments();
+            toast({
+              description: "Comment has been posted",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
             reset();
           },
           (error) => {

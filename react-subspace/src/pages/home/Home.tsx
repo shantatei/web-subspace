@@ -62,7 +62,7 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
     fetchCommunities();
-    fetchComments();
+    // fetchComments();
     console.log(import.meta.env.VITE_ENVIRONMENT_KEY);
   }, []);
 
