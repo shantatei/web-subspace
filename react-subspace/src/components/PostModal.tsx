@@ -49,7 +49,6 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   const fetchUser = () => {
     authapi.get(`/profile/${post.user_id}`).then(
       (res) => {
-        console.log(res.data);
         setUser(res.data);
       },
       (error) => {

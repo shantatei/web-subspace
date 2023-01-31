@@ -32,7 +32,6 @@ const PostCard = ({ post }: PostProps) => {
   const fetchUser = () => {
     authapi.get(`/profile/${post.user_id}`).then(
       (res) => {
-        console.log(res.data);
         setUser(res.data);
       },
       (error) => {

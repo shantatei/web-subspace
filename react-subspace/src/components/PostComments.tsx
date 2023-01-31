@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Comment, User } from "../utils/types";
-import { authapi, authapiDev } from "../api/auth";
+import { authapi } from "../api/auth";
 
 interface CommentProps {
   comments: Array<Comment>;
@@ -24,14 +24,13 @@ const PostComments = ({ comments }: CommentProps) => {
         alignItems="start"
         mt={2}
         p={2}
-        // borderRadius="md"
         borderWidth="1px"
         bgColor={useColorModeValue("white", "blackAlpha.200")}
       >
         {comments.map((comment: Comment) => {
           const [user, setUser] = useState<Array<User>>();
           const fetchUser = () => {
-            authapiDev.get(`/profile/${comment.user_id}`).then(
+            authapi.get(`/profile/${comment.user_id}`).then(
               (res) => {
                 setUser(res.data);
               },
@@ -49,12 +48,18 @@ const PostComments = ({ comments }: CommentProps) => {
             <Box key={comment.id}>
               <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                 {user?.map((owner: User) => {
-                  return <Avatar src={owner.profile_image_url} size="md" />;
+                  return (
+                    <Avatar
+                      src={owner.profile_image_url}
+                      size="md"
+                      key={owner.id}
+                    />
+                  );
                 })}
                 <Box mr={8}>
                   {user?.map((owner: User) => {
                     return (
-                      <Text size="sm" as="i">
+                      <Text size="sm" as="i" key={owner.id}>
                         {owner.username}
                       </Text>
                     );
