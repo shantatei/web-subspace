@@ -14,7 +14,7 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showComments']]);
+        $this->middleware('auth.jwt', ['except' => ['showComments', 'getCommentByPost']]);
     }
 
     public function showComments()
@@ -128,7 +128,6 @@ class CommentController extends Controller
                     'message' => 'Comment Deleted',
                     'comment' => $comment,
                 ]);
-
             } else {
                 return response()->json([
                     'message' => 'Access denied',
@@ -138,6 +137,27 @@ class CommentController extends Controller
 
             return response()->json([
                 'message' => 'No Comment Found',
+            ], 403);
+        }
+    }
+
+    public function getCommentByPost($id)
+    {
+        $comments = Comment::where('post_id', $id)->get();
+
+        if ($comments) {
+            foreach ($comments as $comment => $usercomment) {
+                $userId = $usercomment->user_id;
+                $user = Http::get("http://laravel-subspace-authentication:80/api/auth/profile/$userId");
+                $user_array = $user->json();
+                $usercomment->user = $user_array;
+            }
+
+            return $comments;
+
+        } else {
+            return response()->json([
+                'message' => 'No Comments Found ',
             ], 403);
         }
     }

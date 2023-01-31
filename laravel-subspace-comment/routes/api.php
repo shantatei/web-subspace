@@ -25,5 +25,6 @@ Route::group(
         Route::post('createComment', 'CommentController@createComment');
         Route::put('editComment', 'CommentController@editComment');
         Route::delete('deleteComment', 'CommentController@deleteComment');
+        Route::get('commentByPost/{id}', 'CommentController@getCommentByPost');
     }
 );
