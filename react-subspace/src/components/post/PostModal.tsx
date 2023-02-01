@@ -18,14 +18,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { Post, User, Category } from "../utils/types";
-import { authapi } from "../api/auth";
-import { themeColor } from "../utils/theme";
-import CommunityCard from "./CommunityCard";
-import PostComments from "./PostComments";
-import CreateComment from "./CreateComment";
-import { commentapi } from "../api/comment";
-import { Comment } from "../utils/types";
+import { Post, User, Category } from "../../utils/types";
+import { authapi } from "../../api/auth";
+import { themeColor } from "../../utils/theme";
+import CommunityCard from "../CommunityCard";
+import PostComments from "../comments/PostComments";
+import CreateComment from "../comments/CreateComment";
+import { commentapi } from "../../api/comment";
+import { Comment } from "../../utils/types";
 
 interface PostModalProps {
   state: {
@@ -138,7 +138,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
               <CreateComment post={post} fetchComments={fetchComments} />
               <Divider orientation="horizontal" />
-              <PostComments comments={comments} />
+              <PostComments comments={comments} fetchComments={fetchComments} />
             </GridItem>
           </Grid>
         </ModalBody>

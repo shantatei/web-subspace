@@ -16,7 +16,4 @@ class Comment extends Model
         'text'
     ];
 
-    protected $casts = [
-        'created_at' => "datetime:Y-m-d",
-    ];
 }

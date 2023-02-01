@@ -8,14 +8,13 @@ import {
   Box,
   Image,
   CardFooter,
-  Button,
-  border,
+  Button
 } from "@chakra-ui/react";
-import { themeColor } from "../utils/theme";
-import { Category, Post, User } from "../utils/types";
+import { themeColor } from "../../utils/theme";
+import { Category, Post, User } from "../../utils/types";
 import { BiChat } from "react-icons/bi";
 import { useState, useEffect } from "react";
-import { authapi } from "../api/auth";
+import { authapi } from "../../api/auth";
 import PostModal from "./PostModal";
 
 interface PostProps {

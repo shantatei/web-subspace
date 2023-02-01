@@ -10,7 +10,7 @@ import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
 import { SetPost } from "../../redux/postSlice";
 import { RootState } from "../../store";
-import PostCard from "../../components/PostCard";
+import PostCard from "../../components/post/PostCard";
 import { Post } from "../../utils/types";
 import { communityapi } from "../../api/community";
 import { SetCommunity } from "../../redux/communitySlice";

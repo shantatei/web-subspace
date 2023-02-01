@@ -7,12 +7,12 @@ import {
   FormErrorMessage,
   useToast,
 } from "@chakra-ui/react";
-import { themeColor } from "../utils/theme";
+import { themeColor } from "../../utils/theme";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import { commentapiToken } from "../api/comment";
-import { Post } from "../utils/types";
+import { RootState } from "../../store";
+import { commentapiToken } from "../../api/comment";
+import { Post } from "../../utils/types";
 
 interface CommentValues {
   post_id: number;

@@ -37,5 +37,7 @@ export interface Comment {
     user_id: number;
     post_id: number;
     text: string;
+    created_at: string;
+    updated_at: string;
     user: Array<User>;
 }
