@@ -64,7 +64,6 @@ const ImagePreviewModal = ({ state, setState }: ImagePreviewModalProps) => {
           closeModal();
           dispatch(updateUser(res.data));
           toast({
-            // description: `Successfully updated your profile picture. Looking good there ${AuthUser.user?.username}!`,
             status: "success",
             duration: 5000,
             isClosable: true,

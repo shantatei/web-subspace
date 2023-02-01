@@ -20,7 +20,15 @@ class PostController extends Controller
 
     public function showPosts()
     {
-        return  Post::with('category')->get();
+        $posts = Post::with('category')->get();
+        foreach ($posts as $post => $userpost) {
+            $userId = $userpost->user_id;
+            $user = Http::get("http://laravel-subspace-authentication:80/api/auth/profile/$userId");
+            $user_array = $user->json();
+            $userpost->user = $user_array;
+        }
+
+        return $posts;
     }
 
     public function postByCommunity($id)
@@ -243,5 +251,4 @@ class PostController extends Controller
             ], 403);
         }
     }
-
 }

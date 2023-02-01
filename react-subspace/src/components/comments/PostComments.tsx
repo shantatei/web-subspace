@@ -10,7 +10,7 @@ import {
   MenuButton,
   MenuItem,
   IconButton,
-  MenuList
+  MenuList,
 } from "@chakra-ui/react";
 import { Comment, User } from "../../utils/types";
 import ReactTimeAgo from "react-time-ago";
@@ -21,13 +21,24 @@ import { RootState } from "../../store";
 import en from "javascript-time-ago/locale/en.json";
 import { useState } from "react";
 import EditComment from "./EditComment";
+import DeleteComment from "./DeleteComment";
 
 interface CommentProps {
   comments: Array<Comment>;
   fetchComments: () => void;
 }
+interface ModalState {
+  commentid: number | null;
+  isOpen: boolean;
+}
 
 const PostComments = ({ comments, fetchComments }: CommentProps) => {
+  
+  const [modalState, setModalState] = useState<ModalState>({
+    commentid: null,
+    isOpen: false,
+  });
+
   TimeAgo.addLocale(en);
 
   const AuthUser = useSelector((state: RootState) => state.auth.user);
@@ -55,7 +66,7 @@ const PostComments = ({ comments, fetchComments }: CommentProps) => {
           return (
             <Box key={comment.id} p={2} w="100%">
               <HStack>
-                <Flex flex="1" gap="4" alignItems="center">
+                <Flex flex="1" gap="4">
                   {comment.user?.map((owner: User) => {
                     return (
                       <Avatar
@@ -123,7 +134,17 @@ const PostComments = ({ comments, fetchComments }: CommentProps) => {
                       >
                         Edit
                       </MenuItem>
-                      <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+                      <MenuItem
+                        icon={<DeleteIcon />}
+                        onClick={() => {
+                          setModalState({
+                            isOpen: true,
+                            commentid: comment.id,
+                          });
+                        }}
+                      >
+                        Delete
+                      </MenuItem>
                     </MenuList>
                   </Menu>
                 ) : (
@@ -133,6 +154,11 @@ const PostComments = ({ comments, fetchComments }: CommentProps) => {
             </Box>
           );
         })}
+        <DeleteComment
+          state={modalState}
+          setState={setModalState}
+          fetchComments={fetchComments}
+        />
       </VStack>
     );
   }

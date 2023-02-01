@@ -37,7 +37,6 @@ const EditComment = ({
   const toast = useToast();
   const AuthUser = useSelector((state: RootState) => state.auth);
   const {
-    reset,
     register,
     handleSubmit,
     formState: { errors, isDirty },
@@ -51,7 +50,7 @@ const EditComment = ({
       .post("/editComment", data)
       .then(
         (res) => {
-          console.log(res.data);
+          setIsEditable(false);
           fetchComments();
           toast({
             description: "Comment has been updated",
@@ -59,7 +58,6 @@ const EditComment = ({
             duration: 5000,
             isClosable: true,
           });
-          setIsEditable(false);
         },
         (error) => {
           console.log(error.response.data);

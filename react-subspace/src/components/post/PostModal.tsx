@@ -19,9 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Post, User, Category } from "../../utils/types";
-import { authapi } from "../../api/auth";
 import { themeColor } from "../../utils/theme";
-import CommunityCard from "../CommunityCard";
+import CommunityCard from "../community/CommunityCard";
 import PostComments from "../comments/PostComments";
 import CreateComment from "../comments/CreateComment";
 import { commentapi } from "../../api/comment";
@@ -40,22 +39,9 @@ interface PostModalProps {
 }
 
 const PostModal = ({ state, setState, post }: PostModalProps) => {
-  const [user, setUser] = useState<Array<User>>();
-
   const categories = post.category;
 
   const [comments, setComments] = useState<Array<Comment>>([]);
-
-  const fetchUser = () => {
-    authapi.get(`/profile/${post.user_id}`).then(
-      (res) => {
-        setUser(res.data);
-      },
-      (error) => {
-        console.log(error.response.data);
-      }
-    );
-  };
 
   const fetchComments = () => {
     commentapi.get(`/commentByPost/${post.id}`).then(
@@ -69,7 +55,6 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   };
 
   useEffect(() => {
-    fetchUser();
     fetchComments();
   }, []);
 
@@ -102,7 +87,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                 bgColor={useColorModeValue("white", "blackAlpha.100")}
               >
                 <Box mb={2}>
-                  {user?.map((owner: User) => {
+                  {post.user?.map((owner: User) => {
                     return (
                       <Text key={owner.id} mb={1}>
                         Posted by {owner.username}{" "}

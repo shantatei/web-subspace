@@ -15,8 +15,6 @@ import { Post } from "../../utils/types";
 import { communityapi } from "../../api/community";
 import { SetCommunity } from "../../redux/communitySlice";
 import CommunityFeed from "./components/CommunityFeed";
-import { commentapi } from "../../api/comment";
-import { SetComment } from "../../redux/commentSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -48,21 +46,9 @@ const Home = () => {
     );
   };
 
-  const fetchComments = () => {
-    commentapi.get("/showComments").then(
-      (res) => {
-        dispatch(SetComment(res.data));
-      },
-      (error) => {
-        console.log(error.response.data);
-      }
-    );
-  };
-
   useEffect(() => {
     fetchPost();
     fetchCommunities();
-    // fetchComments();
     console.log(import.meta.env.VITE_ENVIRONMENT_KEY);
   }, []);
 

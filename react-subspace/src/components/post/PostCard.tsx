@@ -13,35 +13,18 @@ import {
 import { themeColor } from "../../utils/theme";
 import { Category, Post, User } from "../../utils/types";
 import { BiChat } from "react-icons/bi";
-import { useState, useEffect } from "react";
-import { authapi } from "../../api/auth";
+import { useState } from "react";
 import PostModal from "./PostModal";
 
 interface PostProps {
   post: Post;
 }
 const PostCard = ({ post }: PostProps) => {
-  const [user, setUser] = useState<Array<User>>();
   const [modalState, setModalState] = useState({
     isOpen: false,
   });
 
   const categories = post.category;
-
-  const fetchUser = () => {
-    authapi.get(`/profile/${post.user_id}`).then(
-      (res) => {
-        setUser(res.data);
-      },
-      (error) => {
-        console.log(error.response.data);
-      }
-    );
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <Card
@@ -56,7 +39,7 @@ const PostCard = ({ post }: PostProps) => {
     >
       <CardBody>
         <Box mb={2}>
-          {user?.map((owner: User) => {
+          {post.user?.map((owner: User) => {
             return (
               <Text key={owner.id} mb={1}>
                 Posted by {owner.username}{" "}

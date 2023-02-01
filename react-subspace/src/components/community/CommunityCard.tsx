@@ -1,5 +1,5 @@
 import { Box, Text, useColorModeValue, VStack } from "@chakra-ui/react";
-import { Community } from "../utils/types";
+import { Community } from "../../utils/types";
 
 interface CommunityProps {
   community: Community;
