@@ -14,7 +14,6 @@ interface CommentProps {
 
 const PostComments = ({ comments }: CommentProps) => {
   if (!comments.length) {
-    console.log("no comments");
     return <Text>No Comments Posted Yet</Text>;
   } else {
     return (
@@ -27,8 +26,8 @@ const PostComments = ({ comments }: CommentProps) => {
       >
         {comments.map((comment: Comment) => {
           return (
-            <Box key={comment.id}>
-              <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+            <Box key={comment.id} p={2}>
+              <Flex flex="1" gap="4" alignItems="center">
                 {comment.user?.map((owner: User) => {
                   return (
                     <Avatar
@@ -41,12 +40,12 @@ const PostComments = ({ comments }: CommentProps) => {
                 <Box mr={8}>
                   {comment.user?.map((owner: User) => {
                     return (
-                      <Text size="sm" as="i" key={owner.id}>
+                      <Text key={owner.id} fontSize="sm">
                         {owner.username}
                       </Text>
                     );
                   })}
-                  <Text size="md"> {comment.text}</Text>
+                  <Text noOfLines={[1, 2, 3]}>{comment.text}</Text>
                 </Box>
               </Flex>
             </Box>

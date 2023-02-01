@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Comment extends Model
 {
@@ -13,5 +14,9 @@ class Comment extends Model
         'user_id',
         'post_id',
         'text'
+    ];
+
+    protected $casts = [
+        'created_at' => "datetime:Y-m-d",
     ];
 }
