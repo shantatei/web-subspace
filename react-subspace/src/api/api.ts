@@ -1,8 +1,8 @@
 export enum BASE_URL {
-    AUTH = "http://174.138.30.99:8000/api/auth",
-    COMMUNITY = "http://174.138.30.99:8001/api",
-    COMMENT = "http://174.138.30.99:8003/api",
-    POST = "http://174.138.30.99:8002/api",
+    AUTH = "http://139.162.50.175:8000/api/auth",
+    COMMUNITY = "http://139.162.50.175:8001/api",
+    COMMENT = "http://139.162.50.175:8003/api",
+    POST = "http://139.162.50.175:8002/api",
 }
 
 export enum BASE_URL_DEV {
