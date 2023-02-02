@@ -7,9 +7,9 @@ Server Address : http://174.138.30.99:8003
 # Features
 
 - Other users are able to comment on different users post
+- Get comments
 - Edit their comment
 - Delete their comment
-
 ## To run the project
 ```
 $ composer require tymon/jwt-auth:*
