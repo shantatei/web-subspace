@@ -2,7 +2,7 @@
 
 Comment Service in a Microservices Architecture <br />
 Server is running on port 8003 <br />
-Server Address : http://174.138.30.99:8003
+Server Address : http://139.162.50.175:8003
 
 # Features
 
