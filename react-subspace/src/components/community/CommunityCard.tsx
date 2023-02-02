@@ -44,6 +44,32 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
       }
     );
   };
+
+  function Banner() {
+    if (community.community_banner_url) {
+      return (
+        <Image
+          src={community.community_banner_url}
+          objectFit="cover"
+          borderTopRadius="md"
+          objectPosition="center"
+          boxSize="10"
+          w="100%"
+        />
+      );
+    }
+    return (
+      <Box
+        bgColor={themeColor.secondary}
+        objectFit="cover"
+        borderTopRadius="md"
+        objectPosition="center"
+        boxSize="10"
+        w="100%"
+      />
+    );
+  }
+
   useEffect(() => {
     fetchUserCount();
   }, []);
@@ -56,15 +82,8 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
       w="80%"
       h="max-content"
     >
-      <VStack w="100%" pb={2} >
-        <Image
-          src={community.community_banner_url}
-          objectFit="cover"
-          borderTopRadius="md"
-          objectPosition="center"
-          boxSize="10"
-          w="100%"
-        />
+      <VStack w="100%" pb={2}>
+        <Banner />
         <VStack px={2} alignItems="start" w="100%">
           <HStack>
             <Avatar src={community.community_image_url} />

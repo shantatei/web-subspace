@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   useBreakpointValue,
+  Box,
 } from "@chakra-ui/react";
 import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,7 @@ import { Post } from "../../utils/types";
 import { communityapi } from "../../api/community";
 import { SetCommunity } from "../../redux/communitySlice";
 import CommunityFeed from "./components/CommunityFeed";
+import HomeFeed from "./components/HomeFeed";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -58,19 +60,22 @@ const Home = () => {
   });
 
   return (
-    <Grid templateColumns="repeat(12, 1fr)" width="100%">
-      <GridItem colSpan={3} display={display}>
-        <Container>
+    <Grid templateColumns="repeat(3, 1fr)">
+      <GridItem colSpan={1} display={display} justifyContent="end">
+        <Box>
           <CommunityFeed communities={communities} />
-        </Container>
+        </Box>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 6 }} mb={2}>
+      <GridItem colSpan={{ base: 3, md: 1 }} mb={2}>
+        <VStack mx={{ base: 2 }}>
+          {posts.map((post: Post) => {
+            return <PostCard post={post} key={post.id}></PostCard>;
+          })}
+        </VStack>
+      </GridItem>
+      <GridItem colSpan={1} display={display}>
         <Container>
-          <VStack>
-            {posts.map((post: Post) => {
-              return <PostCard post={post} key={post.id}></PostCard>;
-            })}
-          </VStack>
+          <HomeFeed />
         </Container>
       </GridItem>
     </Grid>
