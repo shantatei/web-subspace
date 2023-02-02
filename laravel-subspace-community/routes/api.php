@@ -28,6 +28,7 @@ Route::group(
         Route::delete('leaveCommunity', 'CommunityController@leaveCommunity');
         Route::get('/usersInCommunity/{id}', 'CommunityController@UsersInCommunity');
         Route::post('/checkUser', 'CommunityController@checkUser');
+        Route::get('communityById/{id}', 'CommunityController@getCommunityById');
     }
 );
 

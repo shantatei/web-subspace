@@ -18,13 +18,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { Post, User, Category } from "../../utils/types";
+import {
+  Post,
+  User,
+  Category,
+  Community,
+  CommunityUser,
+} from "../../utils/types";
 import { themeColor } from "../../utils/theme";
 import CommunityCard from "../community/CommunityCard";
 import PostComments from "../comments/PostComments";
 import CreateComment from "../comments/CreateComment";
 import { commentapi } from "../../api/comment";
 import { Comment } from "../../utils/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { communityapi } from "../../api/community";
 
 interface PostModalProps {
   state: {
@@ -42,6 +51,29 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   const categories = post.category;
 
   const [comments, setComments] = useState<Array<Comment>>([]);
+  const [community, SetCommunity] = useState<Community>({
+    id: 1,
+    name: "test",
+    about: "string",
+    community_image_url: "string",
+    community_image_filename: "string",
+    community_banner_url: "string",
+    community_banner_filename: "string",
+    created_at: "string",
+  });
+
+  const communities = useSelector(
+    (state: RootState) => state.community.communities
+  );
+
+  const fetchCommunity = () => {
+    for (let index = 0; index < communities.length; index++) {
+      const community = communities[index];
+      if (community.id == post.community_id) {
+        SetCommunity(community);
+      }
+    }
+  };
 
   const fetchComments = () => {
     commentapi.get(`/commentByPost/${post.id}`).then(
@@ -56,6 +88,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
 
   useEffect(() => {
     fetchComments();
+    fetchCommunity();
   }, []);
 
   const display = useBreakpointValue({
@@ -81,6 +114,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
             <GridItem colSpan={{ base: 5, md: 3 }}>
               <VStack
                 p={2}
+                h="100%"
                 align="start"
                 borderRadius="md"
                 borderWidth="1px"
@@ -118,7 +152,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
               </VStack>
             </GridItem>
             <GridItem colSpan={2} display={display} justifyContent="center">
-              <CommunityCard />
+              <CommunityCard community={community} />
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
               <CreateComment post={post} fetchComments={fetchComments} />

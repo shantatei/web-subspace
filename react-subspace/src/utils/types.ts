@@ -31,6 +31,7 @@ export interface Community {
     community_image_filename: string;
     community_banner_url: string;
     community_banner_filename: string;
+    created_at: string;
 }
 
 export interface Comment {
@@ -41,4 +42,21 @@ export interface Comment {
     created_at: string;
     updated_at: string;
     user: Array<User>;
+}
+
+export interface Role {
+    id: number;
+    role_name: string;
+    pivot: {
+        com_users_id: number;
+        com_roles_id: number;
+    }
+}
+
+export interface CommunityUser {
+    id: number;
+    user_id: number;
+    community_id: number;
+    user: Array<User>;
+    roles: Array<Role>;
 }

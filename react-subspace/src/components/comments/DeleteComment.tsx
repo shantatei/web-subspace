@@ -71,7 +71,7 @@ const DeleteComment = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader display="flex" justifyContent="center" alignItems="center">
-          Delete Profile Picture
+          Delete Comment
         </ModalHeader>
         <ModalCloseButton top={3.5} />
         <ModalBody justifyContent="center" alignItems="center" display="flex">

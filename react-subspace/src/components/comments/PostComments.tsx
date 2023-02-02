@@ -23,6 +23,8 @@ import { useState } from "react";
 import EditComment from "./EditComment";
 import DeleteComment from "./DeleteComment";
 
+TimeAgo.addLocale(en);
+
 interface CommentProps {
   comments: Array<Comment>;
   fetchComments: () => void;
@@ -38,8 +40,6 @@ const PostComments = ({ comments, fetchComments }: CommentProps) => {
     commentid: null,
     isOpen: false,
   });
-
-  TimeAgo.addLocale(en);
 
   const AuthUser = useSelector((state: RootState) => state.auth.user);
 

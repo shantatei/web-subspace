@@ -8,6 +8,7 @@ use App\Models\ComRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class CommunityController extends Controller
 
@@ -16,7 +17,7 @@ class CommunityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity', 'checkUser']]);
+        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity', 'checkUser', 'getCommunityById']]);
     }
 
     //Show All Community
@@ -313,14 +314,23 @@ class CommunityController extends Controller
         $community = Community::where('id', $id)->first();
         $community_users = ComUsers::with(['roles'])->where('community_id', $id)->get();
 
-
+        $members_count = sizeof($community_users);
         if ($community) {
+
+            foreach ($community_users as $community_user => $user_member) {
+                $userId = $user_member->user_id;
+                $user = Http::get("http://laravel-subspace-authentication:80/api/auth/profile/$userId");
+                $user_array = $user->json();
+                $user_member->user = $user_array;
+            }
 
             return response()->json([
                 'message' => 'List of Users In This Community',
                 'community_users' => $community_users,
-                'community' => $community
+                'members_count' => $members_count,
+                'community' => $community,
             ], 200);
+            
         } else {
 
             return response()->json([
@@ -455,5 +465,11 @@ class CommunityController extends Controller
                 'message' => 'No user found in requested community',
             ], 403);
         }
+    }
+
+    public function getCommunityById($id)
+    {
+        $communities = Community::where('id', $id)->get();
+        return $communities;
     }
 }
