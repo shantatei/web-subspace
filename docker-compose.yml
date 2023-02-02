@@ -9,7 +9,7 @@ services:
     container_name: laravel-subspace-authentication
     image: laravel-subspace-authentication
     ports:
-      - 8000:80
+      - 8004:80
     networks:
       - subspace
   laravel-subspace-community:

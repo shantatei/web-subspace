@@ -15,14 +15,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: laravel-production
     steps:
       - name: Run update command
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_ADDRESS }}
           username: ${{ secrets.HOST_USERNAME }}
-          key: ${{ secrets.HOST_PRIVATE_KEY }}
+          password: ${{ secrets.HOST_PASSWORD }}
           port: 22
           script: |
             cd ~/web-subspace
