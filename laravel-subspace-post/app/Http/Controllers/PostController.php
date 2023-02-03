@@ -35,9 +35,9 @@ class PostController extends Controller
     {
 
         //id requested is the community_id
-        $post_community = Post::where('community_id', $id)->with('category')->get();
+        $posts_community = Post::where('community_id', $id)->with('category')->get();
 
-        if ($post_community->isEmpty()) {
+        if ($posts_community->isEmpty()) {
 
 
             return response()->json(
@@ -46,9 +46,17 @@ class PostController extends Controller
                 ]
             );
         }
+
+        foreach ($posts_community as $post_community => $userpost) {
+            $userId = $userpost->user_id;
+            $user = Http::get("http://laravel-subspace-authentication:80/api/auth/profile/$userId");
+            $user_array = $user->json();
+            $userpost->user = $user_array;
+        }
+
         return response()->json(
             [
-                'posts' => $post_community,
+                'posts' => $posts_community,
             ]
         );
     }
