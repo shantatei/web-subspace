@@ -66,7 +66,7 @@ const Home = () => {
           <CommunityFeed communities={communities} />
         </Box>
       </GridItem>
-      <GridItem colSpan={{ base: 3, md: 1 }} mb={2}>
+      <GridItem colSpan={{ base: 3, md:1 }} mb={2}>
         <VStack mx={{ base: 2 }}>
           {posts.map((post: Post) => {
             return <PostCard post={post} key={post.id}></PostCard>;

@@ -8,13 +8,15 @@ import {
   Box,
   Image,
   CardFooter,
-  Button
+  Button,
+  HStack,
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { Category, Post, User } from "../../utils/types";
 import { BiChat } from "react-icons/bi";
 import { useState } from "react";
 import PostModal from "./PostModal";
+import ReactTimeAgo from "react-time-ago";
 
 interface PostProps {
   post: Post;
@@ -41,9 +43,15 @@ const PostCard = ({ post }: PostProps) => {
         <Box mb={2}>
           {post.user?.map((owner: User) => {
             return (
-              <Text key={owner.id} mb={1}>
-                Posted by {owner.username}{" "}
-              </Text>
+              <HStack alignItems="baseline" mb={1}>
+                <Text key={owner.id}>
+                  Posted by {owner.username} {''}
+                  <ReactTimeAgo
+                    date={new Date(post.created_at)}
+                    locale="en-US"
+                  />
+                </Text>
+              </HStack>
             );
           })}
           <Heading size="md" mb={1}>

@@ -1,15 +1,15 @@
-import {FC} from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import { VStack } from '@chakra-ui/react'
+import { FC } from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import { VStack } from "@chakra-ui/react";
 
-const Layout : FC = () => {
+const Layout: FC = () => {
   return (
     <VStack>
-        <Navbar />
-        <Outlet/>
+      <Navbar />
+      <Outlet />
     </VStack>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

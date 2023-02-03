@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { communityapi } from "../../api/community";
 import { CommunityUser } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../utils/routes";
 
 interface CommunityCardProps {
   community: Community;
@@ -30,6 +32,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
     community_users: [],
     members_count: 0,
   });
+  const navigate = useNavigate();
 
   const fetchUserCount = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -81,6 +84,10 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
       bgColor={useColorModeValue("white", "blackAlpha.200")}
       w="80%"
       h="max-content"
+      onClick={() =>
+        navigate(AppRoute.Community, { state: { community: community } })
+      }
+      cursor="pointer"
     >
       <VStack w="100%" pb={2}>
         <Banner />

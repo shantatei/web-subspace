@@ -1,5 +1,6 @@
 export enum AppRoute {
     Home = "/",
     Settings = "/settings",
-    Profile = "/profile"
+    Profile = "/profile",
+    Community = '/community',
 }

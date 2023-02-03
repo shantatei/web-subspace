@@ -16,6 +16,7 @@ export interface Post {
     post_image_filename?: string;
     category?: Array<Category>;
     user: Array<User>;
+    created_at: string;
 }
 
 export interface Category {

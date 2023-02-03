@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppRoute } from "./utils/routes";
-import { Home, Layout, Profile, Settings } from "./pages";
+import { CommunityPage, Home, Layout, Profile, Settings } from "./pages";
 import RequireAuth from "./components/RequireAuth";
 
 function App() {
@@ -8,7 +8,9 @@ function App() {
     <Router>
       <Routes>
         <Route path={AppRoute.Home} element={<Layout />}>
+          {/* public routes */}
           <Route index element={<Home />} />
+          <Route path={AppRoute.Community} element={<CommunityPage />} />
 
           {/* isAuth route */}
           <Route element={<RequireAuth />}>
