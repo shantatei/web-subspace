@@ -2,7 +2,6 @@ import {
   Box,
   useColorModeValue,
   Avatar,
-  Spacer,
   Button,
   HStack,
   Flex,
@@ -21,12 +20,15 @@ interface CommunityBannerProps {
 export const CommunityBanner = ({ community }: CommunityBannerProps) => {
   return (
     <Box
+      borderRadius="md"
+      borderTopRadius="none"
+      borderWidth="1px"
       bgColor={useColorModeValue("white", "#1d1e1f")}
       h={20}
       w="full"
       mt={`0 !important`}
     >
-      <Flex m={2} alignItems="center" justifyContent="center" gap={10} >
+      <Flex m={2} alignItems="center" justifyContent="center" gap={10}>
         <HStack>
           <Avatar
             size="lg"

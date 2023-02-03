@@ -9,7 +9,7 @@ import {
   Divider,
   Button,
 } from "@chakra-ui/react";
-import { Community } from "../../utils/types";
+import { Community, Post } from "../../utils/types";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { communityapi } from "../../api/community";
@@ -17,9 +17,11 @@ import { CommunityUser } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
+import { postapi } from "../../api/post";
 
 interface CommunityCardProps {
   community: Community;
+  bgColorDark: string;
 }
 
 interface CommunityUsers {
@@ -27,11 +29,12 @@ interface CommunityUsers {
   members_count: number;
 }
 
-const CommunityCard = ({ community }: CommunityCardProps) => {
+export const CommunityCard = ({ community,bgColorDark }: CommunityCardProps) => {
   const [communityUsers, setCommunityUsers] = useState<CommunityUsers>({
     community_users: [],
     members_count: 0,
   });
+
   const navigate = useNavigate();
 
   const fetchUserCount = () => {
@@ -76,16 +79,18 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   useEffect(() => {
     fetchUserCount();
   }, []);
+
   return (
     <Box
-      display="flex"
       borderRadius="md"
       borderWidth="1px"
-      bgColor={useColorModeValue("white", "blackAlpha.200")}
-      w="80%"
+      bgColor={useColorModeValue("white", bgColorDark)}
+      w="90%"
       h="max-content"
       onClick={() =>
-        navigate(AppRoute.Community, { state: { community: community } })
+        navigate(AppRoute.Community, {
+          state: { community: community },
+        })
       }
       cursor="pointer"
     >
@@ -119,4 +124,3 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   );
 };
 
-export default CommunityCard;

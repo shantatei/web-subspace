@@ -18,22 +18,16 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import {
-  Post,
-  User,
-  Category,
-  Community,
-  CommunityUser,
-} from "../../utils/types";
+import { Post, User, Category, Community } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
-import CommunityCard from "../community/CommunityCard";
+import { CommunityCard } from "../community/CommunityCard";
 import PostComments from "../comments/PostComments";
 import CreateComment from "../comments/CreateComment";
 import { commentapi } from "../../api/comment";
 import { Comment } from "../../utils/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { communityapi } from "../../api/community";
+import ReactTimeAgo from "react-time-ago";
 
 interface PostModalProps {
   state: {
@@ -125,6 +119,10 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                     return (
                       <Text key={owner.id} mb={1}>
                         Posted by {owner.username}{" "}
+                        <ReactTimeAgo
+                          date={new Date(post.created_at)}
+                          locale="en-US"
+                        />
                       </Text>
                     );
                   })}
@@ -152,7 +150,10 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
               </VStack>
             </GridItem>
             <GridItem colSpan={2} display={display} justifyContent="center">
-              <CommunityCard community={community} />
+              <CommunityCard
+                community={community}
+                bgColorDark="blackAlpha.100"
+              />
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
               <CreateComment post={post} fetchComments={fetchComments} />
