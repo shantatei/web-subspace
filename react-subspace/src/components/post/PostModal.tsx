@@ -16,6 +16,11 @@ import {
   Divider,
   useBreakpointValue,
   useColorModeValue,
+  Menu,
+  MenuItem,
+  MenuButton,
+  MenuList,
+  IconButton,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Post, User, Category, Community } from "../../utils/types";
@@ -28,6 +33,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import ReactTimeAgo from "react-time-ago";
 import { setComment } from "../../redux/commentSlice";
+import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 interface PostModalProps {
   state: {
@@ -43,7 +49,7 @@ interface PostModalProps {
 
 const PostModal = ({ state, setState, post }: PostModalProps) => {
   const categories = post.category;
-
+  const AuthUser = useSelector((state: RootState) => state.auth.user);
   const [community, SetCommunity] = useState<Community>({
     id: 1,
     name: "test",
@@ -150,6 +156,22 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                     h="400px"
                     w="100%"
                   />
+                )}
+                {post.user_id == AuthUser?.id ? (
+                  <Menu >
+                    <MenuButton
+                      as={IconButton}
+                      aria-label="Options"
+                      icon={<HamburgerIcon />}
+                      variant="outline"
+                    />
+                    <MenuList>
+                      <MenuItem icon={<EditIcon />}>Edit</MenuItem>
+                      <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  []
                 )}
               </VStack>
             </GridItem>

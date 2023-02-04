@@ -15,14 +15,20 @@ const postSlice = createSlice({
     name: "post",
     initialState,
     reducers: {
-        SetPost: (state, action: PayloadAction<Array<Post>>) => {
+        setPost: (state, action: PayloadAction<Array<Post>>) => {
             state.post = action.payload;
-        }
+        },
+        deletePost: (state, action: PayloadAction<number | null>) => {
+            const filteredpost = state.post.filter(
+                (post) => post.id !== action.payload
+            );
+            state.post = filteredpost;
+        },
     },
 });
 
 const { reducer, actions } = postSlice
 
-export const { SetPost } = actions
+export const { setPost ,deletePost } = actions
 
 export default reducer

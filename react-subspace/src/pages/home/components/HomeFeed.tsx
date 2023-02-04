@@ -6,10 +6,18 @@ import {
   Divider,
   Heading,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { themeColor } from "../../../utils/theme";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../../utils/routes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const HomeFeed = () => {
+  const Auth = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+  const toast = useToast();
   return (
     <Box
       display="flex"
@@ -36,7 +44,21 @@ const HomeFeed = () => {
           </Text>
           <Divider />
 
-          <Button w="100%" variant="solid">
+          <Button
+            w="100%"
+            variant="solid"
+            onClick={() =>
+              Auth.isAuth
+                ? navigate(AppRoute.CreatePost)
+                : toast({
+                    title: "Unauthorized",
+                    description: "Please Login to Continue ",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  })
+            }
+          >
             Create Post
           </Button>
           <Button w="100%" variant="outline">

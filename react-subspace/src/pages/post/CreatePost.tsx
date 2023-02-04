@@ -177,6 +177,10 @@ const CreatePost = () => {
                     ...base,
                     color: useColorModeValue("black", "white"),
                   }),
+                  input: (base, props) => ({
+                    ...base,
+                    color: useColorModeValue("black", "white"),
+                  }),
                 }}
               />
             )}
@@ -232,7 +236,11 @@ const CreatePost = () => {
               }}
             />
             <HStack w="100%">
-              <Button onClick={() => inputRef.current?.click()} w="100%">
+              <Button
+                onClick={() => inputRef.current?.click()}
+                w="100%"
+                fontSize={{ base: "sm", md: "md" }}
+              >
                 Upload Image (Optional)
               </Button>
               <Button onClick={() => setImage(null)} w="100%">

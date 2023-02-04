@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
-import { SetPost } from "../../redux/postSlice";
+import { setPost } from "../../redux/postSlice";
 import { RootState } from "../../store";
 import PostCard from "../../components/post/PostCard";
 import { Post } from "../../utils/types";
@@ -21,24 +21,21 @@ import { setComment } from "../../redux/commentSlice";
 import { commentapi } from "../../api/comment";
 
 const Home = () => {
-  const dispatch = useDispatch();
-
   const posts = useSelector((state: RootState) => state.post.post);
   const communities = useSelector(
     (state: RootState) => state.community.communities
   );
-
+  const dispatch = useDispatch();
   const fetchPost = () => {
     postapi.get("/showPosts").then(
       (res) => {
-        dispatch(SetPost(res.data));
+        dispatch(setPost(res.data));
       },
       (error) => {
         console.log(error.response.data);
       }
     );
   };
-
   const fetchCommunities = () => {
     communityapi.get("/showCommunity").then(
       (res) => {
@@ -54,7 +51,6 @@ const Home = () => {
     commentapi.get("/showComments").then(
       (res) => {
         dispatch(setComment(res.data));
-        
       },
       (error) => {
         console.log(error.response.data);
