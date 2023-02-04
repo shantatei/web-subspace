@@ -3,4 +3,5 @@ export enum AppRoute {
     Settings = "/settings",
     Profile = "/profile",
     Community = '/community',
+    CreatePost = '/createPost'
 }

@@ -41,11 +41,11 @@ const PostCard = ({ post }: PostProps) => {
     >
       <CardBody>
         <Box mb={2}>
-          {post.user.map((owner: User) => {
+          {post.user?.map((owner: User) => {
             return (
-              <HStack alignItems="baseline" mb={1}>
-                <Text key={owner.id}>
-                  Posted by {owner.username} {''}
+              <HStack alignItems="baseline" mb={1} key={owner.id}>
+                <Text>
+                  Posted by {owner.username} {""}
                   <ReactTimeAgo
                     date={new Date(post.created_at)}
                     locale="en-US"

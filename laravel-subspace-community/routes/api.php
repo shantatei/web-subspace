@@ -29,6 +29,7 @@ Route::group(
         Route::get('/usersInCommunity/{id}', 'CommunityController@UsersInCommunity');
         Route::post('/checkUser', 'CommunityController@checkUser');
         Route::get('communityById/{id}', 'CommunityController@getCommunityById');
+        Route::get('communityByUserId/{id}', 'CommunityController@getCommunityByUserId');
     }
 );
 

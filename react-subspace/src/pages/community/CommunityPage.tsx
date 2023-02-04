@@ -77,7 +77,7 @@ const CommunityPage = () => {
       <Banner />
       <CommunityBanner community={community} />
       <Grid templateColumns="repeat(3, 1fr)" w="100%">
-        <GridItem colSpan={{ base: 3, md: 2 }}>
+        <GridItem colSpan={{ base: 3, md: 2 }} mb={2}>
           <VStack>
             <CommunityPosts />
           </VStack>

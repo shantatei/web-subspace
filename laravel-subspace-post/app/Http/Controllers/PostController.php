@@ -68,7 +68,7 @@ class PostController extends Controller
             'user_id' => 'required|integer',
             'community_id' => 'required|integer',
             'title' => 'required|string',
-            'text' => 'string',
+            'text' => 'string|nullable',
             'post_image_filename' => 'image|mimes:jpg,png,bmp,jpeg',
             'post_image_url' => 'string',
             'category_id' => 'integer',
@@ -81,59 +81,62 @@ class PostController extends Controller
             ], 400);
         }
 
-        $response = Http::post('http://laravel-subspace-community:80/api/checkUser', [
+        // $response = Http::post('http://laravel-subspace-community:80/api/checkUser', [
 
-            'user_id' => $request->user_id,
-            'community_id' => $request->community_id,
-        ]);
+        //     'user_id' => $request->user_id,
+        //     'community_id' => $request->community_id,
+        // ]);
 
-        if ($response->failed()) {
-            return response()->json([
-                'message' => 'No user found in requested community',
-            ], 403);
+        // if ($response->failed()) {
+        //     return response()->json([
+        //         'message' => 'No user found in requested community',
+        //     ], 403);
+        // } else {
+
+        // }
+
+
+        //check if request has File
+
+        if ($request->hasFile('post_image_filename')) {
+
+            $path = $request->post_image_filename->store('post_images', 's3');
+
+            Storage::disk('s3')->setVisibility($path, 'public');
+
+            $url = Storage::disk('s3')->url($path);
+
+            $post = new Post();
+            $post->post_image_filename = $path;
+            $post->post_image_url = $url;
+            $post->title = $request->title;
+            $post->text = $request->text;
+            $post->user_id = $request->user_id;
+            $post->community_id = $request->community_id;
         } else {
-            //check if request has File
-
-            if ($request->hasFile('post_image_filename')) {
-
-                $path = $request->post_image_filename->store('post_images', 's3');
-
-                Storage::disk('s3')->setVisibility($path, 'public');
-
-                $url = Storage::disk('s3')->url($path);
-
-                $post = new Post();
-                $post->post_image_filename = $path;
-                $post->post_image_url = $url;
-                $post->title = $request->title;
-                $post->text = $request->text;
-                $post->user_id = $request->user_id;
-                $post->community_id = $request->community_id;
-            } else {
-                $post = new Post();
-                $post->title = $request->title;
-                $post->text = $request->text;
-                $post->user_id = $request->user_id;
-                $post->community_id = $request->community_id;
-            }
-
-            $post->save();
-
-            if ($request->has('category_id')) {
-                $category = Category::where('id', $request->category_id)->first();
-
-                $post->category()->attach($category->id);
-                $post->category;
-            }
-
-
-            return response()->json(
-                [
-                    'status' => true,
-                    'post' => $post,
-                ]
-            );
+            $post = new Post();
+            $post->title = $request->title;
+            $post->text = $request->text;
+            $post->user_id = $request->user_id;
+            $post->community_id = $request->community_id;
         }
+
+        $post->save();
+
+        if ($request->has('category_id')) {
+            $category = Category::where('id', $request->category_id)->first();
+
+            $post->category()->attach($category->id);
+            $post->category;
+        }
+
+
+        return response()->json(
+            [
+                'status' => true,
+                'post' => $post,
+            ]
+        );
     }
 
     public function editPost($id, Request $request)

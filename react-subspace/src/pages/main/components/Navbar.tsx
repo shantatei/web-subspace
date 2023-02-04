@@ -82,7 +82,13 @@ const Navbar: FC = () => {
       <HStack>
         {AuthUser.isAuth ? (
           <>
-            <IconButton icon={<AddIcon />} aria-label="Post Button" />
+            <Button
+              leftIcon={<AddIcon />}
+              onClick={() => navigate(AppRoute.CreatePost)}
+            >
+              {" "}
+              Create Post
+            </Button>
             <ToggleColorButton />
             <Menu>
               <MenuButton

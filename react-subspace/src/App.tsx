@@ -1,6 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppRoute } from "./utils/routes";
-import { CommunityPage, Home, Layout, Profile, Settings } from "./pages";
+import {
+  CommunityPage,
+  CreatePost,
+  Home,
+  Layout,
+  Profile,
+  Settings,
+} from "./pages";
 import RequireAuth from "./components/RequireAuth";
 
 function App() {
@@ -16,7 +23,9 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path={AppRoute.Profile} element={<Profile />} />
             <Route path={AppRoute.Settings} element={<Settings />} />
+            <Route path={AppRoute.CreatePost} element={<CreatePost />} />
           </Route>
+          
         </Route>
       </Routes>
     </Router>

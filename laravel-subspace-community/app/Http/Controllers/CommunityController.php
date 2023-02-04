@@ -17,7 +17,7 @@ class CommunityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity', 'checkUser', 'getCommunityById']]);
+        $this->middleware('auth.jwt', ['except' => ['showCommunity', 'UsersInCommunity', 'checkUser', 'getCommunityById', 'getCommunityByUserId']]);
     }
 
     //Show All Community
@@ -330,7 +330,6 @@ class CommunityController extends Controller
                 'members_count' => $members_count,
                 'community' => $community,
             ], 200);
-            
         } else {
 
             return response()->json([
@@ -469,7 +468,35 @@ class CommunityController extends Controller
 
     public function getCommunityById($id)
     {
-        $communities = Community::where('id', $id)->get();
-        return $communities;
+        $community = Community::where('id', $id)->first();
+
+        if ($community) {
+            return $community;
+        } else {
+            return response()->json([
+                'message' => 'No Community Found',
+            ], 403);
+        }
+    }
+
+    public function getCommunityByUserId($id)
+    {
+        $communities_joined = ComUsers::where('user_id', $id)->get();
+        if (sizeof($communities_joined) === 0) {
+            return response()->json([
+                'message' => 'This user has yet to join any community',
+            ], 403);
+        } else {
+            $communities_array = array();
+            foreach ($communities_joined as $community_joined => $user_community) {
+                $communityId = $user_community->community_id;
+                $community = Http::get("http://laravel-subspace-community:80/api/communityById/$communityId");
+                $community_array = $community->json();
+                $user_community->community = $community_array;
+                array_push($communities_array, $community_array);
+            }
+
+            return $communities_array;
+        }
     }
 }
