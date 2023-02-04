@@ -27,7 +27,7 @@ import { commentapi } from "../../api/comment";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import ReactTimeAgo from "react-time-ago";
-import { SetComment } from "../../redux/commentSlice";
+import { setComment } from "../../redux/commentSlice";
 
 interface PostModalProps {
   state: {
@@ -73,7 +73,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   const fetchComments = () => {
     commentapi.get("/showComments").then(
       (res) => {
-        dispatch(SetComment(res.data));
+        dispatch(setComment(res.data));
       },
       (error) => {
         console.log(error.response.data);

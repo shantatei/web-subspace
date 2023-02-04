@@ -17,7 +17,7 @@ import { communityapi } from "../../api/community";
 import { SetCommunity } from "../../redux/communitySlice";
 import CommunityFeed from "./components/CommunityFeed";
 import HomeFeed from "./components/HomeFeed";
-import { SetComment } from "../../redux/commentSlice";
+import { setComment } from "../../redux/commentSlice";
 import { commentapi } from "../../api/comment";
 
 const Home = () => {
@@ -53,7 +53,7 @@ const Home = () => {
   const fetchComments = () => {
     commentapi.get("/showComments").then(
       (res) => {
-        dispatch(SetComment(res.data));
+        dispatch(setComment(res.data));
         
       },
       (error) => {

@@ -11,9 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { themeColor } from "../../utils/theme";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { commentapiToken } from "../../api/comment";
+import { editComment } from "../../redux/commentSlice";
 
 interface EditCommentValues {
   comment_id: number;
@@ -41,6 +42,7 @@ const EditComment = ({
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm<EditCommentValues>();
+  const dispatch = useDispatch();
 
   const onSubmit = (data: EditCommentValues) => {
     data.comment_id = comment_id;
@@ -51,6 +53,12 @@ const EditComment = ({
       .then(
         (res) => {
           setIsEditable(false);
+          dispatch(
+            editComment({
+              comment_id: comment_id,
+              text: data.text,
+            })
+          );
           fetchComments();
           toast({
             description: "Comment has been updated",
