@@ -19,7 +19,16 @@ class CommentController extends Controller
 
     public function showComments()
     {
-        return Comment::all();
+        $comments =  Comment::all();
+
+        foreach ($comments as $comment => $usercomment) {
+            $userId = $usercomment->user_id;
+            $user = Http::get("http://laravel-subspace-authentication:80/api/auth/profile/$userId");
+            $user_array = $user->json();
+            $usercomment->user = $user_array;
+        }
+
+        return $comments;
     }
 
     public function createComment(Request $request)
@@ -154,7 +163,6 @@ class CommentController extends Controller
             }
 
             return $comments;
-
         } else {
             return response()->json([
                 'message' => 'No Comments Found ',

@@ -17,6 +17,8 @@ import { communityapi } from "../../api/community";
 import { SetCommunity } from "../../redux/communitySlice";
 import CommunityFeed from "./components/CommunityFeed";
 import HomeFeed from "./components/HomeFeed";
+import { SetComment } from "../../redux/commentSlice";
+import { commentapi } from "../../api/comment";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -48,9 +50,22 @@ const Home = () => {
     );
   };
 
+  const fetchComments = () => {
+    commentapi.get("/showComments").then(
+      (res) => {
+        dispatch(SetComment(res.data));
+        
+      },
+      (error) => {
+        console.log(error.response.data);
+      }
+    );
+  };
+
   useEffect(() => {
     fetchPost();
     fetchCommunities();
+    fetchComments();
     console.log(import.meta.env.VITE_ENVIRONMENT_KEY);
   }, []);
 
@@ -66,7 +81,7 @@ const Home = () => {
           <CommunityFeed communities={communities} />
         </Box>
       </GridItem>
-      <GridItem colSpan={{ base: 3, md:1 }} mb={2}>
+      <GridItem colSpan={{ base: 3, md: 1 }} mb={2}>
         <VStack mx={{ base: 2 }}>
           {posts.map((post: Post) => {
             return <PostCard post={post} key={post.id}></PostCard>;

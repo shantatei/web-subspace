@@ -24,10 +24,10 @@ import { CommunityCard } from "../community/CommunityCard";
 import PostComments from "../comments/PostComments";
 import CreateComment from "../comments/CreateComment";
 import { commentapi } from "../../api/comment";
-import { Comment } from "../../utils/types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import ReactTimeAgo from "react-time-ago";
+import { SetComment } from "../../redux/commentSlice";
 
 interface PostModalProps {
   state: {
@@ -44,7 +44,6 @@ interface PostModalProps {
 const PostModal = ({ state, setState, post }: PostModalProps) => {
   const categories = post.category;
 
-  const [comments, setComments] = useState<Array<Comment>>([]);
   const [community, SetCommunity] = useState<Community>({
     id: 1,
     name: "test",
@@ -60,6 +59,8 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
     (state: RootState) => state.community.communities
   );
 
+  const dispatch = useDispatch();
+
   const fetchCommunity = () => {
     for (let index = 0; index < communities.length; index++) {
       const community = communities[index];
@@ -70,9 +71,9 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   };
 
   const fetchComments = () => {
-    commentapi.get(`/commentByPost/${post.id}`).then(
+    commentapi.get("/showComments").then(
       (res) => {
-        setComments(res.data);
+        dispatch(SetComment(res.data));
       },
       (error) => {
         console.log(error.response.data);
@@ -81,7 +82,6 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   };
 
   useEffect(() => {
-    fetchComments();
     fetchCommunity();
   }, []);
 
@@ -143,10 +143,14 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                   })}
                 </Box>
                 <Text>{post.text}</Text>
-                <Image
-                  src={post.post_image_url}
-                  alt={post.post_image_filename}
-                />
+                {post.post_image_url == null ? null : (
+                  <Image
+                    src={post.post_image_url}
+                    alt={post.post_image_filename}
+                    h="400px"
+                    w="100%"
+                  />
+                )}
               </VStack>
             </GridItem>
             <GridItem colSpan={2} display={display} justifyContent="center">
@@ -158,7 +162,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
               <CreateComment post={post} fetchComments={fetchComments} />
               <Divider orientation="horizontal" />
-              <PostComments comments={comments} fetchComments={fetchComments} />
+              <PostComments post={post} fetchComments={fetchComments} />
             </GridItem>
           </Grid>
         </ModalBody>

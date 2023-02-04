@@ -12,30 +12,30 @@ import {
   IconButton,
   MenuList,
 } from "@chakra-ui/react";
-import { Comment, User } from "../../utils/types";
+import { Comment, Post, User } from "../../utils/types";
 import ReactTimeAgo from "react-time-ago";
 import TimeAgo from "javascript-time-ago";
 import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import en from "javascript-time-ago/locale/en.json";
 import { useState } from "react";
 import EditComment from "./EditComment";
 import DeleteComment from "./DeleteComment";
+import { useEffect } from "react";
+import en from "javascript-time-ago/locale/en.json";
 
 TimeAgo.addLocale(en);
 
 interface CommentProps {
-  comments: Array<Comment>;
   fetchComments: () => void;
+  post: Post;
 }
 interface ModalState {
   commentid: number | null;
   isOpen: boolean;
 }
 
-const PostComments = ({ comments, fetchComments }: CommentProps) => {
-  
+const PostComments = ({ post, fetchComments }: CommentProps) => {
   const [modalState, setModalState] = useState<ModalState>({
     commentid: null,
     isOpen: false,
@@ -43,13 +43,33 @@ const PostComments = ({ comments, fetchComments }: CommentProps) => {
 
   const AuthUser = useSelector((state: RootState) => state.auth.user);
 
+  const commentsRedux = useSelector(
+    (state: RootState) => state.comment.comments
+  );
+
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
+  const [comments, setComments] = useState<Array<Comment>>([]);
+
   const handleEditComment = (index: number) => {
     setCurrentIndex(index);
   };
+
+  const filterComments = () => {
+    setComments([]);
+    for (let index = 0; index < commentsRedux.length; index++) {
+      const comment = commentsRedux[index];
+      if (comment.post_id == post.id) {
+        setComments((oldArray) => [...oldArray, comment]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    filterComments();
+  }, [commentsRedux]);
 
   if (!comments.length) {
     return <Text>No Comments Posted Yet</Text>;

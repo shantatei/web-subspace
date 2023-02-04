@@ -49,6 +49,7 @@ const CreatePost = () => {
   const [image, setImage] = useState<File | null | undefined>();
   const [preview, setPreview] = useState<any>();
   const [communityId, setCommunityId] = useState<number | null>(null);
+  const [uploading, setUploading] = useState(false);
   const {
     reset,
     register,
@@ -66,11 +67,13 @@ const CreatePost = () => {
     if (data.post_image_filename == undefined) {
       data.post_image_filename = null;
     }
+    setUploading(true);
     postapiToken(AuthUser.token)
       .post("/createPost", data)
       .then(
         (res) => {
           console.log(res.data);
+          setUploading(false);
           toast({
             description: "Your Post was a Success !",
             status: "success",
@@ -237,7 +240,12 @@ const CreatePost = () => {
               </Button>
             </HStack>
             <FormLabel>Tags</FormLabel>
-            <Button type="submit" variant="solid" w="100%">
+            <Button
+              type="submit"
+              variant="solid"
+              w="100%"
+              isLoading={uploading}
+            >
               Post
             </Button>
           </VStack>

@@ -12,8 +12,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { commentapiToken } from "../../api/comment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
+import { deleteComment } from "../../redux/commentSlice";
 
 interface DeleteCommentProps {
   state: {
@@ -37,6 +38,8 @@ const DeleteComment = ({
   const closeModal = () => setState({ commentid: null, isOpen: false });
   const AuthUser = useSelector((state: RootState) => state.auth);
   const toast = useToast();
+  const dispatch = useDispatch();
+
   const onSubmit = () => {
     const data = {
       comment_id: state.commentid,
@@ -48,6 +51,7 @@ const DeleteComment = ({
       .then(
         (res) => {
           console.log(res.data);
+          dispatch(deleteComment(data.comment_id));
           fetchComments();
           closeModal();
           toast({

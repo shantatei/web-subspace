@@ -9,7 +9,7 @@ import {
   Divider,
   Button,
 } from "@chakra-ui/react";
-import { Community, Post } from "../../utils/types";
+import { Community } from "../../utils/types";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { communityapi } from "../../api/community";
@@ -17,7 +17,6 @@ import { CommunityUser } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
-import { postapi } from "../../api/post";
 
 interface CommunityCardProps {
   community: Community;
@@ -29,7 +28,10 @@ interface CommunityUsers {
   members_count: number;
 }
 
-export const CommunityCard = ({ community,bgColorDark }: CommunityCardProps) => {
+export const CommunityCard = ({
+  community,
+  bgColorDark,
+}: CommunityCardProps) => {
   const [communityUsers, setCommunityUsers] = useState<CommunityUsers>({
     community_users: [],
     members_count: 0,
@@ -123,4 +125,3 @@ export const CommunityCard = ({ community,bgColorDark }: CommunityCardProps) => 
     </Box>
   );
 };
-
