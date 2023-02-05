@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import useUnauthorizedToast from "../../hooks/useUnauthorizedToast";
 
 interface CommunityCardProps {
   community: Community;
@@ -125,13 +126,7 @@ export const CommunityCard = ({
           }
         );
     } else {
-      toast({
-        title: "Unauthorized",
-        description: "Please Login to continue ",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      useUnauthorizedToast(toast)
     }
   };
 

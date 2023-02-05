@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { commentapiToken } from "../../api/comment";
 import { Post } from "../../utils/types";
+import useUnauthorizedToast from "../../hooks/useUnauthorizedToast";
 
 interface CommentValues {
   post_id: number;
@@ -59,13 +60,7 @@ const CreateComment = ({ post, fetchComments }: CreateCommentProps) => {
         );
     } else {
       reset();
-      toast({
-        title: "Unauthorized",
-        description: "Please Login to Comment ",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      useUnauthorizedToast(toast);
     }
   };
   return (

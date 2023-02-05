@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import useUnauthorizedToast from "../../../hooks/useUnauthorizedToast";
 
 const HomeFeed = () => {
   const Auth = useSelector((state: RootState) => state.auth);
@@ -50,13 +51,7 @@ const HomeFeed = () => {
             onClick={() =>
               Auth.isAuth
                 ? navigate(AppRoute.CreatePost)
-                : toast({
-                    title: "Unauthorized",
-                    description: "Please Login to Continue ",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                  })
+                : useUnauthorizedToast(toast)
             }
           >
             Create Post
