@@ -37,6 +37,7 @@ import { setComment } from "../../redux/commentSlice";
 import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import DeletePost from "./DeletePost";
 import EditPost from "./EditPost";
+import CommunityMembers from "../community/CommunityMembers";
 
 interface DeleteModalState {
   postid: number | null;
@@ -179,7 +180,6 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                   <Image
                     src={post.post_image_url}
                     alt={post.post_image_filename}
-                    h="400px"
                     w="100%"
                   />
                 )}
@@ -223,10 +223,16 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
               </VStack>
             </GridItem>
             <GridItem colSpan={2} display={display} justifyContent="center">
-              <CommunityCard
-                community={community}
-                bgColorDark="blackAlpha.100"
-              />
+              <VStack w="100%">
+                <CommunityCard
+                  community={community}
+                  bgColorDark="blackAlpha.100"
+                />
+                <CommunityMembers
+                  community={community}
+                  bgColorDark="blackAlpha.100"
+                />
+              </VStack>
             </GridItem>
             <GridItem colSpan={{ base: 5, md: 3 }} mt={2}>
               <CreateComment post={post} fetchComments={fetchComments} />

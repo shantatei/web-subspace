@@ -16,6 +16,7 @@ import PostCard from "../../components/post/PostCard";
 import { CommunityCard } from "../../components/community/CommunityCard";
 import { useState, useEffect } from "react";
 import { postapi } from "../../api/post";
+import CommunityMembers from "../../components/community/CommunityMembers";
 
 const CommunityPage = () => {
   const location = useLocation();
@@ -83,7 +84,10 @@ const CommunityPage = () => {
           </VStack>
         </GridItem>
         <GridItem colSpan={1} display={display} justifyContent="right">
-          <CommunityCard community={community} bgColorDark="#1d1e1f" />
+          <VStack w="100%">
+            <CommunityCard community={community} bgColorDark="#1d1e1f" />
+            <CommunityMembers community={community} bgColorDark="#1d1e1f" />
+          </VStack>
         </GridItem>
       </Grid>
     </VStack>

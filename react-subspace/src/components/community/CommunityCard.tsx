@@ -8,6 +8,7 @@ import {
   Image,
   Divider,
   Button,
+  Progress,
 } from "@chakra-ui/react";
 import { Community } from "../../utils/types";
 import { CalendarIcon } from "@chakra-ui/icons";
@@ -111,7 +112,17 @@ export const CommunityCard = ({
             </Text>
           </HStack>
           <Divider />
-          <Text>{communityUsers.members_count} Members</Text>
+          {communityUsers.members_count > 0 ? (
+            <Text>{communityUsers.members_count} Members</Text>
+          ) : (
+            <Box w="100%">
+              <Text>
+                <Progress size="xs" isIndeterminate />
+                Fetching Data
+              </Text>
+            </Box>
+          )}
+
           <Divider />
           <Button
             w="100%"
