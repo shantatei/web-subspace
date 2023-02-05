@@ -10,14 +10,15 @@ import {
   Button,
   Progress,
 } from "@chakra-ui/react";
-import { Community } from "../../utils/types";
+import { Community, User, CommunityUser } from "../../utils/types";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { communityapi } from "../../api/community";
-import { CommunityUser } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface CommunityCardProps {
   community: Community;
@@ -37,8 +38,17 @@ export const CommunityCard = ({
     community_users: [],
     members_count: 0,
   });
-
+  const [joinedCommunity, setJoinedCommunity] = useState<boolean>(false);
+  const AuthUser = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  function over() {
+    setIsVisible(true);
+  }
+  function out() {
+    setIsVisible(false);
+  }
 
   const fetchUserCount = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -79,9 +89,23 @@ export const CommunityCard = ({
     );
   }
 
+  const checkJoinedCommunity = () => {
+    communityUsers.community_users.map((communityuser: CommunityUser) => {
+      communityuser.user.map((member: User) => {
+        if (member.id == AuthUser.user?.id) {
+          setJoinedCommunity(true);
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     fetchUserCount();
   }, []);
+
+  useEffect(() => {
+    checkJoinedCommunity();
+  }, [communityUsers.community_users]);
 
   return (
     <Box
@@ -124,13 +148,13 @@ export const CommunityCard = ({
           )}
 
           <Divider />
-          <Button
-            w="100%"
-            bgColor={themeColor.primary}
-            _hover={{ bgColor: themeColor.secondary }}
-          >
-            Join
-          </Button>
+          {joinedCommunity == false ? (
+            <Button w="100%">Join</Button>
+          ) : (
+            <Button w="100%" onMouseOver={over} onMouseOut={out}>
+              {isVisible ? "Leave" : "Joined"}
+            </Button>
+          )}
         </VStack>
       </VStack>
     </Box>

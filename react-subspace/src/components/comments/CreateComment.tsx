@@ -6,6 +6,7 @@ import {
   FormControl,
   FormErrorMessage,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { useForm } from "react-hook-form";
@@ -72,6 +73,7 @@ const CreateComment = ({ post, fetchComments }: CreateCommentProps) => {
       <VStack spacing={2} as="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isInvalid={errors.text != null}>
           <Textarea
+            bgColor={useColorModeValue("white", "blackAlpha.200")}
             placeholder="What are your thoughts ?"
             size="md"
             focusBorderColor={themeColor.primary}

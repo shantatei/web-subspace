@@ -28,7 +28,6 @@ interface DeletePostProps {
       isOpen: boolean;
     }>
   >;
-  //   fetchComments: () => void;
 }
 
 const DeletePost = ({ state, setState }: DeletePostProps) => {

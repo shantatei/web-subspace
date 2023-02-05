@@ -83,8 +83,8 @@ const CommunityPage = () => {
             <CommunityPosts />
           </VStack>
         </GridItem>
-        <GridItem colSpan={1} display={display} justifyContent="right">
-          <VStack w="100%">
+        <GridItem colSpan={1} display={display} justifyContent="right" >
+          <VStack w="100%" alignItems="end" mb={2}>
             <CommunityCard community={community} bgColorDark="#1d1e1f" />
             <CommunityMembers community={community} bgColorDark="#1d1e1f" />
           </VStack>

@@ -13,10 +13,11 @@ import {
   Avatar,
   Button,
   Flex,
-  Spacer,
 } from "@chakra-ui/react";
 import { Community } from "../../../utils/types";
 import { themeColor } from "../../../utils/theme";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../../utils/routes";
 
 interface CommunityFeedProps {
   communities: Array<Community>;
@@ -25,6 +26,7 @@ interface CommunityFeedProps {
 const CommunityFeed: FC<CommunityFeedProps> = ({
   communities,
 }: CommunityFeedProps) => {
+  const navigate = useNavigate();
   return (
     <Card
       bgColor={useColorModeValue("white", "#1d1e1f")}
@@ -49,7 +51,16 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
         <VStack divider={<StackDivider />} alignItems="start">
           {communities.map((community: Community) => {
             return (
-              <Box key={community.id} w="100%">
+              <Box
+                key={community.id}
+                w="100%"
+                cursor="pointer"
+                onClick={() =>
+                  navigate(AppRoute.Community, {
+                    state: { community: community },
+                  })
+                }
+              >
                 <Flex justifyContent="space-between" alignItems="center">
                   <HStack gap={4}>
                     <Avatar src={community.community_image_url} />
@@ -58,7 +69,6 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
                       <Text> {community.about}</Text>
                     </Box>
                   </HStack>
-                  <Button>Join</Button>
                 </Flex>
               </Box>
             );
