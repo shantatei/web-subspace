@@ -102,22 +102,57 @@ export const CommunityCard = ({
   };
 
   const joinCommunity = () => {
+    if (AuthUser.isAuth) {
+      const data = {
+        community_id: community.id,
+      };
+      console.log(data);
+      communityapiToken(AuthUser.token)
+        .post("joinCommunity", data)
+        .then(
+          (res) => {
+            console.log(res.data);
+            toast({
+              description: `Successfully joined ${community.name}`,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+            setJoinedCommunity(true);
+          },
+          (error) => {
+            console.log(error.response.data);
+          }
+        );
+    } else {
+      toast({
+        title: "Unauthorized",
+        description: "Please Login to continue ",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const leaveCommunity = () => {
     const data = {
       community_id: community.id,
+      _method: "DELETE",
     };
     console.log(data);
     communityapiToken(AuthUser.token)
-      .post(`joinCommunity`, data)
+      .post("leaveCommunity", data)
       .then(
         (res) => {
           console.log(res.data);
           toast({
-            description: `Successfully joined ${community.name}`,
-            status: "success",
+            description: `Successfully left ${community.name}`,
+            status: "error",
             duration: 3000,
             isClosable: true,
           });
-          setJoinedCommunity(true);
+          setJoinedCommunity(false);
         },
         (error) => {
           console.log(error.response.data);
@@ -184,7 +219,12 @@ export const CommunityCard = ({
               Join
             </Button>
           ) : (
-            <Button w="100%" onMouseOver={over} onMouseOut={out}>
+            <Button
+              w="100%"
+              onMouseOver={over}
+              onMouseOut={out}
+              onClick={() => leaveCommunity()}
+            >
               {isVisible ? "Leave" : "Joined"}
             </Button>
           )}
