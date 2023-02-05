@@ -9,11 +9,12 @@ import {
   Divider,
   Button,
   Progress,
+  useToast,
 } from "@chakra-ui/react";
 import { Community, User, CommunityUser } from "../../utils/types";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import { communityapi } from "../../api/community";
+import { communityapi, communityapiToken } from "../../api/community";
 import { themeColor } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
@@ -42,6 +43,7 @@ export const CommunityCard = ({
   const AuthUser = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toast = useToast();
 
   function over() {
     setIsVisible(true);
@@ -99,9 +101,33 @@ export const CommunityCard = ({
     });
   };
 
+  const joinCommunity = () => {
+    const data = {
+      community_id: community.id,
+    };
+    console.log(data);
+    communityapiToken(AuthUser.token)
+      .post(`joinCommunity`, data)
+      .then(
+        (res) => {
+          console.log(res.data);
+          toast({
+            description: `Successfully joined ${community.name}`,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          setJoinedCommunity(true);
+        },
+        (error) => {
+          console.log(error.response.data);
+        }
+      );
+  };
+
   useEffect(() => {
     fetchUserCount();
-  }, []);
+  }, [joinCommunity]);
 
   useEffect(() => {
     checkJoinedCommunity();
@@ -114,17 +140,18 @@ export const CommunityCard = ({
       bgColor={useColorModeValue("white", bgColorDark)}
       w="90%"
       h="max-content"
-      onClick={() =>
-        navigate(AppRoute.Community, {
-          state: { community: community },
-        })
-      }
-      cursor="pointer"
     >
       <VStack w="100%" pb={2}>
         <Banner />
         <VStack px={2} alignItems="start" w="100%">
-          <HStack>
+          <HStack
+            onClick={() =>
+              navigate(AppRoute.Community, {
+                state: { community: community },
+              })
+            }
+            cursor="pointer"
+          >
             <Avatar src={community.community_image_url} />
             <Text fontWeight="semibold">{community.name}</Text>
           </HStack>
@@ -149,7 +176,13 @@ export const CommunityCard = ({
 
           <Divider />
           {joinedCommunity == false ? (
-            <Button w="100%">Join</Button>
+            <Button
+              w="100%"
+              onClick={() => joinCommunity()}
+              disabled={!communityUsers.community_users.length}
+            >
+              Join
+            </Button>
           ) : (
             <Button w="100%" onMouseOver={over} onMouseOut={out}>
               {isVisible ? "Leave" : "Joined"}
