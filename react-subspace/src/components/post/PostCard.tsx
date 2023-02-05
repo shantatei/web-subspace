@@ -139,7 +139,7 @@ const PostCard = ({ post }: PostProps) => {
             <MenuList>
               <MenuItem
                 icon={<EditIcon />}
-                display={post.post_image_url != null ? "none" : "flex"}
+                display={post.text == null ? "none" : "flex"}
                 onClick={() => {
                   handleEditComment(post.id);
                   setIsEditable(true);

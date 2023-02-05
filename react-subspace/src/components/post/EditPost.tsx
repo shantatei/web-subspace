@@ -76,7 +76,7 @@ const EditPost = ({ text, post_id, title, setIsEditable }: EditPostProps) => {
       );
   };
   return (
-    <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
+    <VStack as="form" onSubmit={handleSubmit(onSubmit)} w="100%" mb={2}>
       <FormControl isInvalid={errors.text != null}>
         <Textarea
           defaultValue={text}

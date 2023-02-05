@@ -21,6 +21,7 @@ import {
   MenuButton,
   MenuList,
   IconButton,
+  Spacer,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Post, User, Category, Community } from "../../utils/types";
@@ -34,7 +35,13 @@ import { RootState } from "../../store";
 import ReactTimeAgo from "react-time-ago";
 import { setComment } from "../../redux/commentSlice";
 import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import DeletePost from "./DeletePost";
+import EditPost from "./EditPost";
 
+interface DeleteModalState {
+  postid: number | null;
+  isOpen: boolean;
+}
 interface PostModalProps {
   state: {
     isOpen: boolean;
@@ -60,7 +67,17 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
     community_banner_filename: "string",
     created_at: "string",
   });
+  const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
+    postid: null,
+    isOpen: false,
+  });
 
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [currentPostIndex, setCurrentPostIndex] = useState<number | null>(null);
+
+  const handleEditComment = (index: number) => {
+    setCurrentPostIndex(index);
+  };
   const communities = useSelector(
     (state: RootState) => state.community.communities
   );
@@ -148,7 +165,16 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                     );
                   })}
                 </Box>
-                <Text>{post.text}</Text>
+                {isEditable && currentPostIndex == post.id ? (
+                  <EditPost
+                    title={post.title}
+                    text={post.text}
+                    setIsEditable={setIsEditable}
+                    post_id={post.id}
+                  />
+                ) : (
+                  <Text>{post.text}</Text>
+                )}
                 {post.post_image_url == null ? null : (
                   <Image
                     src={post.post_image_url}
@@ -157,17 +183,38 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
                     w="100%"
                   />
                 )}
+                <Spacer />
                 {post.user_id == AuthUser?.id ? (
-                  <Menu >
+                  <Menu>
                     <MenuButton
+                      alignSelf="end"
                       as={IconButton}
                       aria-label="Options"
                       icon={<HamburgerIcon />}
                       variant="outline"
                     />
                     <MenuList>
-                      <MenuItem icon={<EditIcon />}>Edit</MenuItem>
-                      <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+                      <MenuItem
+                        icon={<EditIcon />}
+                        display={post.text == null ? "none" : "flex"}
+                        onClick={() => {
+                          handleEditComment(post.id);
+                          setIsEditable(true);
+                        }}
+                      >
+                        Edit
+                      </MenuItem>
+                      <MenuItem
+                        icon={<DeleteIcon />}
+                        onClick={() => {
+                          setDeleteModalState({
+                            isOpen: true,
+                            postid: post.id,
+                          });
+                        }}
+                      >
+                        Delete
+                      </MenuItem>
                     </MenuList>
                   </Menu>
                 ) : (
@@ -189,6 +236,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
           </Grid>
         </ModalBody>
       </ModalContent>
+      <DeletePost state={deleteModalState} setState={setDeleteModalState} />
     </Modal>
   );
 };
