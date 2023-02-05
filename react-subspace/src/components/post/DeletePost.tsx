@@ -47,12 +47,6 @@ const DeletePost = ({ state, setState }: DeletePostProps) => {
     );
   };
   const onSubmit = () => {
-    // const data = {
-    //   _method: "DELETE",
-    // };
-
-    // console.log(data);
-    // api call
     postapiToken(AuthUser.token)
       .delete(`/deletePost/${state.postid}`)
       .then(

@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import DeletePost from "./DeletePost";
+import EditPost from "./EditPost";
 
 interface PostProps {
   post: Post;
@@ -46,6 +47,13 @@ const PostCard = ({ post }: PostProps) => {
     isOpen: false,
   });
 
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [currentPostIndex, setCurrentPostIndex] = useState<number | null>(null);
+
+  const handleEditComment = (index: number) => {
+    setCurrentPostIndex(index);
+  };
+
   const AuthUser = useSelector((state: RootState) => state.auth.user);
 
   const categories = post.category;
@@ -60,13 +68,14 @@ const PostCard = ({ post }: PostProps) => {
         borderColor: useColorModeValue("#1d1e1f", "white"),
       }}
     >
-      <CardBody
-        onClick={() => setModalState({ isOpen: true })}
-        _hover={{
-          cursor: "pointer",
-        }}
-      >
-        <Box mb={2}>
+      <CardBody>
+        <Box
+          mb={2}
+          onClick={() => setModalState({ isOpen: true })}
+          _hover={{
+            cursor: "pointer",
+          }}
+        >
           {post.user?.map((owner: User) => {
             return (
               <HStack alignItems="baseline" mb={1} key={owner.id}>
@@ -96,7 +105,16 @@ const PostCard = ({ post }: PostProps) => {
             );
           })}
         </Box>
-        <Text>{post.text}</Text>
+        {isEditable && currentPostIndex == post.id ? (
+          <EditPost
+            title={post.title}
+            text={post.text}
+            setIsEditable={setIsEditable}
+            post_id={post.id}
+          />
+        ) : (
+          <Text>{post.text}</Text>
+        )}
         {post.post_image_url == null ? null : (
           <Image
             src={post.post_image_url}
@@ -122,6 +140,10 @@ const PostCard = ({ post }: PostProps) => {
               <MenuItem
                 icon={<EditIcon />}
                 display={post.post_image_url != null ? "none" : "flex"}
+                onClick={() => {
+                  handleEditComment(post.id);
+                  setIsEditable(true);
+                }}
               >
                 Edit
               </MenuItem>

@@ -51,11 +51,11 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
 
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
-  const [comments, setComments] = useState<Array<Comment>>([]);
-
   const handleEditComment = (index: number) => {
     setCurrentIndex(index);
   };
+  
+  const [comments, setComments] = useState<Array<Comment>>([]);
 
   const filterComments = () => {
     setComments([]);

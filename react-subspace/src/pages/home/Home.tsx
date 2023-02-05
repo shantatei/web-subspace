@@ -26,6 +26,7 @@ const Home = () => {
     (state: RootState) => state.community.communities
   );
   const dispatch = useDispatch();
+
   const fetchPost = () => {
     postapi.get("/showPosts").then(
       (res) => {
