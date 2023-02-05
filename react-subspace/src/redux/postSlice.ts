@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { Post } from "../utils/types";
 
 
-export interface PostState {
+interface PostState {
     post: Array<Post>
 }
 

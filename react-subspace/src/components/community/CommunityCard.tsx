@@ -126,7 +126,7 @@ export const CommunityCard = ({
           }
         );
     } else {
-      useUnauthorizedToast(toast)
+      useUnauthorizedToast(toast);
     }
   };
 
@@ -141,13 +141,25 @@ export const CommunityCard = ({
       .then(
         (res) => {
           console.log(res.data);
-          toast({
-            description: `Successfully left ${community.name}`,
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-          setJoinedCommunity(false);
+          if (
+            res.data.message ==
+            "You are the owner, you cannot leave your own community !"
+          ) {
+            toast({
+              description: res.data.message,
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              description: `Successfully left ${community.name}`,
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+            setJoinedCommunity(false);
+          }
         },
         (error) => {
           console.log(error.response.data);

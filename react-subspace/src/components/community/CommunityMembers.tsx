@@ -40,7 +40,7 @@ const CommunityMembers = ({
       return (
         <Box w="100%">
           <Text>
-            <Progress size="xs" isIndeterminate  />
+            <Progress size="xs" isIndeterminate />
             Fetching Data
           </Text>
         </Box>

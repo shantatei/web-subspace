@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { User } from "../utils/types";
 
 
-export interface AuthState {
+interface AuthState {
     isAuth: boolean;
     isLoading: boolean;
     token: string;
