@@ -41,7 +41,7 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
     isOpen: false,
   });
   const [owner, setOwner] = useState<boolean>(false);
-  const [comUserId, setComUserID] = useState(0);
+  // const [comUserId, setComUserID] = useState(0);
   const AuthUser = useSelector((state: RootState) => state.auth);
   const fetchCommunityUsers = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -55,23 +55,27 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
   };
 
   const checkOwner = () => {
+    setOwner(false);
     console.log("Checking Owner");
     if (communityUsers == null) {
       console.log(communityUsers);
     } else {
       communityUsers.map((communityuser: CommunityUser) => {
+        var comuserid: number;
         if (communityuser.user_id == AuthUser.user?.id) {
-          setComUserID(communityuser.id);
+          comuserid = communityuser.id;
+          // setComUserID(communityuser.id);
         }
         communityuser.roles.map((role: Role) => {
           if (
-            role.pivot.com_users_id == comUserId &&
+            role.pivot.com_users_id == comuserid &&
             role.role_name == "Owner"
           ) {
             console.log("I am the owner");
             setOwner(true);
+          } else {
+            console.log("You are not the owner");
           }
-          console.log("You are not the owner");
         });
       });
     }

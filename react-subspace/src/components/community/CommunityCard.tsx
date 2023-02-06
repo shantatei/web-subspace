@@ -102,6 +102,7 @@ export const CommunityCard = ({
   }
 
   const checkJoinedCommunity = () => {
+    setJoinedCommunity(false);
     if (communityUsers.community_users == null) {
       console.log(communityUsers.community_users);
     } else {
