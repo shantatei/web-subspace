@@ -6,11 +6,9 @@ import {
   GridItem,
   Text,
   useBreakpointValue,
-  Progress,
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { useLocation } from "react-router-dom";
-import { Community } from "../../utils/types";
 import { CommunityBanner } from "./components/CommunityBanner";
 import { Post } from "../../utils/types";
 import PostCard from "../../components/post/PostCard";
@@ -32,7 +30,6 @@ const CommunityPage = () => {
     postapi.get(`/postByCommunity/${community.id}`).then(
       (res) => {
         if (res.data.message) {
-          console.log("No Post Found");
         } else {
           setCommunityPost(res.data.posts);
         }

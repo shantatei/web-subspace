@@ -102,7 +102,6 @@ export const CommunityCard = ({
   }
 
   const checkJoinedCommunity = () => {
-    console.log("I'm Called");
     if (communityUsers.community_users == null) {
       console.log(communityUsers.community_users);
     } else {

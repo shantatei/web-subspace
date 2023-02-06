@@ -19,11 +19,12 @@ import {
 } from "@chakra-ui/react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { themeColor } from "../../utils/theme";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Community } from "../../utils/types";
 import { postapiToken } from "../../api/post";
+import { ActionMeta } from "react-select";
 
 export interface PostValues {
   community_id: number | null;
@@ -67,6 +68,7 @@ const CreatePost = () => {
     if (data.post_image_filename == undefined) {
       data.post_image_filename = null;
     }
+    console.log(data);
     setUploading(true);
     postapiToken(AuthUser.token)
       .post("/createPost", data)
@@ -120,14 +122,10 @@ const CreatePost = () => {
             render={({ field: { onChange, ref } }) => (
               <Select
                 ref={ref}
-                onChange={(option: Options | null) => {
-                  if (option?.value == null) {
-                    setCommunityId(null);
-                  } else {
-                    setCommunityId(option?.value);
-                  }
-                  onChange(option?.value);
-                }}
+                onChange={(option) => onChange(option?.value)}
+                // onChange={(option: SingleValue<Options>) => {
+                //   onChange(option?.value);
+                // }}
                 options={communities.map((community: Community) => {
                   return {
                     label: community.name,
