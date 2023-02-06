@@ -153,7 +153,6 @@ export const CommunityCard = ({
       community_id: community.id,
       _method: "DELETE",
     };
-    console.log(data);
     communityapiToken(AuthUser.token)
       .post("leaveCommunity", data)
       .then(
@@ -196,7 +195,7 @@ export const CommunityCard = ({
 
   useEffect(() => {
     checkJoinedCommunity();
-  }, [communityUsers.community_users]);
+  }, [communityUsers.community_users, AuthUser.isAuth]);
 
   return (
     <Box

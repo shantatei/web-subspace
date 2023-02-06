@@ -71,6 +71,7 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
             console.log("I am the owner");
             setOwner(true);
           }
+          console.log("You are not the owner");
         });
       });
     }
