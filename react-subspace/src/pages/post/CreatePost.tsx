@@ -49,7 +49,7 @@ const CreatePost = () => {
   const [image, setImage] = useState<File | null | undefined>();
   const [preview, setPreview] = useState<any>();
   const [communityId, setCommunityId] = useState<number | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const {
     reset,
     register,

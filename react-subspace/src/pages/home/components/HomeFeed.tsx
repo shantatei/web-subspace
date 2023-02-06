@@ -14,8 +14,11 @@ import { AppRoute } from "../../../utils/routes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import useUnauthorizedToast from "../../../hooks/useUnauthorizedToast";
+import CreateCommunity from "../../../components/community/CreateCommunity";
+import { useState } from "react";
 
 const HomeFeed = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const Auth = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const toast = useToast();
@@ -56,11 +59,18 @@ const HomeFeed = () => {
           >
             Create Post
           </Button>
-          <Button w="100%" variant="outline">
+          <Button
+            w="100%"
+            variant="outline"
+            onClick={() => {
+              Auth.isAuth ? setIsOpen(true) : useUnauthorizedToast(toast);
+            }}
+          >
             Create Community
           </Button>
         </VStack>
       </VStack>
+      <CreateCommunity isOpen={isOpen} setIsOpen={setIsOpen} />
     </Box>
   );
 };
