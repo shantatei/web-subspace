@@ -23,10 +23,11 @@ import {
 import { themeColor } from "../../../utils/theme";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
 import { RootState } from "../../../store";
 import { communityapiToken } from "../../../api/community";
+import { SetCommunity, setSelectedCommunity } from "../../../redux/communitySlice";
 
 interface EditCommunityProps {
   state: {
@@ -68,6 +69,7 @@ const EditCommunity = ({ state, setState }: EditCommunityProps) => {
   const AuthUser = useSelector((state: RootState) => state.auth);
   const [uploading, setUploading] = useState<boolean>(false);
   const toast = useToast();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -93,6 +95,7 @@ const EditCommunity = ({ state, setState }: EditCommunityProps) => {
       .then(
         (res) => {
           console.log(res.data);
+          dispatch(setSelectedCommunity(res.data.community))
           setUploading(false);
           reset();
           setIconImage(null);
