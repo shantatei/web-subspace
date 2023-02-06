@@ -6,6 +6,7 @@ import {
   GridItem,
   Text,
   useBreakpointValue,
+  Progress,
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { useLocation } from "react-router-dom";
@@ -17,16 +18,24 @@ import { CommunityCard } from "../../components/community/CommunityCard";
 import { useState, useEffect } from "react";
 import { postapi } from "../../api/post";
 import CommunityMembers from "../../components/community/CommunityMembers";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 const CommunityPage = () => {
   const location = useLocation();
-  const community: Community = location.state.community;
+  // const community: Community = location.state.community;
   const [communityPost, setCommunityPost] = useState<Array<Post>>([]);
+  const community = useSelector(
+    (state: RootState) => state.community.community
+  );
 
   const fetchCommunityPost = () => {
     postapi.get(`/postByCommunity/${community.id}`).then(
       (res) => {
-        setCommunityPost(res.data.posts);
+        if (res.data.message) {
+          console.log("No Post Found");
+        } else {
+          setCommunityPost(res.data.posts);
+        }
       },
       (error) => {
         console.log(error.response.data);
@@ -52,8 +61,12 @@ const CommunityPage = () => {
   }
 
   function CommunityPosts() {
-    if (!communityPost.length) {
-      return <Text>No Post Posted Yet</Text>;
+    if (!communityPost.length || communityPost == undefined) {
+      return (
+        <Box w="100%">
+          <Text>Wow Such Empty , Try Creating a Post</Text>
+        </Box>
+      );
     }
     return (
       <>
@@ -83,7 +96,7 @@ const CommunityPage = () => {
             <CommunityPosts />
           </VStack>
         </GridItem>
-        <GridItem colSpan={1} display={display} justifyContent="right" >
+        <GridItem colSpan={1} display={display} justifyContent="right">
           <VStack w="100%" alignItems="end" mb={2}>
             <CommunityCard community={community} bgColorDark="#1d1e1f" />
             <CommunityMembers community={community} bgColorDark="#1d1e1f" />

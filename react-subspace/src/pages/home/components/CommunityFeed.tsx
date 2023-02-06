@@ -11,13 +11,14 @@ import {
   useColorModeValue,
   HStack,
   Avatar,
-  Button,
   Flex,
 } from "@chakra-ui/react";
-import { Community } from "../../../utils/types";
 import { themeColor } from "../../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
+import { useDispatch } from "react-redux";
+import { setSelectedCommunity } from "../../../redux/communitySlice";
+import { Community } from "../../../utils/types";
 
 interface CommunityFeedProps {
   communities: Array<Community>;
@@ -27,6 +28,13 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
   communities,
 }: CommunityFeedProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const NavigateCommunityPage = (community: Community) => {
+    dispatch(setSelectedCommunity(community));
+    navigate(AppRoute.Community, {
+      state: { community: community },
+    });
+  };
   return (
     <Card
       bgColor={useColorModeValue("white", "#1d1e1f")}
@@ -55,11 +63,7 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
                 key={community.id}
                 w="100%"
                 cursor="pointer"
-                onClick={() =>
-                  navigate(AppRoute.Community, {
-                    state: { community: community },
-                  })
-                }
+                onClick={() => NavigateCommunityPage(community)}
               >
                 <Flex justifyContent="space-between" alignItems="center">
                   <HStack gap={4}>

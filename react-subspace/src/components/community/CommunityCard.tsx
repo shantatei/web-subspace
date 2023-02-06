@@ -18,9 +18,10 @@ import { communityapi, communityapiToken } from "../../api/community";
 import { themeColor } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../../utils/routes";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import useUnauthorizedToast from "../../hooks/useUnauthorizedToast";
+import { setSelectedCommunity } from "../../redux/communitySlice";
 
 interface CommunityCardProps {
   community: Community;
@@ -45,6 +46,7 @@ export const CommunityCard = ({
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toast = useToast();
+  const dispatch = useDispatch();
 
   function over() {
     setIsVisible(true);
@@ -52,6 +54,13 @@ export const CommunityCard = ({
   function out() {
     setIsVisible(false);
   }
+
+  const NavigateCommunityPage = (community: Community) => {
+    dispatch(setSelectedCommunity(community));
+    navigate(AppRoute.Community, {
+      state: { community: community },
+    });
+  };
 
   const fetchUserCount = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -93,13 +102,18 @@ export const CommunityCard = ({
   }
 
   const checkJoinedCommunity = () => {
-    communityUsers.community_users.map((communityuser: CommunityUser) => {
-      communityuser.user.map((member: User) => {
-        if (member.id == AuthUser.user?.id) {
-          setJoinedCommunity(true);
-        }
+    console.log("I'm Called");
+    if (communityUsers.community_users == null) {
+      console.log(communityUsers.community_users);
+    } else {
+      communityUsers.community_users.map((communityuser: CommunityUser) => {
+        communityuser.user.map((member: User) => {
+          if (member.id == AuthUser.user?.id) {
+            setJoinedCommunity(true);
+          }
+        });
       });
-    });
+    }
   };
 
   const joinCommunity = () => {
@@ -120,6 +134,11 @@ export const CommunityCard = ({
               isClosable: true,
             });
             setJoinedCommunity(true);
+            setCommunityUsers({
+              community_users: communityUsers.community_users,
+              members_count: communityUsers.members_count + 1,
+            });
+            fetchUserCount();
           },
           (error) => {
             console.log(error.response.data);
@@ -158,6 +177,11 @@ export const CommunityCard = ({
               duration: 3000,
               isClosable: true,
             });
+            setCommunityUsers({
+              community_users: communityUsers.community_users,
+              members_count: communityUsers.members_count - 1,
+            });
+            fetchUserCount();
             setJoinedCommunity(false);
           }
         },
@@ -169,7 +193,7 @@ export const CommunityCard = ({
 
   useEffect(() => {
     fetchUserCount();
-  }, [joinCommunity]);
+  }, []);
 
   useEffect(() => {
     checkJoinedCommunity();
@@ -187,11 +211,7 @@ export const CommunityCard = ({
         <Banner />
         <VStack px={2} alignItems="start" w="100%">
           <HStack
-            onClick={() =>
-              navigate(AppRoute.Community, {
-                state: { community: community },
-              })
-            }
+            onClick={() => NavigateCommunityPage(community)}
             cursor="pointer"
           >
             <Avatar src={community.community_image_url} />
