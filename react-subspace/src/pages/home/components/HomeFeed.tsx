@@ -19,7 +19,7 @@ import { useState } from "react";
 
 const HomeFeed = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const Auth = useSelector((state: RootState) => state.auth);
+  const AuthUser = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const toast = useToast();
   return (
@@ -52,7 +52,7 @@ const HomeFeed = () => {
             w="100%"
             variant="solid"
             onClick={() =>
-              Auth.isAuth
+              AuthUser.isAuth
                 ? navigate(AppRoute.CreatePost)
                 : useUnauthorizedToast(toast)
             }
@@ -63,7 +63,7 @@ const HomeFeed = () => {
             w="100%"
             variant="outline"
             onClick={() => {
-              Auth.isAuth ? setIsOpen(true) : useUnauthorizedToast(toast);
+              AuthUser.isAuth ? setIsOpen(true) : useUnauthorizedToast(toast);
             }}
           >
             Create Community

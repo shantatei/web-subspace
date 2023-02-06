@@ -236,10 +236,12 @@ export const CommunityCard = ({
           )}
 
           <Divider />
-          {joinedCommunity == false ? (
+          {joinedCommunity == false || AuthUser.isAuth == false ? (
             <Button
               w="100%"
-              onClick={() => joinCommunity()}
+              onClick={() =>
+                AuthUser.isAuth ? joinCommunity() : useUnauthorizedToast(toast)
+              }
               disabled={!communityUsers.community_users.length}
             >
               Join
@@ -249,7 +251,9 @@ export const CommunityCard = ({
               w="100%"
               onMouseOver={over}
               onMouseOut={out}
-              onClick={() => leaveCommunity()}
+              onClick={() =>
+                AuthUser.isAuth ? leaveCommunity() : useUnauthorizedToast(toast)
+              }
             >
               {isVisible ? "Leave" : "Joined"}
             </Button>
