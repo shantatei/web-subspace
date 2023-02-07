@@ -60,4 +60,5 @@ export interface CommunityUser {
     community_id: number;
     user: Array<User>;
     roles: Array<Role>;
+    community: Community;
 }
