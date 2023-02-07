@@ -16,13 +16,16 @@ import { Comment, Post, User } from "../../utils/types";
 import ReactTimeAgo from "react-time-ago";
 import TimeAgo from "javascript-time-ago";
 import { HamburgerIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useState } from "react";
 import EditComment from "./EditComment";
 import DeleteComment from "./DeleteComment";
 import { useEffect } from "react";
 import en from "javascript-time-ago/locale/en.json";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../utils/routes";
+import { setUser } from "../../redux/userSlice";
 
 TimeAgo.addLocale(en);
 
@@ -46,7 +49,8 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
   const commentsRedux = useSelector(
     (state: RootState) => state.comment.comments
   );
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
@@ -54,7 +58,7 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
   const handleEditComment = (index: number) => {
     setCurrentIndex(index);
   };
-  
+
   const [comments, setComments] = useState<Array<Comment>>([]);
 
   const filterComments = () => {
@@ -65,6 +69,11 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
         setComments((oldArray) => [...oldArray, comment]);
       }
     }
+  };
+
+  const NavigateProfilePage = (user: User) => {
+    dispatch(setUser(user));
+    navigate(AppRoute.Profile);
   };
 
   useEffect(() => {
@@ -93,6 +102,10 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
                         src={owner.profile_image_url}
                         size="md"
                         key={owner.id}
+                        onClick={() => NavigateProfilePage(owner)}
+                        _hover={{
+                          cursor: "pointer",
+                        }}
                       />
                     );
                   })}
