@@ -65,7 +65,6 @@ export const CommunityCard = ({
   };
 
   const fetchUserCount = () => {
-    console.log("fetching user count");
     communityapi.get(`usersInCommunity/${community.id}`).then(
       (res) => {
         setCommunityUsers({

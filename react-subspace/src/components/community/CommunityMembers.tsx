@@ -14,6 +14,9 @@ import { communityapi } from "../../api/community";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { resetJoinCommunity, resetLeftCommunity } from "../../redux/authSlice";
+import { setUser } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../utils/routes";
 
 interface CommunityMembersProps {
   community: Community;
@@ -34,6 +37,7 @@ const CommunityMembers = ({
   const joinCommunity = useSelector(
     (state: RootState) => state.auth.joinCommunity
   );
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchCommunityUsers = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -45,6 +49,11 @@ const CommunityMembers = ({
         setIsDeletedCommunity(true);
       }
     );
+  };
+
+  const NavigateProfilePage = (user: User) => {
+    dispatch(setUser(user));
+    navigate(AppRoute.Profile);
   };
 
   function CommunityMembers() {
@@ -66,7 +75,13 @@ const CommunityMembers = ({
               {communityuser.user.map((member: User) => {
                 return (
                   <Flex key={member.id}>
-                    <Avatar src={member.profile_image_url} />
+                    <Avatar
+                      src={member.profile_image_url}
+                      onClick={() => NavigateProfilePage(member)}
+                      _hover={{
+                        cursor: "pointer",
+                      }}
+                    />
                     <Box ml="3">
                       <Text>{member.username}</Text>
                       {communityuser.roles.map((role: Role) => {
