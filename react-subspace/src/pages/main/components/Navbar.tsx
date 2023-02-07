@@ -26,6 +26,7 @@ import { authapiToken } from "../../../api/auth";
 import { logoutSuccess } from "../../../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
+import { setUser } from "../../../redux/userSlice";
 
 const Navbar: FC = () => {
   const { colorMode } = useColorMode();
@@ -39,6 +40,11 @@ const Navbar: FC = () => {
   const AuthUser = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
+
+  const NavigateProfilePage = () => {
+    dispatch(setUser(AuthUser.user));
+    navigate(AppRoute.Profile);
+  };
 
   const logoutUser = () => {
     authapiToken(AuthUser.token)
@@ -110,7 +116,7 @@ const Navbar: FC = () => {
                   <Text fontSize="lg">{AuthUser.user?.username}</Text>
                 </MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={() => navigate(AppRoute.Profile)}>
+                <MenuItem onClick={() => NavigateProfilePage()}>
                   Profile
                 </MenuItem>
                 <MenuItem onClick={() => navigate(AppRoute.Settings)}>

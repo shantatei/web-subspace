@@ -18,14 +18,13 @@ function App() {
           {/* public routes */}
           <Route index element={<Home />} />
           <Route path={AppRoute.Community} element={<CommunityPage />} />
+          <Route path={AppRoute.Profile} element={<Profile />} />
 
           {/* isAuth route */}
           <Route element={<RequireAuth />}>
-            <Route path={AppRoute.Profile} element={<Profile />} />
             <Route path={AppRoute.Settings} element={<Settings />} />
             <Route path={AppRoute.CreatePost} element={<CreatePost />} />
           </Route>
-          
         </Route>
       </Routes>
     </Router>
