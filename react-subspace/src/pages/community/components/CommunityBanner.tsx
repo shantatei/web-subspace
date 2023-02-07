@@ -23,16 +23,22 @@ import { CommunityUser, Community, Role } from "../../../utils/types";
 import { communityapi } from "../../../api/community";
 import { RootState } from "../../../store";
 import EditCommunity from "./EditCommunity";
+import DeleteCommunity from "./DeleteCommunity";
 
 interface CommunityBannerProps {
   community: Community;
+}
+
+interface DeleteModalState {
+  communityid: number | null;
+  isOpen: boolean;
 }
 
 export const CommunityBanner = ({ community }: CommunityBannerProps) => {
   const [communityUsers, setCommunityUsers] = useState<Array<CommunityUser>>(
     []
   );
-  const [modalState, setModalState] = useState({
+  const [editModalState, setEditModalState] = useState({
     name: community.name,
     about: community.about,
     community_id: community.id,
@@ -40,8 +46,11 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
     community_banner_url: community.community_banner_url,
     isOpen: false,
   });
+  const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
+    communityid: community.id,
+    isOpen: false,
+  });
   const [owner, setOwner] = useState<boolean>(false);
-  // const [comUserId, setComUserID] = useState(0);
   const AuthUser = useSelector((state: RootState) => state.auth);
   const fetchCommunityUsers = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
@@ -64,7 +73,6 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
         var comuserid: number;
         if (communityuser.user_id == AuthUser.user?.id) {
           comuserid = communityuser.id;
-          // setComUserID(communityuser.id);
         }
         communityuser.roles.map((role: Role) => {
           if (
@@ -130,18 +138,20 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
             <MenuList>
               <MenuItem
                 icon={<EditIcon />}
-                onClick={() => setModalState({ ...modalState, isOpen: true })}
+                onClick={() =>
+                  setEditModalState({ ...editModalState, isOpen: true })
+                }
               >
                 Edit
               </MenuItem>
               <MenuItem
                 icon={<DeleteIcon />}
-                // onClick={() => {
-                //   setModalState({
-                //     isOpen: true,
-                //     commentid: comment.id,
-                //   });
-                // }}
+                onClick={() => {
+                  setDeleteModalState({
+                    ...deleteModalState,
+                    isOpen: true,
+                  });
+                }}
               >
                 Delete
               </MenuItem>
@@ -151,7 +161,11 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
           []
         )}
       </Flex>
-      <EditCommunity state={modalState} setState={setModalState} />
+      <EditCommunity state={editModalState} setState={setEditModalState} />
+      <DeleteCommunity
+        state={deleteModalState}
+        setState={setDeleteModalState}
+      />
     </Box>
   );
 };

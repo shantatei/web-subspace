@@ -28,11 +28,19 @@ const communitySlice = createSlice({
         setSelectedCommunity: (state, action: PayloadAction<Community>) => {
             state.community = action.payload;
         },
+        deleteSelectedCommunity: (state) => {
+            state.community = {
+                id: 0,
+                name: "",
+                about: "",
+                created_at: ""
+            }
+        }
     },
 });
 
 const { reducer, actions } = communitySlice
 
-export const { SetCommunity, setSelectedCommunity } = actions
+export const { SetCommunity, setSelectedCommunity, deleteSelectedCommunity } = actions
 
 export default reducer
