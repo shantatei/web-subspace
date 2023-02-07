@@ -53,17 +53,24 @@ const authSlice = createSlice({
         updateUser: (state, action: PayloadAction<AuthState>) => {
             state.user = action.payload.user;
         },
-        leftCommunity: (state) => {
+        setleftCommunity: (state) => {
             state.leftCommunity = true
         },
         resetLeftCommunity: (state) => {
             state.leftCommunity = false
-        }
+        },
+        setjoinCommunity: (state) => {
+            state.joinCommunity = true
+        },
+        resetJoinCommunity: (state) => {
+            state.joinCommunity = false
+        },
     },
 });
 
 const { reducer, actions } = authSlice
 
-export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess, updateUser, leftCommunity, resetLeftCommunity } = actions
+export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess,
+    updateUser, setleftCommunity, resetLeftCommunity, setjoinCommunity, resetJoinCommunity } = actions
 
 export default reducer

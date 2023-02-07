@@ -13,7 +13,7 @@ import { themeColor } from "../../utils/theme";
 import { communityapi } from "../../api/community";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { resetLeftCommunity } from "../../redux/authSlice";
+import { resetJoinCommunity, resetLeftCommunity } from "../../redux/authSlice";
 
 interface CommunityMembersProps {
   community: Community;
@@ -30,6 +30,9 @@ const CommunityMembers = ({
   const [isDeletedCommunity, setIsDeletedCommunity] = useState<boolean>(false);
   const leftCommunity = useSelector(
     (state: RootState) => state.auth.leftCommunity
+  );
+  const joinCommunity = useSelector(
+    (state: RootState) => state.auth.joinCommunity
   );
   const dispatch = useDispatch();
   const fetchCommunityUsers = () => {
@@ -85,9 +88,10 @@ const CommunityMembers = ({
   }
 
   useEffect(() => {
+    dispatch(resetJoinCommunity());
     dispatch(resetLeftCommunity());
     fetchCommunityUsers();
-  }, [leftCommunity == true]);
+  }, [leftCommunity == true, joinCommunity == true]);
   return (
     <Box
       borderRadius="md"
