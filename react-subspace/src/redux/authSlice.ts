@@ -8,13 +8,17 @@ interface AuthState {
     isLoading: boolean;
     token: string;
     user?: User;
+    leftCommunity: boolean,
+    joinCommunity: boolean,
 }
 
 const initialState: AuthState = {
     isLoading: false,
     isAuth: false,
     token: '',
-    user: undefined
+    user: undefined,
+    leftCommunity: false,
+    joinCommunity: false
 };
 
 const authSlice = createSlice({
@@ -29,6 +33,8 @@ const authSlice = createSlice({
         },
         loginSuccess: (state, action: PayloadAction<AuthState>) => {
             state.isLoading = false;
+            state.joinCommunity = false;
+            state.leftCommunity = false
             state.isAuth = true;
             state.token = action.payload.token;
             state.user = action.payload.user;
@@ -39,17 +45,25 @@ const authSlice = createSlice({
         logoutSuccess: (state) => {
             state.isLoading = false;
             state.isAuth = false;
+            state.joinCommunity = false;
+            state.leftCommunity = false
             state.token = '';
             state.user = undefined
         },
         updateUser: (state, action: PayloadAction<AuthState>) => {
             state.user = action.payload.user;
         },
+        leftCommunity: (state) => {
+            state.leftCommunity = true
+        },
+        resetLeftCommunity: (state) => {
+            state.leftCommunity = false
+        }
     },
 });
 
 const { reducer, actions } = authSlice
 
-export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess, updateUser } = actions
+export const { loginNotPending, loginPending, loginSuccess, loginFail, logoutSuccess, updateUser, leftCommunity, resetLeftCommunity } = actions
 
 export default reducer

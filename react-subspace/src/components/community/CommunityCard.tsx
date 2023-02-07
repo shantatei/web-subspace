@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import useUnauthorizedToast from "../../hooks/useUnauthorizedToast";
 import { setSelectedCommunity } from "../../redux/communitySlice";
+import { leftCommunity } from "../../redux/authSlice";
 
 interface CommunityCardProps {
   community: Community;
@@ -196,6 +197,7 @@ export const CommunityCard = ({
             });
             fetchUserCount();
             setJoinedCommunity(false);
+            dispatch(leftCommunity());
           }
         },
         (error) => {

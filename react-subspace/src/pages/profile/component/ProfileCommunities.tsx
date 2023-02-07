@@ -1,10 +1,11 @@
 import { FC, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { CommunityUser } from "../../../utils/types";
 import { communityapi } from "../../../api/community";
 import { SimpleGrid, Text, VStack, Progress } from "@chakra-ui/react";
 import { CommunityCard } from "../../../components/community/CommunityCard";
+import { resetLeftCommunity } from "../../../redux/authSlice";
 
 interface UserCommunities {
   communitedOwned: Array<CommunityUser>;
@@ -17,6 +18,10 @@ const ProfileCommunities: FC = () => {
     communitedOwned: [],
     communitiesJoined: [],
   });
+  const dispatch = useDispatch();
+  const leftCommunity = useSelector(
+    (state: RootState) => state.auth.leftCommunity
+  );
   const [fetchingData, setFetchingData] = useState<boolean>(false);
 
   const fetchCommunitiesUser = () => {
@@ -37,12 +42,13 @@ const ProfileCommunities: FC = () => {
   };
 
   useEffect(() => {
+    dispatch(resetLeftCommunity());
     setCommunitiesUser({
       communitedOwned: [],
       communitiesJoined: [],
     });
     fetchCommunitiesUser();
-  }, [user]);
+  }, [user, leftCommunity == true]);
 
   return (
     <>

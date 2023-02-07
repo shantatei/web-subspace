@@ -11,6 +11,9 @@ import {
 import { Community, CommunityUser, User, Role } from "../../utils/types";
 import { themeColor } from "../../utils/theme";
 import { communityapi } from "../../api/community";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import { resetLeftCommunity } from "../../redux/authSlice";
 
 interface CommunityMembersProps {
   community: Community;
@@ -25,6 +28,10 @@ const CommunityMembers = ({
     []
   );
   const [isDeletedCommunity, setIsDeletedCommunity] = useState<boolean>(false);
+  const leftCommunity = useSelector(
+    (state: RootState) => state.auth.leftCommunity
+  );
+  const dispatch = useDispatch();
   const fetchCommunityUsers = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
       (res) => {
@@ -78,8 +85,9 @@ const CommunityMembers = ({
   }
 
   useEffect(() => {
+    dispatch(resetLeftCommunity());
     fetchCommunityUsers();
-  }, []);
+  }, [leftCommunity == true]);
   return (
     <Box
       borderRadius="md"
@@ -102,7 +110,9 @@ const CommunityMembers = ({
           <Text px={2}>Members</Text>
         </Box>
         {isDeletedCommunity == true ? (
-          <Text px={2} alignSelf="start">Community does not exist</Text>
+          <Text px={2} alignSelf="start">
+            Community does not exist
+          </Text>
         ) : (
           <VStack px={2} alignItems="start" w="100%">
             <CommunityMembers />
