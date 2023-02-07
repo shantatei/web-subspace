@@ -60,13 +60,13 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
   const AuthUser = useSelector((state: RootState) => state.auth.user);
   const [community, SetCommunity] = useState<Community>({
     id: 1,
-    name: "test",
-    about: "string",
-    community_image_url: "string",
-    community_image_filename: "string",
-    community_banner_url: "string",
-    community_banner_filename: "string",
-    created_at: "string",
+    name: "Deleted Community",
+    about: ":(",
+    community_image_url: undefined,
+    community_image_filename: undefined,
+    community_banner_url: undefined,
+    community_banner_filename: undefined,
+    created_at: "",
   });
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
     postid: null,

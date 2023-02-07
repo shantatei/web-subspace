@@ -42,6 +42,7 @@ export const CommunityCard = ({
     members_count: 0,
   });
   const [joinedCommunity, setJoinedCommunity] = useState<boolean>(false);
+  const [isDeletedCommunity, setIsDeletedCommunity] = useState<boolean>(false);
   const AuthUser = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -63,6 +64,7 @@ export const CommunityCard = ({
   };
 
   const fetchUserCount = () => {
+    console.log("fetching user count");
     communityapi.get(`usersInCommunity/${community.id}`).then(
       (res) => {
         setCommunityUsers({
@@ -72,12 +74,24 @@ export const CommunityCard = ({
       },
       (error) => {
         console.log(error.response.data);
+        setIsDeletedCommunity(true);
       }
     );
   };
 
   function Banner() {
-    if (community.community_banner_url) {
+    if (isDeletedCommunity == true) {
+      return (
+        <Box
+          bgColor={themeColor.secondary}
+          objectFit="cover"
+          borderTopRadius="md"
+          objectPosition="center"
+          boxSize="10"
+          w="100%"
+        />
+      );
+    } else if (community.community_banner_url) {
       return (
         <Image
           src={community.community_banner_url}
@@ -217,14 +231,17 @@ export const CommunityCard = ({
             <Text fontWeight="semibold">{community.name}</Text>
           </HStack>
           <Text>{community.about}</Text>
-          <HStack>
-            <CalendarIcon />
-            <Text>
-              Created {new Date(community.created_at).toLocaleDateString()}
-            </Text>
-          </HStack>
+          {community.created_at == "" ? null : (
+            <HStack>
+              <CalendarIcon />
+              <Text>
+                Created {new Date(community.created_at).toLocaleDateString()}
+              </Text>
+            </HStack>
+          )}
           <Divider />
-          {communityUsers.members_count > 0 ? (
+          {isDeletedCommunity == true ? null : communityUsers.members_count >
+            0 ? (
             <Text>{communityUsers.members_count} Members</Text>
           ) : (
             <Box w="100%">
@@ -234,7 +251,6 @@ export const CommunityCard = ({
               </Text>
             </Box>
           )}
-
           <Divider />
           {joinedCommunity == false || AuthUser.isAuth == false ? (
             <Button
