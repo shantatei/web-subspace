@@ -24,6 +24,7 @@ const CommunityMembers = ({
   const [communityUsers, setCommunityUsers] = useState<Array<CommunityUser>>(
     []
   );
+  const [isDeletedCommunity, setIsDeletedCommunity] = useState<boolean>(false);
   const fetchCommunityUsers = () => {
     communityapi.get(`usersInCommunity/${community.id}`).then(
       (res) => {
@@ -31,6 +32,7 @@ const CommunityMembers = ({
       },
       (error) => {
         console.log(error.response.data);
+        setIsDeletedCommunity(true);
       }
     );
   };
@@ -99,9 +101,13 @@ const CommunityMembers = ({
         >
           <Text px={2}>Members</Text>
         </Box>
-        <VStack px={2} alignItems="start" w="100%">
-          <CommunityMembers />
-        </VStack>
+        {isDeletedCommunity == true ? (
+          <Text px={2} alignSelf="start">Community does not exist</Text>
+        ) : (
+          <VStack px={2} alignItems="start" w="100%">
+            <CommunityMembers />
+          </VStack>
+        )}
       </VStack>
     </Box>
   );

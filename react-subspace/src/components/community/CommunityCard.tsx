@@ -224,7 +224,17 @@ export const CommunityCard = ({
         <Banner />
         <VStack px={2} alignItems="start" w="100%">
           <HStack
-            onClick={() => NavigateCommunityPage(community)}
+            onClick={() =>
+              isDeletedCommunity == true
+                ? toast({
+                    title: "This community has been deleted",
+                    description: "Deleted Communities will not be accessible ",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                  })
+                : NavigateCommunityPage(community)
+            }
             cursor="pointer"
           >
             <Avatar src={community.community_image_url} />

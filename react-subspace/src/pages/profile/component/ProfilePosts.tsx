@@ -22,7 +22,7 @@ const ProfilePosts: FC = () => {
 
   useEffect(() => {
     filterComments();
-  }, [posts]);
+  }, [posts,user]);
 
   return (
     <SimpleGrid columns={2} spacing={10}>
