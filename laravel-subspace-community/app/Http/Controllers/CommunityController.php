@@ -481,22 +481,33 @@ class CommunityController extends Controller
 
     public function getCommunityByUserId($id)
     {
-        $communities_joined = ComUsers::where('user_id', $id)->get();
+        $communities_joined = ComUsers::with(['roles'])->where('user_id', $id)->get();
         if (sizeof($communities_joined) === 0) {
             return response()->json([
                 'message' => 'This user has yet to join any community',
             ], 403);
         } else {
-            $communities_array = array();
+            $communities_user_owned = array();
+            $communities_user_joined = array();
             foreach ($communities_joined as $community_joined => $user_community) {
-                $communityId = $user_community->community_id;
-                $community = Http::get("http://laravel-subspace-community:80/api/communityById/$communityId");
-                $community_array = $community->json();
-                $user_community->community = $community_array;
-                array_push($communities_array, $community_array);
+                if ($user_community->roles()->where('role_name', '=', 'Owner')->exists()) {
+                    $communityId = $user_community->community_id;
+                    $community = Http::get("http://laravel-subspace-community:80/api/communityById/$communityId");
+                    $community_array = $community->json();
+                    $user_community->community = $community_array;
+                    array_push($communities_user_owned, $user_community);
+                } else {
+                    $communityId = $user_community->community_id;
+                    $community = Http::get("http://laravel-subspace-community:80/api/communityById/$communityId");
+                    $community_array = $community->json();
+                    $user_community->community = $community_array;
+                    array_push($communities_user_joined, $user_community);
+                }
             }
-
-            return $communities_array;
+            return response()->json([
+                'communities_joined' => $communities_user_joined,
+                'communities_owned' => $communities_user_owned
+            ], 200);
         }
     }
 }
