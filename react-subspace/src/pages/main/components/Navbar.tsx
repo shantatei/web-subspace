@@ -14,6 +14,7 @@ import {
   MenuDivider,
   Avatar,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import ToggleColorButton from "./ToggleColorButton";
@@ -27,6 +28,7 @@ import { logoutSuccess } from "../../../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
 import { setUser } from "../../../redux/userSlice";
+import SearchBox from "./SearchBox";
 
 const Navbar: FC = () => {
   const { colorMode } = useColorMode();
@@ -69,6 +71,9 @@ const Navbar: FC = () => {
       bgColor={colorMode === "dark" ? "#1d1e1f" : "white"}
       boxShadow="base"
       gap="2"
+      position="fixed"
+      top={0}
+      zIndex={100}
       justifyContent="space-between"
     >
       <IconButton
@@ -84,16 +89,25 @@ const Navbar: FC = () => {
       >
         Subspace
       </Text>
-      <SearchBar />
+      <VStack alignItems="start">
+        <SearchBar />
+        <SearchBox />
+      </VStack>
       <HStack>
         {AuthUser.isAuth ? (
           <>
             <Button
+              display={{ base: "none", md: "flex" }}
               leftIcon={<AddIcon />}
               onClick={() => navigate(AppRoute.CreatePost)}
             >
-              {" "}
-              Create Post
+              <Text> Create Post</Text>
+            </Button>
+            <Button
+              display={{ base: "flex", md: "none" }}
+              onClick={() => navigate(AppRoute.CreatePost)}
+            >
+              <AddIcon />
             </Button>
             <ToggleColorButton />
             <Menu>

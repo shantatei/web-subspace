@@ -28,5 +28,6 @@ Route::group(
         Route::delete('deletePost/{id}', 'PostController@deletePost');
         Route::get('postByCommunity/{id}', 'PostController@postByCommunity');
         Route::post('checkPost', 'PostController@checkPost');
+        Route::get('/queryPost', 'PostController@queryPost');
     }
 );

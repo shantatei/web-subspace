@@ -30,6 +30,8 @@ const HomeFeed = () => {
       bgColor={useColorModeValue("white", "#1d1e1f")}
       w="80"
       h="max-content"
+      position="sticky"
+      top={"5rem"}
     >
       <VStack w="100%" pb={2}>
         <Box

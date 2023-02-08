@@ -5,6 +5,7 @@ import { Post } from "../utils/types";
 
 interface PostState {
     post: Array<Post>
+    filteredPost: Array<Post>
 }
 
 interface EditPostValues {
@@ -13,7 +14,8 @@ interface EditPostValues {
 }
 
 const initialState: PostState = {
-    post: []
+    post: [],
+    filteredPost: []
 };
 
 const postSlice = createSlice({
@@ -35,11 +37,15 @@ const postSlice = createSlice({
             );
             state.post = filteredpost;
         },
+        setFilteredPost: (state, action: PayloadAction<Array<Post>>) => {
+            state.filteredPost = action.payload;
+        },
+      
     },
 });
 
 const { reducer, actions } = postSlice
 
-export const { setPost, deletePost, editPost } = actions
+export const { setPost, deletePost, editPost ,setFilteredPost} = actions
 
 export default reducer

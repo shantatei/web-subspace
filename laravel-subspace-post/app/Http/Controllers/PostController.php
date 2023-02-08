@@ -15,7 +15,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity', 'checkPost']]);
+        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity', 'checkPost', 'queryPost']]);
     }
 
     public function showPosts()
@@ -261,5 +261,51 @@ class PostController extends Controller
                 'message' => 'No Post Found',
             ], 403);
         }
+    }
+
+    //search,sort and pagination
+    public function queryPost(Request $request)
+    {
+        $post_query = Post::with('category');
+
+        //sort by keyboard(search)
+        if ($request->keyword) {
+            $post_query->where('title', 'LIKE', '%' . $request->keyword . '%');
+        }
+
+        //sort by id
+        if ($request->sortBy && in_array($request->sortBy, ['id', 'created_at'])) {
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        //sort by asc/desc time
+        if ($request->sortOrder && in_array($request->sortOrder, ['asc', 'desc'])) {
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        //pagination per page (default is 5)
+
+        if ($request->perPage) {
+            $perPage = $request->perPage;
+        } else {
+            $perPage = 5;
+        }
+
+        //pagination
+        if ($request->paginate) {
+
+            $posts = $post_query->orderBY($sortBy, $sortOrder)->paginate($perPage);
+        } else {
+            $posts = $post_query->orderBY($sortBy, $sortOrder)->get();
+        }
+
+        return response()->json([
+            'message' => 'Listing successfully fetched',
+            'posts' => $posts
+        ]);
     }
 }

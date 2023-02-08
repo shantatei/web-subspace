@@ -42,6 +42,8 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
       borderRadius="md"
       borderWidth="1px"
       mr={4}
+      position="sticky"
+      top={"5rem"}
     >
       <Box
         bgColor={themeColor.secondary}

@@ -8,7 +8,6 @@ import {
   Box,
   Image,
   CardFooter,
-  Button,
   HStack,
   Menu,
   MenuItem,
@@ -18,7 +17,6 @@ import {
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { Category, Post, User } from "../../utils/types";
-import { BiChat } from "react-icons/bi";
 import { useState } from "react";
 import PostModal from "./PostModal";
 import ReactTimeAgo from "react-time-ago";
@@ -68,14 +66,13 @@ const PostCard = ({ post }: PostProps) => {
         borderColor: useColorModeValue("#1d1e1f", "white"),
       }}
     >
-      <CardBody>
-        <Box
-          mb={2}
-          onClick={() => setModalState({ isOpen: true })}
-          _hover={{
-            cursor: "pointer",
-          }}
-        >
+      <CardBody
+        onClick={() => setModalState({ isOpen: true })}
+        _hover={{
+          cursor: "pointer",
+        }}
+      >
+        <Box mb={2}>
           {post.user?.map((owner: User) => {
             return (
               <HStack alignItems="baseline" mb={1} key={owner.id}>
@@ -125,9 +122,7 @@ const PostCard = ({ post }: PostProps) => {
         )}
       </CardBody>
       <CardFooter justify="space-between" flexWrap="wrap">
-        <Button variant="ghost" leftIcon={<BiChat />}>
-          Comment
-        </Button>
+        <Box />
         {post.user_id == AuthUser?.id ? (
           <Menu>
             <MenuButton

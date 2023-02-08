@@ -5,6 +5,7 @@ import CommunityReducer from "./communitySlice";
 import CommentReducer from "./commentSlice";
 import CommunityUserReducer from "./communityUserSlice";
 import UserReducer from "./userSlice";
+import SearchReducer from "./searchSlice";
 
 export default combineReducers({
     auth: AuthReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     user: UserReducer,
     community: CommunityReducer,
     comment: CommentReducer,
-    communityUser: CommunityUserReducer
+    communityUser: CommunityUserReducer,
+    search : SearchReducer
 });
