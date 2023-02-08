@@ -8,7 +8,7 @@ interface SearchState {
 
 const initialState: SearchState = {
     searchTerm: "",
-    isQuery: true
+    isQuery: false
 };
 
 const searchSlice = createSlice({
