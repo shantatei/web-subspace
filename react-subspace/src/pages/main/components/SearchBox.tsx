@@ -30,7 +30,8 @@ const SearchBox = () => {
       scrollBehavior="smooth"
     >
       <VStack divider={<Divider />} align="start">
-        {!filteredPost.length ? (
+        <Text>Test</Text>
+        {/* {!filteredPost.length ? (
           <Box p={2}>
             <Text>We can't find a post that match your search term</Text>
           </Box>
@@ -52,7 +53,7 @@ const SearchBox = () => {
               </Box>
             );
           })
-        )}
+        )} */}
       </VStack>
     </Box>
   );
