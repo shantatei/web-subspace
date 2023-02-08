@@ -8,6 +8,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Post } from "../../../utils/types";
+import PostFilteredBox from "./PostFilteredBox";
 
 const SearchBox = () => {
   const isQuery = useSelector((state: RootState) => state.search.isQuery);
@@ -39,22 +40,7 @@ const SearchBox = () => {
           </Box>
         ) : (
           filteredPosts.map((post: Post) => {
-            return (
-              <Box
-                w="100%"
-                key={post.id}
-                p={2}
-                justifyContent="start"
-                _hover={{
-                  cursor: "pointer",
-                }}
-              >
-                <Text fontWeight="semi-bold">{post.title}</Text>
-                <Text pt="2" fontSize="sm">
-                  {post.text}
-                </Text>
-              </Box>
-            );
+            return <PostFilteredBox post={post} key={post.id} />;
           })
         )}
       </VStack>

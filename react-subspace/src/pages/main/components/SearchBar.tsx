@@ -29,9 +29,9 @@ const SearchBar: FC = () => {
         filteredPosts.push(posts[index]);
       }
     }
-    dispatch(setFilteredPost(filteredPosts))
+    dispatch(setFilteredPost(filteredPosts));
   };
-  
+
   const fetchSearchList = () => {
     postapi.get(`/queryPost?keyword=${searchKeyword}&sortOrder=dsc`).then(
       (res) => {
@@ -51,6 +51,10 @@ const SearchBar: FC = () => {
           placeholder="Search"
           focusBorderColor={themeColor.primary}
           onKeyUp={() => filterpost()}
+          onAbort={() => {
+            dispatch(resetSearch());
+            dispatch(resetFilteredPost());
+          }}
           onChange={(event) => {
             if (event.target.value == "") {
               dispatch(resetSearch());

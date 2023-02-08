@@ -68,6 +68,7 @@ const PostModal = ({ state, setState, post }: PostModalProps) => {
     community_banner_filename: undefined,
     created_at: "",
   });
+
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
     postid: null,
     isOpen: false,
