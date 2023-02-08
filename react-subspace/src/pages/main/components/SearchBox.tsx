@@ -30,23 +30,29 @@ const SearchBox = () => {
       scrollBehavior="smooth"
     >
       <VStack divider={<Divider />} align="start">
-        {filteredPost.map((post: Post) => {
-          return (
-            <Box
-              key={post.id}
-              p={2}
-              justifyContent="start"
-              _hover={{
-                cursor: "pointer",
-              }}
-            >
-              <Text fontWeight="semi-bold">{post.title}</Text>
-              <Text pt="2" fontSize="sm">
-                {post.text}
-              </Text>
-            </Box>
-          );
-        })}
+        {!filteredPost.length ? (
+          <Box p={2}>
+            <Text>We can't find a post that match your search term</Text>
+          </Box>
+        ) : (
+          filteredPost.map((post: Post) => {
+            return (
+              <Box
+                key={post.id}
+                p={2}
+                justifyContent="start"
+                _hover={{
+                  cursor: "pointer",
+                }}
+              >
+                <Text fontWeight="semi-bold">{post.title}</Text>
+                <Text pt="2" fontSize="sm">
+                  {post.text}
+                </Text>
+              </Box>
+            );
+          })
+        )}
       </VStack>
     </Box>
   );
