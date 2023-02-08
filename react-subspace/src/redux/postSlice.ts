@@ -40,12 +40,16 @@ const postSlice = createSlice({
         setFilteredPost: (state, action: PayloadAction<Array<Post>>) => {
             state.filteredPost = action.payload;
         },
-      
+        resetFilteredPost: (state) => {
+            state.filteredPost = []
+        },
+
+
     },
 });
 
 const { reducer, actions } = postSlice
 
-export const { setPost, deletePost, editPost ,setFilteredPost} = actions
+export const { setPost, deletePost, editPost, setFilteredPost ,resetFilteredPost } = actions
 
 export default reducer

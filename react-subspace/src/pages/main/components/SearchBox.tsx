@@ -1,10 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
 import {
   Box,
   useColorModeValue,
   VStack,
   Divider,
-  Heading,
   Text,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
@@ -13,7 +11,7 @@ import { Post } from "../../../utils/types";
 
 const SearchBox = () => {
   const isQuery = useSelector((state: RootState) => state.search.isQuery);
-  const filteredPost = useSelector(
+  const filteredPosts = useSelector(
     (state: RootState) => state.post.filteredPost
   );
   return (
@@ -29,16 +27,21 @@ const SearchBox = () => {
       maxHeight={"482px"}
       scrollBehavior="smooth"
     >
-      <VStack divider={<Divider />} align="start">
-        {/* <Text>Test</Text> */}
-        {!filteredPost.length ? (
+      <VStack divider={<Divider />} align="start" w="100%">
+        {filteredPosts == undefined ? (
           <Box p={2}>
+            <Text>Fetching Data</Text>
+          </Box>
+        ) : !filteredPosts.length ? (
+          <Box p={2}>
+            <Text></Text>
             <Text>We can't find a post that match your search term</Text>
           </Box>
         ) : (
-          filteredPost.map((post: Post) => {
+          filteredPosts.map((post: Post) => {
             return (
               <Box
+                w="100%"
                 key={post.id}
                 p={2}
                 justifyContent="start"
