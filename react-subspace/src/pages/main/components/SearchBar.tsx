@@ -7,7 +7,6 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { themeColor } from "../../../utils/theme";
-import { postapi } from "../../../api/post";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { resetFilteredPost, setFilteredPost } from "../../../redux/postSlice";
@@ -30,17 +29,6 @@ const SearchBar: FC = () => {
       }
     }
     dispatch(setFilteredPost(filteredPosts));
-  };
-
-  const fetchSearchList = () => {
-    postapi.get(`/queryPost?keyword=${searchKeyword}&sortOrder=dsc`).then(
-      (res) => {
-        dispatch(setFilteredPost(res.data.posts));
-      },
-      (error) => {
-        console.log(error.response.data);
-      }
-    );
   };
 
   return (

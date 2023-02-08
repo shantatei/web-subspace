@@ -22,10 +22,10 @@ const ProfilePosts: FC = () => {
 
   useEffect(() => {
     filterComments();
-  }, [posts,user]);
+  }, [posts, user]);
 
   return (
-    <SimpleGrid columns={2} spacing={10}>
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
       {userposts.map((post: Post) => {
         return <PostCard post={post} key={post.id}></PostCard>;
       })}

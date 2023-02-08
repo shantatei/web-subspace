@@ -60,7 +60,7 @@ const ProfileCommunities: FC = () => {
       ) : (
         <VStack w="100%" align="start">
           <Text fontWeight="bold">Communities Owned</Text>
-          <SimpleGrid columns={3} spacing={10} w="100%">
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} w="100%">
             {!communitiesUser.communitedOwned.length ? (
               <Text>This user has yet to owned any community</Text>
             ) : (
@@ -78,7 +78,7 @@ const ProfileCommunities: FC = () => {
             )}
           </SimpleGrid>
           <Text fontWeight="bold">Communities Joined</Text>
-          <SimpleGrid columns={3} spacing={10} w="100%">
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} w="100%">
             {!communitiesUser.communitiesJoined.length ? (
               <Text>This user has yet to join any community</Text>
             ) : (

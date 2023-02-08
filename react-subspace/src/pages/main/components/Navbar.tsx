@@ -15,6 +15,7 @@ import {
   Avatar,
   useToast,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import ToggleColorButton from "./ToggleColorButton";
@@ -29,6 +30,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
 import { setUser } from "../../../redux/userSlice";
 import SearchBox from "./SearchBox";
+import Sidebar from "./Sidebar";
 
 const Navbar: FC = () => {
   const { colorMode } = useColorMode();
@@ -42,6 +44,7 @@ const Navbar: FC = () => {
   const AuthUser = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
+  const { isOpen: drawerIsOpen, onToggle: toggleDrawer } = useDisclosure();
 
   const NavigateProfilePage = () => {
     dispatch(setUser(AuthUser.user));
@@ -80,7 +83,8 @@ const Navbar: FC = () => {
         icon={<HamburgerIcon />}
         display={{ base: "flex", md: "none" }}
         aria-label="Menu Button"
-      ></IconButton>
+        onClick={toggleDrawer}
+      />
       <Text
         fontSize="xl"
         display={{ base: "none", md: "flex" }}
@@ -103,13 +107,7 @@ const Navbar: FC = () => {
             >
               <Text> Create Post</Text>
             </Button>
-            <Button
-              display={{ base: "flex", md: "none" }}
-              onClick={() => navigate(AppRoute.CreatePost)}
-            >
-              <AddIcon />
-            </Button>
-            <ToggleColorButton />
+            <ToggleColorButton display={{ base: "flex", md: "flex" }} />
             <Menu>
               <MenuButton
                 as={Button}
@@ -143,7 +141,7 @@ const Navbar: FC = () => {
           </>
         ) : (
           <ButtonGroup gap="1">
-            <ToggleColorButton />
+            <ToggleColorButton display={{ base: "none", md: "flex" }} />
             <Button onClick={() => setModalState({ index: 0, isOpen: true })}>
               Login
             </Button>
@@ -157,6 +155,7 @@ const Navbar: FC = () => {
         )}
       </HStack>
       <AuthModal state={modalState} setState={setModalState} />
+      <Sidebar drawerIsOpen={drawerIsOpen} toggleDrawer={toggleDrawer} />
     </Flex>
   );
 };

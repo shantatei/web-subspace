@@ -1,4 +1,4 @@
-import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import { Drawer, extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { mode } from '@chakra-ui/theme-tools';
 import { menuTheme } from "./theme/MenuTheme";
 import { modalTheme } from "./theme/ModalTheme";
@@ -20,7 +20,8 @@ const theme = extendTheme({
     components: {
         Modal: modalTheme,
         Tabs: tabsTheme,
-        Menu: menuTheme
+        Menu: menuTheme,
+        Drawer: modalTheme,
     }
 })
 
