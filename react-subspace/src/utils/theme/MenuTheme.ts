@@ -24,10 +24,10 @@ const baseStyle = definePartsStyle({
             },
         },
         _hover: {
-            bg: '#757d8a',
+            bg: '#bea8ed',
         },
         _focus: {
-            bg: '#757d8a',
+            bg: '#bea8ed',
         },
 
     },

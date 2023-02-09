@@ -12,7 +12,7 @@ const baseStyle = definePartsStyle({
             bg: '#1d1e1f',
             color: "white",
         },
-        bg: '#d2d3d4',
+        bg: '#DFE5F1',
         color: "black"
 
     },

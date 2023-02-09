@@ -1,30 +1,30 @@
-import { useState, useRef, useEffect } from "react";
 import {
-  Container,
-  Heading,
-  VStack,
-  useColorModeValue,
+  Avatar,
   Box,
-  Input,
-  Textarea,
+  Button,
+  Container,
   FormControl,
   FormErrorMessage,
-  Button,
   FormLabel,
+  Heading,
   HStack,
-  Avatar,
-  Text,
   Image,
+  Input,
+  Text,
+  Textarea,
+  useColorMode,
+  useColorModeValue,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { themeColor } from "../../utils/theme";
-import Select, { SingleValue } from "react-select";
+import { useEffect, useRef, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { Community } from "../../utils/types";
+import Select from "react-select";
 import { postapiToken } from "../../api/post";
-import { ActionMeta } from "react-select";
+import { RootState } from "../../store";
+import { themeColor } from "../../utils/theme";
+import { Community } from "../../utils/types";
 
 export interface PostValues {
   community_id: number | null;
@@ -91,6 +91,7 @@ const CreatePost = () => {
       );
   };
 
+  const { colorMode } = useColorMode();
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -137,7 +138,9 @@ const CreatePost = () => {
                 formatOptionLabel={(community) => (
                   <HStack>
                     <Avatar size="xs" src={community.image} />
-                    <Text>{community.label}</Text>
+                    <Text color={colorMode === "dark" ? "white" : "black"}>
+                      {community.label}
+                    </Text>
                   </HStack>
                 )}
                 isSearchable
@@ -152,7 +155,9 @@ const CreatePost = () => {
                   }),
                   option: (styles, state) => ({
                     ...styles,
-                    backgroundColor: state.isSelected ? "" : "",
+                    backgroundColor: state.isSelected
+                      ? useColorModeValue("#bea8ed", "#9268ed")
+                      : "",
                     ":hover": {
                       cursor: "pointer",
                     },
