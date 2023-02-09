@@ -16,6 +16,7 @@ import {
   useToast,
   VStack,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import ToggleColorButton from "./ToggleColorButton";
@@ -85,14 +86,17 @@ const Navbar: FC = () => {
         aria-label="Menu Button"
         onClick={toggleDrawer}
       />
-      <Text
-        fontSize="xl"
-        display={{ base: "none", md: "flex" }}
-        as={Link}
-        to={AppRoute.Home}
-      >
-        Subspace
-      </Text>
+      <HStack>
+        <Image src="/icon-192.png" boxSize={10} display={{base:'none',md:"flex"}}/>
+        <Text
+          fontSize="xl"
+          display={{ base: "none", md: "flex" }}
+          as={Link}
+          to={AppRoute.Home}
+        >
+          Subspace
+        </Text>
+      </HStack>
       <VStack alignItems="start">
         <SearchBar />
         <SearchBox />

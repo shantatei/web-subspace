@@ -10,6 +10,8 @@ import {
   Icon,
   VStack,
   Text,
+  Image,
+  HStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
@@ -88,8 +90,12 @@ const Sidebar: FC<SideBarProps> = ({ drawerIsOpen, toggleDrawer }) => {
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader as={Link} to={AppRoute.Home}>
-          Subspace
+          <HStack>
+            <Image src="/icon-192.png" boxSize={10} />
+            <Text>Subspace</Text>
+          </HStack>
         </DrawerHeader>
+
         <DrawerBody>
           <VStack mt={4} spacing={2}>
             {SideBarItems.map((item, index) => (
