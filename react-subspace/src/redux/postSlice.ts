@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Post } from "../utils/types";
+import { Category, Post } from "../utils/types";
 
 
 interface PostState {
     post: Array<Post>
     filteredPost: Array<Post>
+    categories: Array<Category>
 }
 
 interface EditPostValues {
@@ -15,7 +16,8 @@ interface EditPostValues {
 
 const initialState: PostState = {
     post: [],
-    filteredPost: []
+    filteredPost: [],
+    categories: []
 };
 
 const postSlice = createSlice({
@@ -43,13 +45,14 @@ const postSlice = createSlice({
         resetFilteredPost: (state) => {
             state.filteredPost = []
         },
-
-
+        setCategories: (state, action: PayloadAction<Array<Category>>) => {
+            state.categories = action.payload;
+        },
     },
 });
 
 const { reducer, actions } = postSlice
 
-export const { setPost, deletePost, editPost, setFilteredPost ,resetFilteredPost } = actions
+export const { setPost, deletePost, editPost, setFilteredPost, resetFilteredPost, setCategories } = actions
 
 export default reducer

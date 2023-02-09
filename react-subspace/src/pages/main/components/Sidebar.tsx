@@ -12,6 +12,7 @@ import {
   Text,
   Image,
   HStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AppRoute } from "../../../utils/routes";
@@ -21,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import ToggleColorButton from "./ToggleColorButton";
+import CreateCommunity from "../../../components/community/CreateCommunity";
+import { useState } from "react";
 
 interface SideBarProps {
   drawerIsOpen: boolean;
@@ -76,6 +79,9 @@ const SidebarItem: FC<SidebarItemProps> = ({
 };
 
 const Sidebar: FC<SideBarProps> = ({ drawerIsOpen, toggleDrawer }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const AuthUser = useSelector((state: RootState) => state.auth);
+  const toast = useToast();
   return (
     <Drawer
       preserveScrollBarGap
@@ -107,6 +113,19 @@ const Sidebar: FC<SideBarProps> = ({ drawerIsOpen, toggleDrawer }) => {
                 toggleDrawer={toggleDrawer}
               />
             ))}
+            <Button
+              w="100%"
+              leftIcon={<Icon as={FiPlus} />}
+              borderRadius="lg"
+              justifyContent="start"
+              cursor="pointer"
+              display={AuthUser.isAuth ? "flex" : "none"}
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              <Text fontSize="md">Create Community</Text>
+            </Button>
             <ToggleColorButton
               display={{ base: "flex", md: "none" }}
               width="100%"
@@ -114,6 +133,7 @@ const Sidebar: FC<SideBarProps> = ({ drawerIsOpen, toggleDrawer }) => {
           </VStack>
         </DrawerBody>
       </DrawerContent>
+      <CreateCommunity isOpen={isOpen} setIsOpen={setIsOpen} />
     </Drawer>
   );
 };

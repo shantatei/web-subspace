@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../redux/postSlice";
+import { setCategories, setPost } from "../../redux/postSlice";
 import { RootState } from "../../store";
 import PostCard from "../../components/post/PostCard";
 import { Post } from "../../utils/types";
@@ -36,6 +36,17 @@ const Home = () => {
     postapi.get("/showPosts").then(
       (res) => {
         dispatch(setPost(res.data.reverse()));
+      },
+      (error) => {
+        console.log(error.response.data);
+      }
+    );
+  };
+
+  const fetchCategories = () => {
+    postapi.get("/categories").then(
+      (res) => {
+        dispatch(setCategories(res.data));
       },
       (error) => {
         console.log(error.response.data);
@@ -68,6 +79,7 @@ const Home = () => {
     fetchPost();
     fetchCommunities();
     fetchComments();
+    fetchCategories();
     console.log(import.meta.env.VITE_ENVIRONMENT_KEY);
   }, []);
 

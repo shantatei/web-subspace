@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   useToast,
   VStack,
+  Tag,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -24,33 +25,29 @@ import Select from "react-select";
 import { postapiToken } from "../../api/post";
 import { RootState } from "../../store";
 import { themeColor } from "../../utils/theme";
-import { Community } from "../../utils/types";
+import { Category, Community } from "../../utils/types";
+import { useNavigate } from "react-router-dom";
+import { AppRoute } from "../../utils/routes";
 
 export interface PostValues {
   community_id: number | null;
   title: string;
   text?: string | null;
   post_image_filename?: File | null | undefined;
-  category_id: number;
-}
-
-interface Options {
-  value: number;
-  label: string;
-  key: number;
-  image: string;
+  category_id: number | null;
 }
 
 const CreatePost = () => {
   const communities = useSelector(
     (state: RootState) => state.community.communities
   );
+  const categories = useSelector((state: RootState) => state.post.categories);
   const AuthUser = useSelector((state: RootState) => state.auth);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [image, setImage] = useState<File | null | undefined>();
   const [preview, setPreview] = useState<any>();
-  const [communityId, setCommunityId] = useState<number | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const {
     reset,
     register,
@@ -68,6 +65,9 @@ const CreatePost = () => {
     if (data.post_image_filename == undefined) {
       data.post_image_filename = null;
     }
+    if (data.category_id == undefined) {
+      data.category_id = null;
+    }
     console.log(data);
     setUploading(true);
     postapiToken(AuthUser.token)
@@ -84,6 +84,7 @@ const CreatePost = () => {
           });
           reset();
           setImage(null);
+          navigate(AppRoute.Home);
         },
         (error) => {
           console.log(error.response.data);
@@ -124,9 +125,6 @@ const CreatePost = () => {
               <Select
                 ref={ref}
                 onChange={(option) => onChange(option?.value)}
-                // onChange={(option: SingleValue<Options>) => {
-                //   onChange(option?.value);
-                // }}
                 options={communities.map((community: Community) => {
                   return {
                     label: community.name,
@@ -250,7 +248,75 @@ const CreatePost = () => {
                 Remove Image
               </Button>
             </HStack>
-            <FormLabel>Tags</FormLabel>
+            <FormControl isInvalid={errors.category_id != null}>
+              <FormLabel>Tags (Optional)</FormLabel>
+              <Controller
+                name="category_id"
+                control={control}
+                render={({ field: { onChange, ref } }) => (
+                  <Select
+                    ref={ref}
+                    onChange={(option) => onChange(option?.value)}
+                    options={categories.map((category: Category) => {
+                      return {
+                        label: category.category_name,
+                        value: category.id,
+                        key: category.id,
+                      };
+                    })}
+                    formatOptionLabel={(category) => (
+                      <Tag>{category.label}</Tag>
+                    )}
+                    isSearchable
+                    isClearable
+                    placeholder="Choose a Tag"
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        backgroundColor: useColorModeValue("white", "gray.800"),
+                        borderColor: useColorModeValue("black", "white"),
+                        boxShadow: "none",
+                        ":hover": {
+                          borderColor: useColorModeValue("black", "white"),
+                        },
+                      }),
+                      option: (styles, state) => ({
+                        ...styles,
+                        backgroundColor: state.isSelected
+                          ? useColorModeValue("#bea8ed", "#9268ed")
+                          : "",
+                        ":hover": {
+                          cursor: "pointer",
+                        },
+                      }),
+                      container: (base) => ({
+                        ...base,
+                        width: "100%",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: useColorModeValue("white", "#1d1e1f"),
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        fontSize: "1em",
+                        color: useColorModeValue("black", "white"),
+                        fontWeight: 400,
+                      }),
+                      singleValue: (base) => ({
+                        ...base,
+                        color: useColorModeValue("black", "white"),
+                      }),
+                      input: (base, props) => ({
+                        ...base,
+                        color: useColorModeValue("black", "white"),
+                      }),
+                    }}
+                  />
+                )}
+              />
+              <FormErrorMessage>{errors.category_id?.message}</FormErrorMessage>
+            </FormControl>
             <Button
               type="submit"
               variant="solid"
