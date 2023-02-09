@@ -29,5 +29,6 @@ Route::group(
         Route::get('postByCommunity/{id}', 'PostController@postByCommunity');
         Route::post('checkPost', 'PostController@checkPost');
         Route::get('/queryPost', 'PostController@queryPost');
+        Route::get('/categories', 'PostController@getCategories');
     }
 );

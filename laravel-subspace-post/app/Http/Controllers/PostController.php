@@ -15,7 +15,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity', 'checkPost', 'queryPost']]);
+        $this->middleware('auth.jwt', ['except' => ['showPosts', 'postByCommunity', 'checkPost', 'queryPost', 'getCategories']]);
     }
 
     public function showPosts()
@@ -80,23 +80,6 @@ class PostController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-
-        // $response = Http::post('http://laravel-subspace-community:80/api/checkUser', [
-
-        //     'user_id' => $request->user_id,
-        //     'community_id' => $request->community_id,
-        // ]);
-
-        // if ($response->failed()) {
-        //     return response()->json([
-        //         'message' => 'No user found in requested community',
-        //     ], 403);
-        // } else {
-
-        // }
-
-
-        //check if request has File
 
         if ($request->hasFile('post_image_filename')) {
 
@@ -307,5 +290,10 @@ class PostController extends Controller
             'message' => 'Listing successfully fetched',
             'posts' => $posts
         ]);
+    }
+
+    public function getCategories()
+    {
+        return  Category::all();
     }
 }
