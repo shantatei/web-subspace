@@ -11,17 +11,17 @@ on:
 
 jobs:
   Cypress-Test:
+    name: Cypress-Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.8
-        run: |
-          cd react-subspace
         with:
+          project: react-subspace
           build: npm run build
-          start: npm start
+          start: npm run dev
   SFTP-Deploy-Action:
     needs: Cypress-Test
     name: SFTP-Deploy-Action
