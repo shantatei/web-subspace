@@ -18,7 +18,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.8
         with:
-          project: react-usbspace
+          project: ./react-subspace
           build: npm run build
           start: npm start
         env:
