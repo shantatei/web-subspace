@@ -29,6 +29,7 @@ const HomeFeed = () => {
       borderWidth="1px"
       bgColor={useColorModeValue("white", "#1d1e1f")}
       w="80"
+      ml={4}
       h="max-content"
       position="sticky"
       top={"5rem"}

@@ -75,12 +75,12 @@ const Home = () => {
   return (
     <Grid templateColumns="repeat(3, 1fr)">
       <GridItem colSpan={1} display={display} justifyContent="end">
-        <Box >
+        <Box>
           <CommunityFeed communities={communities} />
         </Box>
       </GridItem>
       <GridItem colSpan={{ base: 3, md: 1 }} mb={2}>
-        <VStack mx={{ base: 2  }} mt={2}>
+        <VStack mx={{ base: 2 }} mt={2}>
           {/* <FilterPost /> */}
           {posts.map((post: Post) => {
             return <PostCard post={post} key={post.id}></PostCard>;
@@ -88,9 +88,7 @@ const Home = () => {
         </VStack>
       </GridItem>
       <GridItem colSpan={1} display={display}>
-        <Container>
-          <HomeFeed />
-        </Container>
+        <HomeFeed />
       </GridItem>
     </Grid>
   );
