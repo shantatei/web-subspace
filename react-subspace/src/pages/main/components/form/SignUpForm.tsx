@@ -69,6 +69,7 @@ const SignUpForm = ({ onClose }: SignupFormProps) => {
 
   return (
     <VStack
+      id="signupform"
       as="form"
       mx="auto"
       justifyContent="center"

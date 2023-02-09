@@ -82,6 +82,7 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
     <VStack
       as="form"
       mx="auto"
+      id="loginform"
       justifyContent="center"
       onSubmit={handleSubmit(onSubmit)}
     >

@@ -108,7 +108,7 @@ const Navbar: FC = () => {
               <Text> Create Post</Text>
             </Button>
             <ToggleColorButton display={{ base: "flex", md: "flex" }} />
-            <Menu>
+            <Menu id="authmenubtn">
               <MenuButton
                 as={Button}
                 rounded={"full"}

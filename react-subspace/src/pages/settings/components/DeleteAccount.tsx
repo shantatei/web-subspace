@@ -90,6 +90,7 @@ const DeleteAccount = () => {
         w="100%"
       >
         <VStack
+          id="deleteaccform"
           as="form"
           m={2}
           justifyContent="center"
@@ -109,6 +110,7 @@ const DeleteAccount = () => {
                     message: "Password is at least 6 characters",
                   },
                 })}
+                type={showPW ? "text" : "password"}
               />
               <InputRightElement>
                 <IconButton
@@ -124,6 +126,7 @@ const DeleteAccount = () => {
 
           <Button
             type="submit"
+            id="deleteaccbtn"
             w="100%"
             bgColor="red"
             _hover={{ bgColor: "red" }}
