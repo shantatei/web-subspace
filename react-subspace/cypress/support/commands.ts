@@ -1,5 +1,5 @@
 import cypress from "cypress";
-import { BASE_URL_DEV } from "../../src/api/api";
+
 /// <reference types="cypress" />
 
 declare global {
@@ -15,11 +15,6 @@ declare global {
 
 Cypress.Commands.add('login', (username, password) => {
 
-    // cy.intercept({
-    //     method: "POST",
-    //     url: BASE_URL_DEV.AUTH + "/login",
-    // }).as("loginResponse");
-
     cy.contains('Login').click()
 
     cy.get('#loginform').within(() => {
@@ -28,19 +23,10 @@ Cypress.Commands.add('login', (username, password) => {
         cy.contains('Log In').click()
     })
 
-    // cy.wait("@loginResponse")
-    //     .its('response.statusCode')
-    //     .should('eq', 200)
-
     cy.contains('Login Success').should('be.visible')
 })
 
 Cypress.Commands.add('signup', (username, email, password, confirm_password) => {
-
-    // cy.intercept({
-    //     method: "POST",
-    //     url: BASE_URL_DEV.AUTH + "/register",
-    // },).as("signupResponse");
 
     cy.contains('Sign Up').click()
 
@@ -52,27 +38,15 @@ Cypress.Commands.add('signup', (username, email, password, confirm_password) => 
         cy.contains('Sign Up').click()
     })
 
-    // cy.wait("@signupResponse")
-    //     .its('response.statusCode')
-    //     .should('eq', 200)
-
     cy.contains('Account created.').should('be.visible')
 
 })
 
 Cypress.Commands.add('logout', () => {
-    // cy.intercept({
-    //     method: "POST",
-    //     url: BASE_URL_DEV.AUTH + "/logout",
-    // },).as("logoutResponse");
 
     cy.get('#menu-button-authmenubtn').click();
 
     cy.contains('Log Out').click()
-
-    // cy.wait("@logoutResponse")
-    //     .its('response.statusCode')
-    //     .should('eq', 200)
 
     cy.contains('Logout Success').should('be.visible')
 
