@@ -22,6 +22,8 @@ jobs:
           working-directory: react-subspace
           build: npm run build
           start: npm run dev
+        env:
+          VITE_ENVIRONMENT_KEY: "production"
   SFTP-Deploy-Action:
     needs: Cypress-Test
     name: SFTP-Deploy-Action
