@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import {
-  Container,
   VStack,
   Grid,
   GridItem,
   useBreakpointValue,
   Box,
+  Text,
+  Heading,
+  useColorModeValue,
+  Progress,
 } from "@chakra-ui/react";
 import { postapi } from "../../api/post";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +23,7 @@ import HomeFeed from "./components/HomeFeed";
 import { setComment } from "../../redux/commentSlice";
 import { commentapi } from "../../api/comment";
 import FilterPost from "./components/FilterPost";
+import { themeColor } from "../../utils/theme";
 
 const Home = () => {
   const posts = useSelector((state: RootState) => state.post.post);
@@ -73,19 +77,49 @@ const Home = () => {
   });
 
   return (
-    <Grid templateColumns="repeat(3, 1fr)">
+    <Grid templateColumns="repeat(3, 1fr)" w="100%">
       <GridItem colSpan={1} display={display} justifyContent="end">
-        <Box>
+        <Box mt={2}>
           <CommunityFeed communities={communities} />
         </Box>
       </GridItem>
       <GridItem colSpan={{ base: 3, md: 1 }} mb={2}>
-        <VStack mx={{ base: 2 }} mt={2}>
-          {/* <FilterPost /> */}
-          {posts.map((post: Post) => {
-            return <PostCard post={post} key={post.id}></PostCard>;
-          })}
-        </VStack>
+        {/* <FilterPost /> */}
+        {!posts.length ? (
+          <Box
+            w="100%"
+            bgColor={useColorModeValue("white", "#1d1e1f")}
+            borderRadius="md"
+            borderWidth="1px"
+            h="max-content"
+            position="sticky"
+            top={"5rem"}
+          >
+            <VStack w="100%" pb={2}>
+              <Box
+                bgColor={themeColor.secondary}
+                objectFit="cover"
+                borderTopRadius="md"
+                objectPosition="center"
+                boxSize="10"
+                w="100%"
+              />
+              <VStack p={3} alignItems="start" w="100%">
+                <Box w="100%">
+                  <Heading fontSize="md">Loading Data</Heading>
+                  <Text>Please be patient, Fetching Post ...</Text>
+                  <Progress size="xs" isIndeterminate />
+                </Box>
+              </VStack>
+            </VStack>
+          </Box>
+        ) : (
+          <VStack mx={{ base: 2 }} mt={2}>
+            {posts.map((post: Post) => {
+              return <PostCard post={post} key={post.id}></PostCard>;
+            })}
+          </VStack>
+        )}
       </GridItem>
       <GridItem colSpan={1} display={display}>
         <HomeFeed />

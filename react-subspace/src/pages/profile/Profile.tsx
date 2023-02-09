@@ -24,7 +24,7 @@ const Profile = () => {
     return <Box bgColor={themeColor.secondary} w="full" h={40} />;
   }
   return (
-    <VStack w={{ base: "90%", md: "70%" }} h="100%">
+    <VStack w={{ base: "90%", md: "70%" }} h="100%" pb={2}>
       <Banner />
       <ProfileBanner user={user} />
     </VStack>
