@@ -23,11 +23,14 @@ const searchSlice = createSlice({
             state.searchTerm = "";
             state.isQuery = false
         },
+        closeSearch: (state) => {
+            state.isQuery = false
+        }
     },
 });
 
 const { reducer, actions } = searchSlice
 
-export const { setSearch, resetSearch } = actions
+export const { setSearch, resetSearch ,closeSearch} = actions
 
 export default reducer

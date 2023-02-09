@@ -8,7 +8,6 @@ const Layout: FC = () => {
   return (
     <VStack>
       <Navbar />
-      <Box h={"4rem"}></Box>
       {/* <SearchBox /> */}
       <Outlet />
     </VStack>

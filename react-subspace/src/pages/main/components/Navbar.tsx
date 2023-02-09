@@ -74,7 +74,7 @@ const Navbar: FC = () => {
       bgColor={colorMode === "dark" ? "#1d1e1f" : "white"}
       boxShadow="base"
       gap="2"
-      position="fixed"
+      position="sticky"
       top={0}
       zIndex={100}
       justifyContent="space-between"

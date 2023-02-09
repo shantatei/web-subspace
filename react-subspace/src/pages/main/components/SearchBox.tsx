@@ -4,19 +4,34 @@ import {
   VStack,
   Divider,
   Text,
+  useOutsideClick,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { RootState } from "../../../store";
 import { Post } from "../../../utils/types";
 import PostFilteredBox from "./PostFilteredBox";
+import { useRef, LegacyRef } from "react";
+import { closeSearch, resetSearch } from "../../../redux/searchSlice";
+import { resetFilteredPost } from "../../../redux/postSlice";
 
 const SearchBox = () => {
   const isQuery = useSelector((state: RootState) => state.search.isQuery);
   const filteredPosts = useSelector(
     (state: RootState) => state.post.filteredPost
   );
+  const ref: LegacyRef<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+
+  useOutsideClick({
+    ref: ref,
+    handler: () => {
+      dispatch(closeSearch());
+    },
+  });
+
   return (
     <Box
+      ref={ref}
       bgColor={useColorModeValue("white", "#1d1e1f")}
       h="fit-content"
       position="fixed"

@@ -43,6 +43,10 @@ const SearchBar: FC = () => {
             dispatch(resetSearch());
             dispatch(resetFilteredPost());
           }}
+          onClick={() => {
+            dispatch(setSearch(searchKeyword));
+            filterpost();
+          }}
           onChange={(event) => {
             if (event.target.value == "") {
               dispatch(resetSearch());
