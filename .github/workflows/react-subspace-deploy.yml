@@ -10,37 +10,48 @@ on:
       - .github/workflows/react-subspace-deploy.yml
 
 jobs:
+  Cypress-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.x.x 
+        with:
+          build: npm run build
+          start: npm start
   SFTP-Deploy-Action:
+    needs: Cypress-Test
     name: SFTP-Deploy-Action
     runs-on: ubuntu-latest
     environment: react-production
     steps:
-    - uses: actions/checkout@master
-    
-    - name: Use Node.js 16
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        
-    - name: Build Project
-      run: |
-        cd react-subspace
-        npm install
-        npm run build --if-present
-      env:
-        VITE_ENVIRONMENT_KEY: 'production'
+      - uses: actions/checkout@master
 
-    - name: List output files
-      run: |
-        cd react-subspace
-        ls
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-    - name: Deploying Files to Server
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-      with:
+      - name: Build Project
+        run: |
+          cd react-subspace
+          npm install
+          npm run build --if-present
+        env:
+          VITE_ENVIRONMENT_KEY: "production"
+
+      - name: List output files
+        run: |
+          cd react-subspace
+          ls
+
+      - name: Deploying Files to Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
           username: ${{ secrets.STFP_USERNAME }}
           server: ${{ secrets.STFP_ADDRESS }}
           password: ${{ secrets.STFP_PASSWORD }}
-          local_path: './react-subspace/dist/*'
-          remote_path: '/var/www/172.105.117.44'
-          sftpArgs: '-o ConnectTimeout=5'
+          local_path: "./react-subspace/dist/*"
+          remote_path: "/var/www/172.105.117.44"
+          sftpArgs: "-o ConnectTimeout=5"
