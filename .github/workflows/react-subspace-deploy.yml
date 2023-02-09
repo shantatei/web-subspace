@@ -18,11 +18,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.8
         with:
-          project: ./react-subspace
+          # project: ./react-subspace
           build: npm run build
           start: npm start
-        env:
-          VITE_ENVIRONMENT_KEY: "production"
   SFTP-Deploy-Action:
     needs: Cypress-Test
     name: SFTP-Deploy-Action
