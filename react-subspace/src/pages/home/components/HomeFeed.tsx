@@ -24,6 +24,7 @@ const HomeFeed = () => {
   const toast = useToast();
   return (
     <Box
+      id="homefeed"
       display="flex"
       borderRadius="md"
       borderWidth="1px"
@@ -65,6 +66,7 @@ const HomeFeed = () => {
           <Button
             w="100%"
             variant="outline"
+            id="createCommunity"
             onClick={() => {
               AuthUser.isAuth ? setIsOpen(true) : useUnauthorizedToast(toast);
             }}

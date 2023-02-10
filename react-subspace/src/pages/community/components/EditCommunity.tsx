@@ -156,6 +156,7 @@ const EditCommunity = ({ state, setState }: EditCommunityProps) => {
           mb={2}
         >
           <VStack
+            id="editcommunityform"
             as="form"
             w="100%"
             justifyContent="center"

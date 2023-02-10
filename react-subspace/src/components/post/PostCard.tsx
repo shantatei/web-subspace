@@ -112,10 +112,21 @@ const PostCard = ({ post }: PostProps) => {
             post_id={post.id}
           />
         ) : (
-          <Text>{post.text}</Text>
+          <Text
+            onClick={() => setModalState({ isOpen: true })}
+            _hover={{
+              cursor: "pointer",
+            }}
+          >
+            {post.text}
+          </Text>
         )}
         {post.post_image_url == null ? null : (
           <Image
+            _hover={{
+              cursor: "pointer",
+            }}
+            onClick={() => setModalState({ isOpen: true })}
             src={post.post_image_url}
             alt={post.post_image_filename}
             maxH={"400px"}

@@ -59,26 +59,28 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
 
       <CardBody>
         <VStack divider={<StackDivider />} alignItems="start">
-          {communities.map((community: Community) => {
-            return (
-              <Box
-                key={community.id}
-                w="100%"
-                cursor="pointer"
-                onClick={() => NavigateCommunityPage(community)}
-              >
-                <Flex justifyContent="space-between" alignItems="center">
-                  <HStack gap={4}>
-                    <Avatar src={community.community_image_url} />
-                    <Box mr={8}>
-                      <Heading size="sm">{community.name}</Heading>
-                      <Text> {community.about}</Text>
-                    </Box>
-                  </HStack>
-                </Flex>
-              </Box>
-            );
-          })}
+          {communities
+            .slice(0, Math.min(communities.length, 5))
+            .map((community: Community) => {
+              return (
+                <Box
+                  key={community.id}
+                  w="100%"
+                  cursor="pointer"
+                  onClick={() => NavigateCommunityPage(community)}
+                >
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <HStack gap={4}>
+                      <Avatar src={community.community_image_url} />
+                      <Box mr={8}>
+                        <Heading size="sm">{community.name}</Heading>
+                        <Text> {community.about}</Text>
+                      </Box>
+                    </HStack>
+                  </Flex>
+                </Box>
+              );
+            })}
         </VStack>
       </CardBody>
     </Card>

@@ -130,6 +130,7 @@ export const CommunityBanner = ({ community }: CommunityBannerProps) => {
         ) : owner == true ? (
           <Menu>
             <MenuButton
+              className="community-menu-btn"
               as={IconButton}
               aria-label="Options"
               icon={<HamburgerIcon />}

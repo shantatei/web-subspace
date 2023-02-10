@@ -135,6 +135,7 @@ const CreateCommunity = ({ isOpen, setIsOpen }: CreateCommunityProps) => {
           mb={2}
         >
           <VStack
+            id="createCommunityForm"
             as="form"
             w="100%"
             justifyContent="center"
