@@ -41,7 +41,7 @@ const EditPost = ({ text, post_id, title, setIsEditable }: EditPostProps) => {
   const fetchPost = () => {
     postapi.get("/showPosts").then(
       (res) => {
-        dispatch(setPost(res.data));
+        dispatch(setPost(res.data.reverse()));
       },
       (error) => {
         console.log(error.response.data);

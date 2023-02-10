@@ -42,8 +42,27 @@ describe('Post', () => {
 
     })
 
-    it('Delee Post', () => {
+    it('Edit Post', () => {
 
+        cy.intercept('/api/showPosts').as('getPost')
+        cy.intercept('/api/showCommunity').as('getCommunity')
+
+        cy.wait(['@getPost', '@getCommunity'])
+
+        cy.login('peacock@gmail.com', 'password')
+
+        cy.get('.css-1jtpjgy > :nth-child(1) > .chakra-card__footer > button').click()
+
+        cy.contains('Edit').click()
+
+        cy.get('textarea[name=text]').type("Anya Test")
+        cy.contains('Save').click()
+
+        cy.contains('Post has been updated').should('be.visible')
+
+    })
+
+    it('Delete Post', () => {
 
         cy.intercept('/api/showPosts').as('getPost')
         cy.intercept('/api/showCommunity').as('getCommunity')

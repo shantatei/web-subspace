@@ -14,6 +14,7 @@ import {
   MenuButton,
   MenuList,
   IconButton,
+  Portal,
 } from "@chakra-ui/react";
 import { themeColor } from "../../utils/theme";
 import { Category, Post, User } from "../../utils/types";
@@ -66,13 +67,14 @@ const PostCard = ({ post }: PostProps) => {
         borderColor: useColorModeValue("#1d1e1f", "white"),
       }}
     >
-      <CardBody
-        onClick={() => setModalState({ isOpen: true })}
-        _hover={{
-          cursor: "pointer",
-        }}
-      >
-        <Box mb={2}>
+      <CardBody>
+        <Box
+          mb={2}
+          onClick={() => setModalState({ isOpen: true })}
+          _hover={{
+            cursor: "pointer",
+          }}
+        >
           {post.user?.map((owner: User) => {
             return (
               <HStack alignItems="baseline" mb={1} key={owner.id}>

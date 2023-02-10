@@ -38,7 +38,7 @@ const DeletePost = ({ state, setState }: DeletePostProps) => {
   const fetchPost = () => {
     postapi.get("/showPosts").then(
       (res) => {
-        dispatch(setPost(res.data));
+        dispatch(setPost(res.data.reverse()));
       },
       (error) => {
         console.log(error.response.data);
