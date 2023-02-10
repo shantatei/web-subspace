@@ -9,6 +9,7 @@ declare global {
             signup(username: string, email: string, password: string, confirm_password: string): Chainable<void>
             logout(): Chainable<void>
             deleteAccount(): Chainable<void>
+            openPostModal(): Chainable<void>
         }
     }
 }
@@ -66,6 +67,22 @@ Cypress.Commands.add('deleteAccount', () => {
     cy.get('#deleteaccbtn').click({ force: true })
 
     cy.contains('Your Account has been deleted').should('be.visible')
+
+})
+
+Cypress.Commands.add('openPostModal', () => {
+
+    cy.intercept('/api/showPosts').as('getPost')
+
+    cy.intercept('/api/showCommunity').as('getCommunity')
+
+    cy.intercept('/api/showComments').as('getComments')
+
+    cy.wait(['@getPost', '@getCommunity'])
+
+    cy.login('peacock@gmail.com', 'password')
+
+    cy.get('.css-1jtpjgy > :nth-child(1) > .chakra-card__body').click()
 
 })
 

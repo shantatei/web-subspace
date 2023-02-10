@@ -152,6 +152,7 @@ const PostComments = ({ post, fetchComments }: CommentProps) => {
                 {comment.user_id == AuthUser?.id ? (
                   <Menu>
                     <MenuButton
+                      className="commentsmenu"
                       as={IconButton}
                       aria-label="Options"
                       icon={<HamburgerIcon />}
