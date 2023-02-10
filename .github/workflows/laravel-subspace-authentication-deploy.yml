@@ -32,7 +32,7 @@ jobs:
           php-version: 8.2
           
       - name: Install composer dependencies
-        run: composer install --no-scripts
+        run: composer install --working-dir=laravel-subspace-authentication
 
       - name: Create app key
         run: echo "APP_KEY=$(php laravel-subspace-authentication/artisan key:generate --show)" >> $GITHUB_ENV
