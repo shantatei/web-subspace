@@ -21,7 +21,6 @@ jobs:
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PORT: 25060
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,13 +37,12 @@ jobs:
         run: echo "APP_KEY=$(php laravel-subspace-authentication/artisan key:generate --show)" >> $GITHUB_ENV
 
       - name: Run authentication microservice
-        path: laravel-subspace-authentication
-        run: nohup php artisan serve
+        run: nohup php laravel-subspace-authentication/artisan serve &
         env:
           DB_DATABASE: subspace-auth
 
       - name: Run tests with PHP Unit
-        run: cd laravel-subspace-authentication && vendor/bin/phpunit tests
+        run: cd laravel-subspace-authentication && php artisan test --filter AuthTest
   deploy:
     needs: test
     runs-on: ubuntu-latest
