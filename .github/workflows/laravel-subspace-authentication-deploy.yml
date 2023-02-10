@@ -41,7 +41,7 @@ jobs:
         run: nohup php web-laravel-monetary-authentication/artisan serve &
 
       - name: Run tests with PHP Unit
-        run: cd laravel-subspace-authentication && php artisan test --filter AuthTest
+        run: cd laravel-subspace-authentication && vendor/bin/phpunit tests
   deploy:
     needs: test
     runs-on: ubuntu-latest
