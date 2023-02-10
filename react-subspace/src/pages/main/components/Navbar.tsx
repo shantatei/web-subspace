@@ -69,6 +69,7 @@ const Navbar: FC = () => {
 
   return (
     <Flex
+      id="navbar"
       minWidth="100%"
       align="center"
       p={3}
@@ -107,6 +108,7 @@ const Navbar: FC = () => {
             <Button
               display={{ base: "none", md: "flex" }}
               leftIcon={<AddIcon />}
+              id="createpost"
               onClick={() => navigate(AppRoute.CreatePost)}
             >
               <Text> Create Post</Text>

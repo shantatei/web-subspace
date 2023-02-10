@@ -113,6 +113,7 @@ const CreatePost = () => {
         w="100%"
         mt={2}
         as="form"
+        id="createpostForm"
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormControl isInvalid={errors.community_id != null}>
