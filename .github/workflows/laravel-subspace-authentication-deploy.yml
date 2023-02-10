@@ -29,6 +29,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
+          extensions: mbstring, dom, fileinfo
+          coverage: xdebug
 
       - name: Install composer dependencies
         run: composer install --working-dir=laravel-subspace-authentication
@@ -36,9 +38,6 @@ jobs:
       - name: Create app key
         run: echo "APP_KEY=$(php laravel-subspace-authentication/artisan key:generate --show)" >> $GITHUB_ENV
 
-      - name: Clear app cache
-        run: php laravel-subspace-authentication/artisan cache:clear
-        
       - name: Run authentication microservice
         run: nohup php laravel-subspace-authentication/artisan serve &
         env:
