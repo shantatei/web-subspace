@@ -115,6 +115,7 @@ const ChangePassword: FC = () => {
                     message: "Password must have at least 6 characters",
                   },
                 })}
+                type={showPW ? "text" : "password"}
               />
               <InputRightElement>
                 <IconButton
@@ -142,7 +143,7 @@ const ChangePassword: FC = () => {
                     value === getValues().password ||
                     "The passwords do not match",
                 })}
-                type={showPW ? "text" : "password"}
+                type={showCfmPW ? "text" : "password"}
               />
               <InputRightElement>
                 <IconButton
