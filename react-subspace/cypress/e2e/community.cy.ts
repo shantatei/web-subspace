@@ -60,14 +60,44 @@ describe('Post', () => {
         })
 
         cy.contains('Your Community has been updated!').should('be.visible')
-        
+
         cy.get('.community-menu-btn').click()
 
         cy.contains('Delete').click()
 
         cy.contains('Save').click()
-        
+
         cy.contains('Your Community has been deleted').should('be.visible')
+    })
+
+    it('Join Community', () => {
+
+        cy.login('peacock@gmail.com', 'password')
+
+        cy.get('#communityfeed').within(() => {
+            cy.get(':nth-child(1) > .css-1lekzkb').click()
+        })
+
+        cy.contains('Join', {
+            timeout: 10000
+        }).should('be.enabled').click();
+
+        cy.contains('Successfully joined').should('be.visible')
+    })
+
+    it('Leave Community', () => {
+
+        cy.login('peacock@gmail.com', 'password')
+
+        cy.get('#communityfeed').within(() => {
+            cy.get(':nth-child(1) > .css-1lekzkb').click()
+        })
+
+        cy.contains('Joined', {
+            timeout: 10000
+        }).should('be.enabled').click();
+
+        cy.contains('Successfully left').should('be.visible')
     })
 
 })

@@ -37,6 +37,7 @@ const CommunityFeed: FC<CommunityFeedProps> = ({
   };
   return (
     <Card
+      id="communityfeed"
       bgColor={useColorModeValue("white", "#1d1e1f")}
       width="80"
       borderRadius="md"

@@ -20,6 +20,7 @@ jobs:
         uses: cypress-io/github-action@v5.0.8
         with:
           working-directory: react-subspace
+          record: false
           build: npm run build
           start: npm run dev
         env:
