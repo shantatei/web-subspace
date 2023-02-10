@@ -8,16 +8,6 @@ describe('Post', () => {
 
     })
 
-    // it('Open/Close Post Modal', () => {
-    //     cy.intercept('/api/showPosts').as('getPost')
-    //     cy.intercept('/api/showCommunity').as('getCommunity')
-
-    //     cy.wait(['@getPost', '@getCommunity'])
-
-    //     cy.get('.css-1jtpjgy > :nth-child(1) > .chakra-card__body').click()
-    //     cy.get('.chakra-modal__close-btn').click()
-    // })
-
     it('Create Post', () => {
         cy.login('peacock@gmail.com', 'password')
         cy.get('#navbar').within(() => {
@@ -30,6 +20,7 @@ describe('Post', () => {
         //Choosing a Community
         cy.get('.css-17l0bha-control > .css-art2ul-ValueContainer2 > .css-4v1wqi-Input2').click().type('Valorant')
         cy.get('#react-select-3-option-0').click()
+        
         //Input Fields
         cy.get('#createpostForm').within(() => {
             cy.get('input[name=title]').type("testing from cypress")

@@ -46,6 +46,7 @@ const ChangePassword: FC = () => {
     formState: { errors },
     getValues,
     setError,
+    reset
   } = useForm<ChangePasswordValues>();
 
   const onSubmitChange = (data: ChangePasswordValues) => {
@@ -55,6 +56,7 @@ const ChangePassword: FC = () => {
       .then(
         (res) => {
           console.log(res.data);
+          reset()
           toast({
             description: "Password has been changed",
             status: "success",
