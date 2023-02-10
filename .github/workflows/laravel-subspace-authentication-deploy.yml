@@ -20,6 +20,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PORT: 25060
+      DB_DATABASE: subspace-auth
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
     steps:
       - name: Checkout
@@ -40,11 +41,10 @@ jobs:
 
       - name: Run authentication microservice
         run: nohup php laravel-subspace-authentication/artisan serve &
-        env:
-          DB_DATABASE: subspace-auth
 
       - name: Run tests with PHP Unit
-        run: cd laravel-subspace-authentication && php artisan test --filter AuthTest
+        run: cd laravel-subspace-authentication && vendor/bin/phpunit tests
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
