@@ -108,7 +108,6 @@ $ docker-compose up -- build
 #### React Deployment Server
 - Configure Nginx in the server
 - Drop the dist folder in /var/www/html according to your nginx config (Using STFP to drop folders in the server) after building the react project
-<br>
 ```
 $ cd react-subspace
 $ npm i
