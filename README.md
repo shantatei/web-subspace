@@ -1,11 +1,11 @@
 # Subspace
 
 <img src="./react-subspace/public/icon-512.png" width="200" align="left" height="fixed-content"  />
-Subspace is a social media community-based/forum website.Registered users are able to create communities and post related to any community. This project was created as my deliverables for CADV (Cloud Application Development) and DevOps (Development Operations) modules.
-<br clear="right"/>
-<br clear="right">
-Subspace is build using microservices architecture which is part of the module requirement.The backend (Laravel) has been tested with PHPunit and the frontend (React Typescript) has been tested with Cypress.The test portion has been integrated into my Github Actions Pipeline and it will automatically test the application and ensure that it passed before deploying them to the servers.You can find them in the <a href="https://github.com/shantatei/web-subspace/actions">Actions</a> Tab.
+<p>Subspace is a social media community-based/forum website.Registered users are able to create communities and post related to any community. This project was created as my deliverables for CADV (Cloud Application Development) and DevOps (Development Operations) modules.</p>
+<br clear="left"/>
 
+## Overview
+Subspace is build using microservices architecture which is part of the module requirement.The backend (Laravel) has been tested with PHPunit and the frontend (React Typescript) has been tested with Cypress.The test portion has been integrated into my Github Actions Pipeline and it will automatically test the application and ensure that it passed before deploying them to the servers.You can find them in the <a href="https://github.com/shantatei/web-subspace/actions">Actions</a> Tab.
 
 ## Features
 
